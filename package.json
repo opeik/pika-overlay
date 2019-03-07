@@ -23,9 +23,17 @@
     "dashboardPanels": [
       {
         "name": "scoreboard-panel",
-        "title": "Scoreboard Panel",
+        "title": "Scoreboard",
         "width": 5,
         "file": "scoreboard-panel.html",
+        "headerColor": "#525F78"
+      },
+
+      {
+        "name": "register-player",
+        "title": "Register Player",
+        "width": 2,
+        "file": "register-player-panel.html",
         "headerColor": "#525F78"
       }
     ],

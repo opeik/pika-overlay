@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <script src="../node_modules/jquery/dist/jquery.js"></script>
+    <script src="../node_modules/jquery-ui-dist/jquery-ui.js"></script>
+    <script src="js/register-player-panel.js"></script>
+    <link rel="stylesheet" href="../node_modules/jquery-ui-built-themes/smoothness/jquery-ui.css"/>
+    <link rel="stylesheet" href="css/register-player-panel.css"/>
+  </head>
+
+  <body>
+    <div id="root">
+
+      <div class="input-container">
+        <div class="input-label"> Player name </div>
+        <input id="player-name" value="Name">
+      </div>
+
+      <div class="input-container">
+        <div class="input-label"> Tag </div>
+        <input id="player-tag" value="Name">
+      </div>
+
+      <div class="input-container">
+        <div class="input-label"> Country </div>
+        <select id="player-country">
+          <option selected="selected"> Australia </option>
+        </select>
+      </div>
+
+      <div class="input-container">
+        <button type="button" id="submit-button"> Submit </button>
+      </div>
+
+    </div>
+  </body>
+</html>

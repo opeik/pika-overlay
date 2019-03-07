@@ -44,14 +44,12 @@
 }
 
 .ui-spinner-input {
-    font-size: inherit !important;
     text-align: center;
 }
 
-.ui-button {
-    font-size: inherit !important;
+.ui-widget {
+    font-size: 13px !important;
 }
-
 
 .gap {
     flex-grow: 1;
@@ -125,10 +123,9 @@
 }
 
 #player-1-name {
-    padding-top: 3px;
+    padding-top: 2px;
 }
 
 #player-2-name {
-    padding-top: 3px;
-
+    padding-top: 2px;
 }
