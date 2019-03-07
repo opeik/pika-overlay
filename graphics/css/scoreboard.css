@@ -1,0 +1,105 @@
+@font-face {
+    font-family: "Montserrat";
+    src: url("font/montserrat/Montserrat-SemiBold.ttf");
+}
+
+#root {
+    width: 1920px;
+    height 1080px;
+
+    font-size: 20pt;
+    font-family: "Montserrat";
+    color: white;
+}
+
+.player {
+    width: 650px;
+    height: 47px;
+    max-width: 650px;
+    padding: 0px;
+    margin: 0px;
+    top: 38px;
+    position: absolute;
+    float: left;
+}
+
+.player-name {
+    width: 427px;
+    height: 47px;
+    position: absolute;
+
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+
+    line-height: 47px;
+}
+
+.player-score {
+    width: 47px;
+    height: 47px;
+    position: absolute;
+
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+
+    line-height: 47px;
+}
+
+#player-1 {
+    left: 185px;
+
+    background-image: url("../img/player-1.png")
+}
+
+#player-1-name {
+    right: 187px;
+    text-align: right;
+}
+
+#player-1-score {
+    text-align: center;
+    right: 36px;
+}
+
+#player-2 {
+    right: 185px;
+
+    background-image: url("../img/player-2.png")
+}
+
+#player-2-name {
+    left: 187px;
+    text-align: left;
+}
+
+#player-2-score {
+    text-align: center;
+    left: 36px;
+}
+
+#label {
+    width: 325px;
+    height: 47px;
+    top: 0px;
+    left: 798px;
+    position: absolute;
+    float: left;
+
+    background-image: url("../img/label.png")
+}
+
+#label-text {
+    width: 250px;
+    height: 47px;
+    left: 37px;
+    position: absolute;
+
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+
+    text-align: center;
+    line-height: 47px;
+}

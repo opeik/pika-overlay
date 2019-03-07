@@ -1,0 +1,51 @@
+{
+  "name": "pika",
+  "version": "0.1.0",
+  "description": "Perth Iron King Arena stream overlay",
+  "homepage": "",
+  "author": {
+    "name": "Sandro Stikić",
+    "email": "sandro@stikic.me",
+    "url": ""
+  },
+  "files": [
+    "dashboard",
+    "graphics",
+    "extension.js",
+    "extension"
+  ],
+  "keywords": [
+    "",
+    "nodecg-bundle"
+  ],
+  "nodecg": {
+    "compatibleRange": "^1.1.1",
+    "dashboardPanels": [
+      {
+        "name": "scoreboard-panel",
+        "title": "Scoreboard Panel",
+        "width": 4,
+        "file": "scoreboard-panel.html",
+        "headerColor": "#525F78"
+      }
+    ],
+    "dependencies": {
+      "jquery": "^3.0.0",
+      "jquery-ui": "^1.0.0"
+    },
+    "graphics": [
+      {
+        "file": "scoreboard.html",
+        "width": 1920,
+        "height": 1080
+      }
+    ]
+  },
+  "repository": "https://github.com/nodecg/nodecg.git",
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "jquery-ui-built-themes": "^1.12.1",
+    "jquery-ui-dist": "^1.12.1"
+  }
+}

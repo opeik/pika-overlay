@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <script src="../node_modules/jquery/dist/jquery.js"></script>
+    <script src="../node_modules/jquery-ui-dist/jquery-ui.js"></script>
+    <script src="js/scoreboard-panel.js"></script>
+    <link rel="stylesheet" href="../node_modules/jquery-ui-built-themes/smoothness/jquery-ui.css"/>
+    <link rel="stylesheet" href="css/scoreboard-panel.css"/>
+  </head>
+
+  <body>
+    <div id="root">
+      <div id="label-container">
+        <div class="input-label"> Label </div>
+
+        <div id="label">
+          <input id="label-text" value="">
+        </div>
+      </div>
+
+      <div id="player-container">
+        <div id="player-1" class="player-container">
+          <div class="input-label"> Player 1 </div>
+
+          <div id="player-1-name" class="player-name">
+            <select id="player-1-name-dropdown">
+              <option selected="selected" disabled="disabled">Player 1 name</option>
+            </select>
+          </div>
+
+          <div id="player-1-score" class="player-score">
+            <input id="player-1-score-spinner" value="0">
+          </div>
+        </div>
+
+        <div class="gap"></div>
+
+        <div id="player-2" class="player-container">
+          <div class="input-label"> Player 2 </div>
+
+          <div id="player-2-name" class="player-name">
+            <select id="player-2-name-dropdown">
+              <option selected="selected" disabled="disabled">Player 2 name </option>
+            </select>
+
+            <div id="player-2-score" class="player-score">
+              <input id="player-2-score-spinner" value="0">
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div id="button-container">
+        <div class="gap"></div>
+        <button type="button" id="update-button"> Update scoreboard </button>
+        <div class="gap"></div>
+        <button type="button" id="switch-button"> Switch players </button>
+        <div class="gap"></div>
+      </div>
+
+    </div>
+  </body>
+</html>
