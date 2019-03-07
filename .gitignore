@@ -1,3 +1,5 @@
 node_modules
 coverage
 bower_components
+.yo-rc.json
+package-lock.json
