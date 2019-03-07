@@ -1,18 +1,24 @@
-.player-container {
-    width: 215px;
+#root {
+    width: 100%;
+    height: 210px;
+}
+
+.player {
+    width: 300px;
     height: 100%;
+    display: inline-block;
 }
 
 .player-name {
-    flex-grow: 3;
+    flex-grow: 1;
 }
 
 #player-container {
     width: 100%;
-    height: 120px;
+    height: 80px;
     display: flex;
     flex-direction: row;
-    padding-bottom: 25px;
+    padding-bottom: 15px;
 
     font-family: Verdana,Arial,sans-serif;
     font-size: 10pt;
@@ -30,9 +36,7 @@
 }
 
 .player-score {
-    padding-top: 15px;
     width: 75px;
-    margin: 0 auto;
 }
 
 .ui-selectmenu-text {
@@ -48,18 +52,9 @@
     font-size: inherit !important;
 }
 
-#root {
-    width: 100%;
-    height: 300px;
-}
-
 
 .gap {
     flex-grow: 1;
-}
-
-#player-2-name-dropdown {
-    font-size: 10pt;
 }
 
 #player-1-score-spinner {
@@ -72,7 +67,6 @@
 
 #label-container {
     width: 100%;
-    padding-bottom: 25px;
 
     font-family: Verdana,Arial,sans-serif;
     font-size: 10pt;
@@ -92,11 +86,49 @@
 }
 
 #update-button {
-    width: 150px;
+    width: 100px;
     flex-grow: 1;
 }
 
 #switch-button {
-    width: 150px;
+    width: 100px;
     flex-grow: 1;
+}
+
+#player-1-name {
+    float: left;
+}
+
+#player-1-score {
+    float: right;
+}
+
+#player-2-name {
+    float: right;
+}
+
+#player-2-score {
+    float: left;
+    padding-right: 8px;
+}
+
+#gap-fixed {
+    width: 25px;
+}
+
+#button-left-gap {
+    flex-grow: 2;
+}
+
+#button-right-gap {
+    flex-grow: 2;
+}
+
+#player-1-name {
+    padding-top: 3px;
+}
+
+#player-2-name {
+    padding-top: 3px;
+
 }

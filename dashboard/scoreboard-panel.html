@@ -15,17 +15,17 @@
         <div class="input-label"> Label </div>
 
         <div id="label">
-          <input id="label-text" value="">
+          <input id="label-text" value="Pools">
         </div>
       </div>
 
       <div id="player-container">
-        <div id="player-1" class="player-container">
+        <div id="player-1" class="player">
           <div class="input-label"> Player 1 </div>
 
           <div id="player-1-name" class="player-name">
             <select id="player-1-name-dropdown">
-              <option selected="selected" disabled="disabled">Player 1 name</option>
+              <option selected="selected">Player 1 name</option>
             </select>
           </div>
 
@@ -36,28 +36,28 @@
 
         <div class="gap"></div>
 
-        <div id="player-2" class="player-container">
+        <div id="player-2" class="player">
           <div class="input-label"> Player 2 </div>
 
           <div id="player-2-name" class="player-name">
             <select id="player-2-name-dropdown">
-              <option selected="selected" disabled="disabled">Player 2 name </option>
+              <option selected="selected">Player 2 name</option>
             </select>
+          </div>
 
-            <div id="player-2-score" class="player-score">
-              <input id="player-2-score-spinner" value="0">
-            </div>
-
+          <div id="player-2-score" class="player-score">
+            <input id="player-2-score-spinner" value="0">
           </div>
         </div>
+
       </div>
 
       <div id="button-container">
-        <div class="gap"></div>
+        <div id="button-left-gap"></div>
         <button type="button" id="update-button"> Update scoreboard </button>
-        <div class="gap"></div>
+        <div id="gap-fixed"></div>
         <button type="button" id="switch-button"> Switch players </button>
-        <div class="gap"></div>
+        <div id="button-right-gap"></div>
       </div>
 
     </div>

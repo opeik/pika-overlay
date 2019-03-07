@@ -24,7 +24,7 @@
       {
         "name": "scoreboard-panel",
         "title": "Scoreboard Panel",
-        "width": 4,
+        "width": 5,
         "file": "scoreboard-panel.html",
         "headerColor": "#525F78"
       }
