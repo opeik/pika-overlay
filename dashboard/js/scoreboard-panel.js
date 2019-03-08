@@ -3,9 +3,13 @@
 $(document).ready(function() {
     /* Set up input elements. */
     $("#player-1-name-dropdown").selectmenu();
-    $("#player-2-name-dropdown").selectmenu();
     $("#player-1-score-spinner").spinner();
+    $("#player-1-country-dropdown").selectmenu();
+
+    $("#player-2-name-dropdown").selectmenu();
     $("#player-2-score-spinner").spinner();
+    $("#player-2-country-dropdown").selectmenu();
+
     $("#update-button").button();
     $("#switch-button").button();
 
@@ -16,9 +20,33 @@ $(document).ready(function() {
         "text-align" : "center"
     });
 
+    $("#player-1-sponsor-text").css({
+        "width" : "70px",
+        "height" : "25px",
+        "text-align" : "center"
+    });
+
+    $("#player-1-name-text").css({
+        "width" : "150px",
+        "height" : "25px",
+        "text-align" : "center"
+    });
+
+    $("#player-2-sponsor-text").css({
+        "width" : "70px",
+        "height" : "25px",
+        "text-align" : "center"
+    });
+
+    $("#player-2-name-text").css({
+        "width" : "150px",
+        "height" : "25px",
+        "text-align" : "center"
+    });
+
     let scoreboardState = nodecg.Replicant("scoreboard");
 
-    scoreboardState.on('change', (newValue, oldValue) => {
+    scoreboardState.on("change", (newValue, oldValue) => {
         loadScoreboardState();
     });
 
@@ -26,25 +54,35 @@ $(document).ready(function() {
         loadScoreboardState();
     });
 
-    $('#update-button').click(function() {
+    $("#update-button").click(function() {
         updateScoreboardState();
     });
 
     function loadScoreboardState() {
         let s = scoreboardState.value;
 
-        $('#player-1-score-spinner').val(s.player1Score);
-        $('#player-2-score-spinner').val(s.player2Score);
-        $('#label-text').val(s.label);
+        $("#player-1-score-spinner").val(s.player1Score);
+        $("#player-1-name-text").val(s.player1Name);
+        $("#player-1-sponsor-text").val(s.player1Sponsor);
+
+        $("#player-2-score-spinner").val(s.player2Score);
+        $("#player-2-name-text").val(s.player2Name);
+        $("#player-2-sponsor-text").val(s.player2Sponsor);
+
+        $("#label-text").val(s.label);
     }
 
     function updateScoreboardState() {
         let s = scoreboardState.value;
 
-        s.player1Name = $('#player-1-name-dropdown').find("option:selected").text();
-        s.player2Name = $('#player-2-name-dropdown').find("option:selected").text();
-        s.player1Score = $('#player-1-score-spinner').val();
-        s.player2Score = $('#player-2-score-spinner').val();
-        s.label = $('#label-text').val();
+        s.player1Name    = $("#player-1-name-text").val();
+        s.player1Sponsor = $("#player-1-sponsor-text").val();
+        s.player1Score   = $("#player-1-score-spinner").val();
+
+        s.player2Name    = $("#player-2-name-text").val();
+        s.player2Sponsor = $("#player-2-sponsor-text").val();
+        s.player2Score   = $("#player-2-score-spinner").val();
+
+        s.label = $("#label-text").val();
     }
 });

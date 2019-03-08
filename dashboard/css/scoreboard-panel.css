@@ -1,12 +1,20 @@
 #root {
     width: 100%;
-    height: 210px;
+    height: 300px;
+
+    font-family: Verdana,Arial,sans-serif !important;
+    font-size: 11pt !important;
+}
+
+.ui-spinner {
+    height: 33px !important;
 }
 
 .player {
     width: 300px;
     height: 100%;
     display: inline-block;
+    flex-grow: 2;
 }
 
 .player-name {
@@ -15,21 +23,17 @@
 
 #player-container {
     width: 100%;
-    height: 80px;
+    height: 170px;
     display: flex;
     flex-direction: row;
     padding-bottom: 15px;
 
-    font-family: Verdana,Arial,sans-serif;
-    font-size: 10pt;
     color: white;
 }
 
 
 .input-label {
-    font-family: Verdana,Arial,sans-serif;
     color: white;
-    font-size: 11pt;
     text-align: center;
 
     padding-bottom: 15px;
@@ -39,16 +43,12 @@
     width: 75px;
 }
 
-.ui-selectmenu-text {
-    font-size: inherit !important;
-}
-
 .ui-spinner-input {
     text-align: center;
 }
 
 .ui-widget {
-    font-size: 13px !important;
+    font-size: 11pt !important;
 }
 
 .gap {
@@ -67,7 +67,6 @@
     width: 100%;
 
     font-family: Verdana,Arial,sans-serif;
-    font-size: 10pt;
     color: white;
     text-align: center;
 }
@@ -79,7 +78,6 @@
     flex-direction: row;
 
     font-family: Verdana,Arial,sans-serif;
-    font-size: 10pt;
     color: white;
 }
 
@@ -128,4 +126,33 @@
 
 #player-2-name {
     padding-top: 2px;
+}
+
+.player-tag-override {
+    width: 74px;
+    height: 30px;
+    display: inline-block;
+
+    padding-right: 5px;
+    padding-top: 25px;
+}
+
+.player-name-override {
+    width: 100px;
+    height: 30px;
+    display: inline-block;
+
+    padding-top: 25px;
+}
+
+#player-2-sponsor-override {
+    padding-left: 7px;
+}
+
+.player-country-override {
+    padding-top: 5px;
+}
+
+#player-2-country-override {
+    padding-left: 90px;
 }

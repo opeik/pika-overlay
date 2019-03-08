@@ -24,15 +24,30 @@
 }
 
 .player-name {
+    font-size: 20pt;
+    font-family: "Montserrat";
+    color: white;
+
+    line-height: 47px;
+}
+
+.player-sponsor {
+    font-size: 20pt;
+    font-family: "Montserrat";
+    color: rgb(160, 160, 160);
+
+    line-height: 47px;
+}
+
+.player-name-container {
     width: 427px;
     height: 47px;
     position: absolute;
+    display:flex;
 
     font-size: inherit;
     font-family: inherit;
     color: inherit;
-
-    line-height: 47px;
 }
 
 .player-score {
@@ -53,9 +68,10 @@
     background-image: url("../img/player-1.png")
 }
 
-#player-1-name {
-    right: 187px;
-    text-align: right;
+#player-2 {
+    right: 185px;
+
+    background-image: url("../img/player-2.png")
 }
 
 #player-1-score {
@@ -63,16 +79,6 @@
     right: 36px;
 }
 
-#player-2 {
-    right: 185px;
-
-    background-image: url("../img/player-2.png")
-}
-
-#player-2-name {
-    left: 187px;
-    text-align: left;
-}
 
 #player-2-score {
     text-align: center;
@@ -103,3 +109,37 @@
     text-align: center;
     line-height: 47px;
 }
+
+#player-1-name-container {
+    left: 52px;
+}
+
+#player-2-name-container {
+    left: 170px;
+}
+
+
+#player-1-sponsor {
+    flex-grow: 100;
+    text-align: right;
+}
+
+#player-1-name {
+    flex-grow: 1;
+    text-align: right;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#player-2-sponsor {
+    flex-grow: 1;
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#player-2-name {
+    flex-grow: 100;
+    text-align: left;
+}
+
