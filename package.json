@@ -31,7 +31,7 @@
       {
         "name": "player-panel",
         "title": "Player management",
-        "width": 2,
+        "width": 3,
         "file": "player-panel.html",
         "headerColor": "#525F78"
       }

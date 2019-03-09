@@ -84,12 +84,28 @@ exports.createPlayer = function createPlayer(name, sponsor, country, callback) {
     });
 }
 
+/*
+ * Modifies an existing player in the players database.
+ */
 exports.modifyPlayer = function modifyPlayer(id, name, sponsor, country, callback) {
     let sql = "UPDATE Players "
        sql += "SET name = ?, sponsor = ?, country = ? "
        sql += "WHERE id = ? "
 
     db.run(sql, [name, sponsor, country, id], function(err) {
+        if (err) {
+            callback(new Error(err));
+        } else {
+            callback(null);
+        }
+    });
+}
+
+exports.removePlayer = function removePlayer(id, callback) {
+    let sql = "DELETE FROM Players "
+       sql += "WHERE id = ? "
+
+    db.run(sql, [id], function(err) {
         if (err) {
             callback(new Error(err));
         } else {

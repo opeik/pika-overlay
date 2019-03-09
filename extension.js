@@ -26,8 +26,6 @@ module.exports = function (nodecg) {
     });
 
     nodecg.listenFor("createPlayer", (value, ack) => {
-        console.log(value);
-
         if (ack && !ack.handled) {
             db.createPlayer(value.name, value.sponsor, value.country,
                 function(err, result) {
@@ -49,6 +47,18 @@ module.exports = function (nodecg) {
                     } else {
                         ack(null);
                     }
+            });
+        }
+    });
+
+    nodecg.listenFor("removePlayer", (value, ack) => {
+        if (ack && !ack.handled) {
+            db.removePlayer(value.id, function(err, result) {
+                if (err) {
+                    ack(new Error(err));
+                } else {
+                    ack(null);
+                }
             });
         }
     });

@@ -13,7 +13,6 @@ $(document).ready(function() {
     $("#player-name-text").addClass("ui-widget ui-widget-content ui-corner-all");
     $("#player-sponsor-text").addClass("ui-widget ui-widget-content ui-corner-all");
 
-
     $("#player-name-text").css({
         "width" : "230px",
         "height" : "20px",
@@ -22,6 +21,15 @@ $(document).ready(function() {
     $("#player-sponsor-text").css({
         "width" : "230px",
         "height" : "20px",
+    });
+
+    $("#player-modified-dialog").dialog({
+        modal: true,
+        buttons: {
+            Ok: function() {
+                $(this).dialog("close");
+            }
+        }
     });
 
     /* Populate the country dropdown. */
@@ -108,13 +116,11 @@ function createPlayer() {
     let sponsor = $("#player-sponsor-text").val();
     let country = $("#player-country-dropdown").val();
 
-    console.log(name, sponsor, country);
-
     nodecg.sendMessage("createPlayer", {name, sponsor, country}, (err, result) => {
         if (err) {
-            console.log(err);
+            openDialog("Error", err);
         } else {
-            console.log("Created successfully!")
+            openDialog("Success", "Player '" + name + "' created successfully!");
             updatePlayerList();
         }
     });
@@ -128,9 +134,10 @@ function modifyPlayer() {
 
     nodecg.sendMessage("modifyPlayer", {id, name, sponsor, country}, (err, result) => {
         if (err) {
-            console.log(err);
+            openDialog("Error", err);
         } else {
-            console.log("Modified successfully!")
+            openDialog("Success", "Player '" + name + "' modified successfully!");
+
             updatePlayerList(function(err, result) {
                 $("#player-dropdown").val(id);
                 $("#player-dropdown").selectmenu("refresh");
@@ -141,5 +148,79 @@ function modifyPlayer() {
 }
 
 function removePlayer() {
-    console.log("remove");
+    let id = $("#player-dropdown").val();
+
+    openConfirmDialog("Confirmation", "Are you sure you want to remove player?",
+        function() {
+
+            nodecg.sendMessage("removePlayer", {id}, (err, result) => {
+                if (err) {
+                    openDialog("Error", err);
+                } else {
+                    openDialog("Success", "Player '" + name + "' removed successfully!");
+                    updatePlayerList();
+                }
+            });
+        });
+}
+
+var dialogCount = 0;
+function openDialog(title, msg, onClose) {
+    let rawName = "dialog-" + dialogCount;
+    let name = "#" + rawName;
+
+    if ($(name).length == 0) {
+        $(document.body).append(
+            '<div id="' + rawName + '" title="' + title + '">' +
+                "<p>" + msg + "</p>" +
+            '</div>');
+    } else {
+        $(name).html(msg);
+    }
+
+    $(name).dialog({
+        autoOpen: false,
+    });
+    $(name).dialog("open");
+
+    $(name).on('dialogclose', function(event) {
+        typeof onClose === 'function' && onClose();
+    });
+
+    ++dialogCount;
+}
+
+function openConfirmDialog(title, msg, onYes, onNo, onClose) {
+    let rawName = "dialog-" + dialogCount;
+    let name = "#" + rawName;
+
+    if ($(name).length == 0) {
+        $(document.body).append(
+            '<div id="' + rawName + '" title="' + title + '">' +
+                "<p>" + msg + "</p>" +
+            '</div>');
+    } else {
+        $(name).html(msg);
+    }
+
+    $(name).dialog({
+        autoOpen: false,
+        buttons: {
+            "Confirm" : function() {
+                typeof onYes === 'function' && onYes();
+                $(name).dialog("close");
+            },
+            "Cancel" : function() {
+                typeof onNo === 'function' && onNo();
+                $(name).dialog("close");
+            }
+        }
+    });
+    $(name).dialog("open");
+
+    $(name).on('dialogclose', function(event) {
+        typeof onClose === 'function' && onClose();
+    });
+
+    ++dialogCount;
 }
