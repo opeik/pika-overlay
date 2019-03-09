@@ -40,7 +40,7 @@
 }
 
 .player-name-container {
-    width: 427px;
+    width: 447px;
     height: 47px;
     position: absolute;
     display:flex;
@@ -115,7 +115,7 @@
 }
 
 #player-2-name-container {
-    left: 170px;
+    right: 52px;
 }
 
 
@@ -143,3 +143,21 @@
     text-align: left;
 }
 
+.player-flag {
+    width: 58px;
+    height: 44px;
+    background-size: contain;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    padding-top: 3px;
+}
+
+#player-1-flag {
+    left: 499px;
+    position: absolute;
+}
+
+#player-2-flag {
+    right: 499px;
+    position: absolute;
+}

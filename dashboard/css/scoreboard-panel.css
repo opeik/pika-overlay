@@ -2,7 +2,7 @@
     width: 100%;
     height: 300px;
 
-    font-family: Verdana,Arial,sans-serif !important;
+    font-family: Arial,Helvetica,sans-serif !important;
     font-size: 11pt !important;
 }
 
@@ -66,7 +66,7 @@
 #label-container {
     width: 100%;
 
-    font-family: Verdana,Arial,sans-serif;
+    font-family: Arial,Helvetica,sans-serif;
     color: white;
     text-align: center;
 }
@@ -77,7 +77,7 @@
     display: flex;
     flex-direction: row;
 
-    font-family: Verdana,Arial,sans-serif;
+    font-family: Arial,Helvetica,sans-serif;
     color: white;
 }
 
@@ -121,11 +121,11 @@
 }
 
 #player-1-name {
-    padding-top: 2px;
+    padding-top: 3px;
 }
 
 #player-2-name {
-    padding-top: 2px;
+    padding-top: 3px;
 }
 
 .player-tag-override {
@@ -155,4 +155,12 @@
 
 #player-2-country-override {
     padding-left: 90px;
+}
+
+#player-1-label {
+    padding-right: 100px;
+}
+
+#player-2-label {
+    padding-left: 100px;
 }

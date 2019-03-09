@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <script src="../node_modules/jquery/dist/jquery.js"></script>
+    <script src="../node_modules/jquery-ui-dist/jquery-ui.js"></script>
+    <script src="js/countries.js"></script>
+    <script src="js/player-panel.js"></script>
+    <link rel="stylesheet"
+    href="../node_modules/jquery-ui-built-themes/base/jquery-ui.css"/>
+    <link rel="stylesheet" href="css/player-panel.css"/>
+
+  </head>
+
+  <body>
+    <div id="root">
+
+      <div id="player-container" class="input-container">
+        <div class="input-label"> Select player: </div>
+          <select id="player-dropdown"></select>
+      </div>
+
+
+      <div class="input-container">
+        <div class="input-label"> Country </div>
+        <select id="player-country-dropdown"></select>
+      </div>
+
+      <div class="input-container">
+        <div class="input-label"> Name </div>
+        <input id="player-name-text" value="">
+      </div>
+
+      <div class="input-container">
+        <div class="input-label"> Sponsor </div>
+        <input id="player-sponsor-text" value="">
+      </div>
+
+      <div id="button-container" class="input-container">
+        <button type="button" id="create-button"> Create </button>
+        <div class="gap"></div>
+        <button type="button" id="modify-button"> Modify </button>
+        <div class="gap"></div>
+        <button type="button" id="remove-button"> Remove </button>
+      </div>
+
+    </div>
+  </body>
+</html>

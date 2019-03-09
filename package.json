@@ -23,17 +23,16 @@
     "dashboardPanels": [
       {
         "name": "scoreboard-panel",
-        "title": "Scoreboard",
+        "title": "Scoreboard controls",
         "width": 5,
         "file": "scoreboard-panel.html",
         "headerColor": "#525F78"
       },
-
       {
-        "name": "register-player",
-        "title": "Register Player",
+        "name": "player-panel",
+        "title": "Player management",
         "width": 2,
-        "file": "register-player-panel.html",
+        "file": "player-panel.html",
         "headerColor": "#525F78"
       }
     ],
@@ -52,8 +51,10 @@
   "repository": "https://github.com/nodecg/nodecg.git",
   "license": "ISC",
   "dependencies": {
+    "flag-icon-css": "^3.3.0",
     "jquery": "^3.3.1",
     "jquery-ui-built-themes": "^1.12.1",
-    "jquery-ui-dist": "^1.12.1"
+    "jquery-ui-dist": "^1.12.1",
+    "sqlite3": "^4.0.6"
   }
 }
