@@ -47,12 +47,13 @@ function clearSelectMenu(name) {
     $(name).selectmenu("destroy").selectmenu({ style: "dropdown" });
 }
 
-function updatePlayerList() {
+function updatePlayerList(callback) {
     clearSelectMenu("#player-dropdown");
 
     nodecg.sendMessage("getPlayers", (err, result) => {
         if (err) {
             console.log(err);
+            typeof callback === 'function' && callback(new Error(err));
         } else {
             playerData = result;
 
@@ -64,12 +65,19 @@ function updatePlayerList() {
             $("#player-dropdown").selectmenu("refresh");
 
             let id = $("#player-dropdown").find(":selected").val()
-            updateFields(id);
+
+            updateFields(id, function(err, result) {
+                if (err) {
+                    typeof callback === 'function' && callback(new Error(err));
+                } else {
+                    typeof callback === 'function' && callback(null);
+                }
+            });
         }
     });
 }
 
-function updateFields(id) {
+function updateFields(id, callback) {
     let index = playerData.findIndex(function(e) {
         return e.id == id;
     });
@@ -79,8 +87,10 @@ function updateFields(id) {
         $("#player-sponsor-text").val(playerData[index].sponsor);
         $("#player-country-dropdown").val(playerData[index].country);
         $("#player-country-dropdown").selectmenu("refresh");
+
+        typeof callback === 'function' && callback(null);
     } else {
-        console.log("Unable to find player");
+        typeof callback === 'function' && callback(new Error(err));
     }
 }
 
@@ -121,10 +131,11 @@ function modifyPlayer() {
             console.log(err);
         } else {
             console.log("Modified successfully!")
-            updatePlayerList();
-
-            //$("#player-dropdown").val(id);
-            //$("#player-dropdown").selectmenu("refresh");
+            updatePlayerList(function(err, result) {
+                $("#player-dropdown").val(id);
+                $("#player-dropdown").selectmenu("refresh");
+                updateFields(id);
+            });
         }
     });
 }
