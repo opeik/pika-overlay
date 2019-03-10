@@ -6,6 +6,7 @@ module.exports = function (nodecg) {
     let playerState = nodecg.Replicant("player-state", {persistent: false, defaultValue : {}});
     let scoreboardState = nodecg.Replicant("scoreboard-state", {defaultValue : {
         player1 : {
+            id : 0,
             name : "Player 1",
             sponsor : "Sponsor",
             country : "AU",
@@ -13,6 +14,7 @@ module.exports = function (nodecg) {
         },
 
         player2 : {
+            id : 0,
             name : "Player 2",
             sponsor : "Sponsor",
             country : "AU",
@@ -30,6 +32,19 @@ module.exports = function (nodecg) {
                 } else {
                     ack(null, result);
                 }
+            });
+        }
+    });
+
+    nodecg.listenFor("getPlayer", (value, ack) => {
+        if (ack && !ack.handled) {
+            db.getPlayerById(value.id,
+                function(err, result) {
+                    if (err) {
+                        ack(new Error(err));
+                    } else {
+                        ack(null, result);
+                    }
             });
         }
     });

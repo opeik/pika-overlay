@@ -89,6 +89,8 @@ function updatePlayerList(callback) {
             typeof callback === 'function' && callback(new Error(err));
         }
     });
+
+    nodecg.sendMessage("playerDataUpdated");
 }
 
 function updateFields(id, callback) {
@@ -154,6 +156,7 @@ function modifyPlayer() {
         if (err) {
             openOkDialog("Error", err);
         } else {
+            nodecg.sendMessage("playerDataUpdated");
             openOkDialog("Success", "Player '" + name + "' modified successfully!");
 
             updatePlayerList(function(err, result) {
@@ -170,18 +173,19 @@ function removePlayer() {
     let id = $("#player-dropdown").val();
     let name = $("#player-name-text").val();
 
-    openConfirmDialog("Confirmation", "Are you sure you want to remove player '" + name + "'?",
-        function() {
-
-            nodecg.sendMessage("removePlayer", {id}, (err, result) => {
-                if (err) {
-                    openOkDialog("Error", err);
-                } else {
-                    openOkDialog("Success", "Player '" + name + "' removed successfully!");
-                    updatePlayerList();
-                }
+    if (id != NEW_PLAYER_ID) {
+        openConfirmDialog("Confirmation", "Are you sure you want to remove player '" + name + "'?",
+            function() {
+                nodecg.sendMessage("removePlayer", {id}, (err, result) => {
+                    if (err) {
+                        openOkDialog("Error", err);
+                    } else {
+                        openOkDialog("Success", "Player '" + name + "' removed successfully!");
+                        updatePlayerList();
+                    }
+                });
             });
-        });
+    }
 }
 
 function submitPlayer() {
