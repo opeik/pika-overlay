@@ -1,5 +1,7 @@
 'use strict';
 
+let scoreboardState = nodecg.Replicant("scoreboard");
+
 $(document).ready(function() {
     /* Set up input elements. */
     $("#player-1-name-dropdown").selectmenu();
@@ -44,8 +46,27 @@ $(document).ready(function() {
         "text-align" : "center"
     });
 
-    let scoreboardState = nodecg.Replicant("scoreboard");
+    $("#update-button").click(function() {
+        updateScoreboardState();
+    });
 
+    populateCountryDropdowns();
+    setupReplicants();
+});
+
+function populateCountryDropdowns() {
+    country.data.forEach((entry) =>{
+        $("#player-1-country-dropdown").append(new Option(entry.name, entry.code));
+        $("#player-2-country-dropdown").append(new Option(entry.name, entry.code));
+    });
+
+    $("#player-1-country-dropdown option:eq(0)").prop("selected", true);
+    $("#player-1-country-dropdown").selectmenu("refresh");
+    $("#player-2-country-dropdown option:eq(0)").prop("selected", true);
+    $("#player-2-country-dropdown").selectmenu("refresh");
+}
+
+function setupReplicants() {
     scoreboardState.on("change", (newValue, oldValue) => {
         loadScoreboardState();
     });
@@ -53,36 +74,32 @@ $(document).ready(function() {
     NodeCG.waitForReplicants(scoreboardState).then(() => {
         loadScoreboardState();
     });
+}
 
-    $("#update-button").click(function() {
-        updateScoreboardState();
-    });
+function loadScoreboardState() {
+    let s = scoreboardState.value;
 
-    function loadScoreboardState() {
-        let s = scoreboardState.value;
+    $("#player-1-score-spinner").val(s.player1Score);
+    $("#player-1-name-text").val(s.player1Name);
+    $("#player-1-sponsor-text").val(s.player1Sponsor);
 
-        $("#player-1-score-spinner").val(s.player1Score);
-        $("#player-1-name-text").val(s.player1Name);
-        $("#player-1-sponsor-text").val(s.player1Sponsor);
+    $("#player-2-score-spinner").val(s.player2Score);
+    $("#player-2-name-text").val(s.player2Name);
+    $("#player-2-sponsor-text").val(s.player2Sponsor);
 
-        $("#player-2-score-spinner").val(s.player2Score);
-        $("#player-2-name-text").val(s.player2Name);
-        $("#player-2-sponsor-text").val(s.player2Sponsor);
+    $("#label-text").val(s.label);
+}
 
-        $("#label-text").val(s.label);
-    }
+function updateScoreboardState() {
+    let s = scoreboardState.value;
 
-    function updateScoreboardState() {
-        let s = scoreboardState.value;
+    s.player1Name    = $("#player-1-name-text").val();
+    s.player1Sponsor = $("#player-1-sponsor-text").val();
+    s.player1Score   = $("#player-1-score-spinner").val();
 
-        s.player1Name    = $("#player-1-name-text").val();
-        s.player1Sponsor = $("#player-1-sponsor-text").val();
-        s.player1Score   = $("#player-1-score-spinner").val();
+    s.player2Name    = $("#player-2-name-text").val();
+    s.player2Sponsor = $("#player-2-sponsor-text").val();
+    s.player2Score   = $("#player-2-score-spinner").val();
 
-        s.player2Name    = $("#player-2-name-text").val();
-        s.player2Sponsor = $("#player-2-sponsor-text").val();
-        s.player2Score   = $("#player-2-score-spinner").val();
-
-        s.label = $("#label-text").val();
-    }
-});
+    s.label = $("#label-text").val();
+}

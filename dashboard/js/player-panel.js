@@ -1,9 +1,9 @@
 'use strict';
 
-var playerData;
+let playerData;
+let lastId = 0;
 
 const NEW_PLAYER_ID = 0;
-var lastId = 0;
 
 $(document).ready(function() {
     $("#player-dropdown").selectmenu({ style: "dropdown" });
@@ -204,7 +204,7 @@ function submitPlayer() {
     }
 }
 
-var dialogCount = 0;
+let dialogCount = 0;
 function openDialog(title, msg, onClose) {
     let rawName = "dialog-" + dialogCount;
     let name = "#" + rawName;
