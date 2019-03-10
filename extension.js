@@ -32,7 +32,7 @@ module.exports = function (nodecg) {
                     if (err) {
                         ack(new Error(err));
                     } else {
-                        ack(null);
+                        ack(null, result);
                     }
             });
         }

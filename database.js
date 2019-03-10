@@ -75,11 +75,11 @@ exports.createPlayer = function createPlayer(name, sponsor, country, callback) {
     let sql = "INSERT INTO Players (name, sponsor, country)"
        sql += "VALUES (? ,?, ?) "
 
-    db.run(sql, [name, sponsor, country], function(err) {
+    db.run(sql, [name, sponsor, country], function(err, result) {
         if (err) {
             callback(new Error(err));
         } else {
-            callback(null);
+            callback(null, this);
         }
     });
 }

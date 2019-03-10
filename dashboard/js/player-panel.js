@@ -2,12 +2,14 @@
 
 var playerData;
 
+const NEW_PLAYER_ID = 0;
+var lastId = 0;
+
 $(document).ready(function() {
     $("#player-dropdown").selectmenu({ style: "dropdown" });
     $("#player-country-dropdown").selectmenu({ style: "dropdown" });
 
-    $("#create-button").button();
-    $("#modify-button").button();
+    $("#submit-button").button();
     $("#remove-button").button();
 
     $("#player-name-text").addClass("ui-widget ui-widget-content ui-corner-all");
@@ -41,14 +43,24 @@ $(document).ready(function() {
     /* Update the fields once a player is selected. */
     $("#player-dropdown").on("selectmenuselect", function(event, ui) {
         let id = $("#player-dropdown").find(":selected").val()
-        updateFields(id);
+
+        if (lastId != id) {
+            updateFields(id);
+            lastId = id;
+        }
     });
 
     /* Register click events. */
-    $("#create-button").click(createPlayer);
-    $("#modify-button").click(modifyPlayer);
+    $("#submit-button").click(submitPlayer);
     $("#remove-button").click(removePlayer);
 });
+
+function clearFields() {
+    $("#player-name-text").val("");
+    $("#player-sponsor-text").val("");
+    $("#player-country-dropdown option:eq(0)").prop("selected", true);
+    $("#player-country-dropdown").selectmenu("refresh");
+}
 
 function clearSelectMenu(name) {
     $(name).find("option").remove().end();
@@ -58,9 +70,13 @@ function clearSelectMenu(name) {
 function updatePlayerList(callback) {
     clearSelectMenu("#player-dropdown");
 
+    clearFields();
+    $("#player-dropdown").append(new Option("Create new player...", NEW_PLAYER_ID));
+    $("#player-dropdown option:eq(0)").prop("selected", true);
+    $("#player-dropdown").selectmenu("refresh");
+
     nodecg.sendMessage("getPlayers", (err, result) => {
         if (err) {
-            console.log(err);
             typeof callback === 'function' && callback(new Error(err));
         } else {
             playerData = result;
@@ -69,36 +85,30 @@ function updatePlayerList(callback) {
                 $("#player-dropdown").append(new Option(player.name, player.id));
             });
 
-            $("#player-dropdown option:eq(0)").prop("selected", true);
             $("#player-dropdown").selectmenu("refresh");
-
-            let id = $("#player-dropdown").find(":selected").val()
-
-            updateFields(id, function(err, result) {
-                if (err) {
-                    typeof callback === 'function' && callback(new Error(err));
-                } else {
-                    typeof callback === 'function' && callback(null);
-                }
-            });
+            typeof callback === 'function' && callback(new Error(err));
         }
     });
 }
 
 function updateFields(id, callback) {
-    let index = playerData.findIndex(function(e) {
-        return e.id == id;
-    });
-
-    if (index != -1) {
-        $("#player-name-text").val(playerData[index].name);
-        $("#player-sponsor-text").val(playerData[index].sponsor);
-        $("#player-country-dropdown").val(playerData[index].country);
-        $("#player-country-dropdown").selectmenu("refresh");
-
-        typeof callback === 'function' && callback(null);
+    if (id == NEW_PLAYER_ID) {
+        clearFields();
     } else {
-        typeof callback === 'function' && callback(new Error(err));
+        let index = playerData.findIndex(function(e) {
+            return e.id == id;
+        });
+
+        if (index != -1) {
+            $("#player-name-text").val(playerData[index].name);
+            $("#player-sponsor-text").val(playerData[index].sponsor);
+            $("#player-country-dropdown").val(playerData[index].country);
+            $("#player-country-dropdown").selectmenu("refresh");
+
+            typeof callback === 'function' && callback(null);
+        } else {
+            typeof callback === 'function' && callback(new Error("Unable to find player"));
+        }
     }
 }
 
@@ -117,11 +127,19 @@ function createPlayer() {
     let country = $("#player-country-dropdown").val();
 
     nodecg.sendMessage("createPlayer", {name, sponsor, country}, (err, result) => {
+        let newId = result.lastID;
+
         if (err) {
             openOkDialog("Error", err);
         } else {
             openOkDialog("Success", "Player '" + name + "' created successfully!");
-            updatePlayerList();
+
+            updatePlayerList(function(err, result) {
+                $("#player-dropdown").val(newId);
+                $("#player-dropdown").selectmenu("refresh");
+
+                updateFields(newId);
+            });
         }
     });
 }
@@ -132,22 +150,20 @@ function modifyPlayer() {
     let sponsor = $("#player-sponsor-text").val();
     let country = $("#player-country-dropdown").val();
 
-    openConfirmDialog("Confirmation", "Are you sure you want to modify player '" + name + "'?",
-        function() {
-            nodecg.sendMessage("modifyPlayer", {id, name, sponsor, country}, (err, result) => {
-                if (err) {
-                    openOkDialog("Error", err);
-                } else {
-                    openOkDialog("Success", "Player '" + name + "' modified successfully!");
+    nodecg.sendMessage("modifyPlayer", {id, name, sponsor, country}, (err, result) => {
+        if (err) {
+            openOkDialog("Error", err);
+        } else {
+            openOkDialog("Success", "Player '" + name + "' modified successfully!");
 
-                    updatePlayerList(function(err, result) {
-                        $("#player-dropdown").val(id);
-                        $("#player-dropdown").selectmenu("refresh");
-                        updateFields(id);
-                    });
-                }
+            updatePlayerList(function(err, result) {
+                $("#player-dropdown").val(id);
+                $("#player-dropdown").selectmenu("refresh");
+
+                updateFields(id);
             });
-        });
+        }
+    });
 }
 
 function removePlayer() {
@@ -166,6 +182,26 @@ function removePlayer() {
                 }
             });
         });
+}
+
+function submitPlayer() {
+    let id = $("#player-dropdown").val();
+    let name = $("#player-name-text").val();
+
+    if (id == NEW_PLAYER_ID) {
+        openConfirmDialog("Confirm player creation",
+            "Are you sure you want to create player '" + name + "'?",
+            function() {
+                createPlayer();
+            });
+
+    } else{
+        openConfirmDialog("Confirm player modification",
+            "Are you sure you want to modify player '" + name + "'?",
+            function() {
+                modifyPlayer();
+            });
+    }
 }
 
 var dialogCount = 0;
