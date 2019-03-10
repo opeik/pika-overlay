@@ -3,13 +3,22 @@
 const db = require("./database");
 
 module.exports = function (nodecg) {
-    let scoreboardState = nodecg.Replicant("scoreboard", {defaultValue : {
-        player1Name : "Player 1",
-        player1Sponsor : "",
-        player1Score : 0,
-        player2Name : "Player 2",
-        player2Sponsor : "",
-        player2Score : 0,
+    let playerState = nodecg.Replicant("player-state", {persistent: false, defaultValue : {}});
+    let scoreboardState = nodecg.Replicant("scoreboard-state", {defaultValue : {
+        player1 : {
+            name : "Player 1",
+            sponsor : "Sponsor",
+            country : "AU",
+            score : 0
+        },
+
+        player2 : {
+            name : "Player 2",
+            sponsor : "Sponsor",
+            country : "AU",
+            score : 0
+        },
+
         label : "Pools"
     }});
 
