@@ -118,9 +118,9 @@ function createPlayer() {
 
     nodecg.sendMessage("createPlayer", {name, sponsor, country}, (err, result) => {
         if (err) {
-            openDialog("Error", err);
+            openOkDialog("Error", err);
         } else {
-            openDialog("Success", "Player '" + name + "' created successfully!");
+            openOkDialog("Success", "Player '" + name + "' created successfully!");
             updatePlayerList();
         }
     });
@@ -132,32 +132,36 @@ function modifyPlayer() {
     let sponsor = $("#player-sponsor-text").val();
     let country = $("#player-country-dropdown").val();
 
-    nodecg.sendMessage("modifyPlayer", {id, name, sponsor, country}, (err, result) => {
-        if (err) {
-            openDialog("Error", err);
-        } else {
-            openDialog("Success", "Player '" + name + "' modified successfully!");
+    openConfirmDialog("Confirmation", "Are you sure you want to modify player '" + name + "'?",
+        function() {
+            nodecg.sendMessage("modifyPlayer", {id, name, sponsor, country}, (err, result) => {
+                if (err) {
+                    openOkDialog("Error", err);
+                } else {
+                    openOkDialog("Success", "Player '" + name + "' modified successfully!");
 
-            updatePlayerList(function(err, result) {
-                $("#player-dropdown").val(id);
-                $("#player-dropdown").selectmenu("refresh");
-                updateFields(id);
+                    updatePlayerList(function(err, result) {
+                        $("#player-dropdown").val(id);
+                        $("#player-dropdown").selectmenu("refresh");
+                        updateFields(id);
+                    });
+                }
             });
-        }
-    });
+        });
 }
 
 function removePlayer() {
     let id = $("#player-dropdown").val();
+    let name = $("#player-name-text").val();
 
-    openConfirmDialog("Confirmation", "Are you sure you want to remove player?",
+    openConfirmDialog("Confirmation", "Are you sure you want to remove player '" + name + "'?",
         function() {
 
             nodecg.sendMessage("removePlayer", {id}, (err, result) => {
                 if (err) {
-                    openDialog("Error", err);
+                    openOkDialog("Error", err);
                 } else {
-                    openDialog("Success", "Player '" + name + "' removed successfully!");
+                    openOkDialog("Success", "Player '" + name + "' removed successfully!");
                     updatePlayerList();
                 }
             });
@@ -180,6 +184,37 @@ function openDialog(title, msg, onClose) {
 
     $(name).dialog({
         autoOpen: false,
+    });
+    $(name).dialog("open");
+
+    $(name).on('dialogclose', function(event) {
+        typeof onClose === 'function' && onClose();
+    });
+
+    ++dialogCount;
+}
+
+function openOkDialog(title, msg, onOk, onClose) {
+    let rawName = "dialog-" + dialogCount;
+    let name = "#" + rawName;
+
+    if ($(name).length == 0) {
+        $(document.body).append(
+            '<div id="' + rawName + '" title="' + title + '">' +
+                "<p>" + msg + "</p>" +
+            '</div>');
+    } else {
+        $(name).html(msg);
+    }
+
+    $(name).dialog({
+        autoOpen: false,
+        buttons: {
+            "Okay" : function() {
+                typeof onYes === 'function' && onOk();
+                $(name).dialog("close");
+            }
+        }
     });
     $(name).dialog("open");
 
