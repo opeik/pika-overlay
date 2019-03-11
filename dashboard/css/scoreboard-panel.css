@@ -8,6 +8,8 @@
 
 .ui-spinner {
     height: 33px !important;
+    line-height: 33px !important;
+    text-align: center;
 }
 
 ul.ui-menu {
@@ -167,4 +169,34 @@ ul.ui-menu {
 
 #player-2-label {
     padding-left: 100px;
+}
+
+#player-1-sponsor-text {
+    width: 70px;
+    height: 25px;
+    text-align: center;
+}
+
+#player-2-sponsor-text {
+    width: 70px;
+    height: 25px;
+    text-align: center;
+}
+
+#player-1-name-text {
+    width: 150px;
+    height: 25px;
+    text-align: center;
+}
+
+#player-2-name-text {
+    width: 150px;
+    height: 25px;
+    text-align: center;
+}
+
+#label-text {
+    width: 140px;
+    height: 25px;
+    text-align: center;
 }

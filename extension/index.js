@@ -84,6 +84,7 @@ module.exports = function (nodecg) {
                         if (err) {
                             ack(new Error(err));
                         } else {
+                            nodecg.sendMessage("playerCreated", value.id);
                             ack(null, result);
                             nodecg.log.info("Player '" + value.name + "' created");
                         }
@@ -98,6 +99,7 @@ module.exports = function (nodecg) {
                         if (err) {
                             ack(new Error(err));
                         } else {
+                            nodecg.sendMessage("playerModified", value.id);
                             ack(null);
                             nodecg.log.info("Player '" + value.name + "' modified");
                         }
@@ -121,6 +123,7 @@ module.exports = function (nodecg) {
                     if (err) {
                         ack(new Error(err));
                     } else {
+                        nodecg.sendMessage("playerRemoved", value.id);
                         ack(null);
                         nodecg.log.info("Player '" + name + "' removed");
                     }

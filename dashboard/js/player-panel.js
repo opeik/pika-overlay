@@ -3,15 +3,15 @@
 $(document).ready(function() {
     const PLACEHOLDER_INDEX = 0;
 
-    let players = [];
+    let players       = [];
     let playersSorted = [];
 
-    let playerDropdown = $("#player-dropdown");
+    let playerDropdown        = $("#player-dropdown");
     let playerCountryDropdown = $("#player-country-dropdown");
-    let playerNameText = $("#player-name-text");
-    let playerSponsorText = $("#player-sponsor-text");
-    let submitButton = $("#submit-button");
-    let removeButton = $("#remove-button");
+    let playerNameText        = $("#player-name-text");
+    let playerSponsorText     = $("#player-sponsor-text");
+    let submitButton          = $("#submit-button");
+    let removeButton          = $("#remove-button");
 
     /* Set up the initial panel state. */
     setupElements();
@@ -27,10 +27,10 @@ $(document).ready(function() {
 
         playerDropdown.selectmenu();
         playerCountryDropdown.selectmenu();
-        submitButton.button();
-        removeButton.button();
         playerNameText.addClass(TEXT_CLASSES);
         playerSponsorText.addClass(TEXT_CLASSES);
+        submitButton.button();
+        removeButton.button();
 
         submitButton.click(submitClick);
         removeButton.click(removeClick);
@@ -220,9 +220,10 @@ $(document).ready(function() {
      * Called when a player is selected.
      */
     function selectPlayer() {
-        console.log("Player field selected");
-        if (playerDropdown.val() != PLACEHOLDER_INDEX) {
-            updateFields(playerDropdown.val());
+        let id = playerDropdown.val();
+
+        if (id != PLACEHOLDER_INDEX) {
+            updateFields(id);
         }
     }
 

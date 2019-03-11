@@ -1,278 +1,296 @@
 'use strict';
 
-let playerData;
-let scoreboardState = nodecg.Replicant("scoreboard-state");
-const PLACEHOLDER_ID = 0;
-
 $(document).ready(function() {
-    /* Set up input elements. */
-    $("#player-1-name-dropdown").selectmenu();
-    $("#player-1-score-spinner").spinner();
-    $("#player-1-country-dropdown").selectmenu();
+    const PLACEHOLDER_INDEX = 0;
 
-    $("#player-2-name-dropdown").selectmenu();
-    $("#player-2-score-spinner").spinner();
-    $("#player-2-country-dropdown").selectmenu();
+    let scoreboardState = nodecg.Replicant("scoreboard-state");
 
-    $("#update-button").button();
-    $("#swap-button").button();
+    let players       = [];
+    let playersSorted = [];
 
-    $("input").addClass("ui-widget ui-widget-content ui-corner-all");
-    $("#label-text").css({
-        "width" : "140px",
-        "height" : "25px",
-        "text-align" : "center"
-    });
+    let labelText              = $("#label-text");
+    let player1NameDropdown    = $("#player-1-name-dropdown");
+    let player1ScoreSpinner    = $("#player-1-score-spinner");
+    let player1NameText        = $("#player-1-name-text");
+    let player1SponsorText     = $("#player-1-sponsor-text");
+    let player1CountryDropdown = $("#player-1-country-dropdown");
+    let player2NameDropdown    = $("#player-2-name-dropdown");
+    let player2ScoreSpinner    = $("#player-2-score-spinner");
+    let player2NameText        = $("#player-2-name-text");
+    let player2SponsorText     = $("#player-2-sponsor-text");
+    let player2CountryDropdown = $("#player-2-country-dropdown");
+    let updateButton           = $("#update-button");
+    let swapButton             = $("#swap-button");
 
-    $("#player-1-sponsor-text").css({
-        "width" : "70px",
-        "height" : "25px",
-        "text-align" : "center"
-    });
-
-    $("#player-1-name-text").css({
-        "width" : "150px",
-        "height" : "25px",
-        "text-align" : "center"
-    });
-
-    $("#player-2-sponsor-text").css({
-        "width" : "70px",
-        "height" : "25px",
-        "text-align" : "center"
-    });
-
-    $("#player-2-name-text").css({
-        "width" : "150px",
-        "height" : "25px",
-        "text-align" : "center"
-    });
-
-    $("#update-button").click(updateScoreboardState);
-    $("#swap-button").click(swapPlayers);
-
-    NodeCG.waitForReplicants(scoreboardState).then(() => {
-        getPlayerData(function() {
-            populatePlayerList();
-        })
-
-        populateCountryDropdowns();
-        setupReplicants();
-
-        nodecg.listenFor("playerDataUpdated", handlePlayerDataUpdated);
-
-        /* Update the fields once a player is selected. */
-        $("#player-1-name-dropdown").on("selectmenuselect", function(event, ui) {
-            let id = $("#player-1-name-dropdown").find(":selected").val()
-
-            if (id != PLACEHOLDER_ID) {
-                updateFields(1, id);
-            }
-        });
-
-        $("#player-2-name-dropdown").on("selectmenuselect", function(event, ui) {
-            let id = $("#player-2-name-dropdown").find(":selected").val()
-
-            if (id != PLACEHOLDER_ID) {
-                updateFields(2, id);
-            }
-        });
-    });
-});
-
-let handled = false;
-function handlePlayerDataUpdated() {
-    if (!handled) {
+    /* Set up the initial panel state. */
+    NodeCG.waitForReplicants(scoreboardState).then(function() {
         let s = scoreboardState.value;
         let player1 = s.player1;
         let player2 = s.player2;
 
-        getPlayerData(function() {
-            populatePlayerList();
+        setupElements();
 
-            let player1Index = playerData.findIndex(function(e) {
-                return e.id == player1.id;
-            });
+        getPlayers(function() {
+            populatePlayerDropdown();
 
-            let player2Index = playerData.findIndex(function(e) {
-                return e.id == player2.id;
-            });
+            /* Set the players from the scoreboard state. */
+            updateFieldsFromScoreboard();
+        });
 
-            console.log(playerData);
-            console.log(player1.id, player2.id);
-            console.log(player1Index, player2Index);
+        populateCountryDropdown();
+    });
 
-            if (player1Index != -1) {
-                player1.name = playerData[player1Index].name;
-                player1.sponsor = playerData[player1Index].sponsor;
-                player1.country = playerData[player1Index].country;
+    function setupElements() {
+        const TEXT_CLASSES = "ui-widget ui-widget-content ui-corner-all";
 
-                $("#player-1-name-dropdown").val(player1.id);
-                $("#player-1-name-dropdown").selectmenu("refresh");
-            } else {
-                $("#player-1-name-dropdown option:eq(0)").prop("selected", true);
-                $("#player-1-name-dropdown").selectmenu("refresh");
-                updateFields(1, 0);
-            }
+        labelText.addClass(TEXT_CLASSES);
+        player1NameDropdown.selectmenu();
+        player1ScoreSpinner.spinner({decimals: 0, min: 0, max: 99});
+        player1NameText.addClass(TEXT_CLASSES);
+        player1SponsorText.addClass(TEXT_CLASSES);
+        player1CountryDropdown.selectmenu();
+        player2NameDropdown.selectmenu();
+        player2ScoreSpinner.spinner({decimals: 0, min: 0, max: 99});
+        player2NameText.addClass(TEXT_CLASSES);
+        player2SponsorText.addClass(TEXT_CLASSES);
+        player2CountryDropdown.selectmenu();
+        updateButton.button();
+        swapButton.button();
 
-            if (player2Index != -1) {
-                player2.name = playerData[player2Index].name;
-                player2.sponsor = playerData[player2Index].sponsor;
-                player2.country = playerData[player2Index].country;
-
-                $("#player-2-name-dropdown").val(player2.id);
-                $("#player-2-name-dropdown").selectmenu("refresh");
-            } else {
-                $("#player-2-name-dropdown option:eq(0)").prop("selected", true);
-                $("#player-2-name-dropdown").selectmenu("refresh");
-                updateFields(2, 0);
-            }
-        })
-
-        handled = true;
-    } else {
-        handled = false;
+        updateButton.click(updateClick);
+        swapButton.click(swapClick);
+        player1NameDropdown.on("selectmenuselect", selectPlayer);
+        player2NameDropdown.on("selectmenuselect", selectPlayer);
     }
-}
 
-function getPlayerData(callback) {
-    nodecg.sendMessage("getPlayers", (err, result) => {
-        if (err) {
-            typeof callback === 'function' && callback(new Error(err));
-        } else {
-            playerData = result;
-            typeof callback === 'function' && callback(new Error(err));
+    /*
+     * Updates the name, sponsor, and country fields from the scoreboard state.
+     */
+    function updateFieldsFromScoreboard() {
+        let s = scoreboardState.value;
+        let player1 = s.player1;
+        let player2 = s.player2;
+
+        player1NameDropdown.val(player1.id);
+        player1NameText.val(player1.name);
+        player1SponsorText.val(player1.sponsor);
+        player1CountryDropdown.val(player1.country);
+        player1ScoreSpinner.val(player1.score);
+
+        player2NameDropdown.val(player2.id);
+        player2NameText.val(player2.name);
+        player2SponsorText.val(player2.sponsor);
+        player2CountryDropdown.val(player2.country);
+        player2ScoreSpinner.val(player2.score);
+
+        labelText.val(s.label);
+
+        player1NameDropdown.selectmenu("refresh");
+        player1CountryDropdown.selectmenu("refresh");
+        player2NameDropdown.selectmenu("refresh");
+        player2CountryDropdown.selectmenu("refresh");
+    }
+
+    /*
+     * Updates the name, sponsor, and country fields from a player ID.
+     */
+    function updateFields(id, playerNum) {
+        let name = "#player-" + playerNum;
+
+        $(name + "-name-text").val(players[id].name);
+        $(name + "-sponsor-text").val(players[id].sponsor);
+        $(name + "-country-dropdown").val(players[id].country);
+        $(name + "-country-dropdown").selectmenu("refresh");
+    }
+
+    /*
+     * Called when a player is selected.
+     */
+    function selectPlayer(event, ui) {
+        let elementName = event.target.id;
+        let id = ui.item.value;
+
+        if (id != PLACEHOLDER_INDEX) {
+            if (elementName === "player-1-name-dropdown") {
+                updateFields(id, 1);
+            } else {
+                updateFields(id, 2);
+            }
         }
-    });
-}
-
-function populateCountryDropdowns() {
-    country.data.forEach((entry) =>{
-        $("#player-1-country-dropdown").append(new Option(entry.name, entry.code));
-        $("#player-2-country-dropdown").append(new Option(entry.name, entry.code));
-    });
-
-    $("#player-1-country-dropdown option:eq(0)").prop("selected", true);
-    $("#player-1-country-dropdown").selectmenu("refresh");
-    $("#player-2-country-dropdown option:eq(0)").prop("selected", true);
-    $("#player-2-country-dropdown").selectmenu("refresh");
-}
-
-function setupReplicants() {
-    scoreboardState.on("change", (newValue, oldValue) => {
-        loadScoreboardState();
-    });
-
-    NodeCG.waitForReplicants(scoreboardState).then(() => {
-        loadScoreboardState();
-    });
-}
-
-function loadScoreboardState() {
-    let s = scoreboardState.value;
-    let player1 = s.player1;
-    let player2 = s.player2;
-
-    $("#player-1-name-dropdown").val(player1.id);
-    $("#player-1-name-dropdown").selectmenu("refresh");
-
-    $("#player-1-name-text").val(player1.name);
-    $("#player-1-sponsor-text").val(player1.sponsor);
-    $("#player-1-score-spinner").val(player1.score);
-    $("#player-1-country-dropdown").val(player1.country);
-    $("#player-1-country-dropdown").selectmenu("refresh");
-
-
-    $("#player-2-name-dropdown").val(player2.id);
-    $("#player-2-name-dropdown").selectmenu("refresh");
-
-    $("#player-2-name-text").val(player2.name);
-    $("#player-2-sponsor-text").val(player2.sponsor);
-    $("#player-2-score-spinner").val(player2.score);
-    $("#player-2-country-dropdown").val(player2.country);
-    $("#player-2-country-dropdown").selectmenu("refresh");
-
-    $("#label-text").val(s.label);
-}
-
-function updateScoreboardState() {
-    let s = scoreboardState.value;
-    let player1 = s.player1;
-    let player2 = s.player2;
-
-    if ($("#player-1-name-dropdown").val() != PLACEHOLDER_ID) {
-        player1.id      = $("#player-1-name-dropdown").val();
     }
 
-    player1.name    = $("#player-1-name-text").val();
-    player1.sponsor = $("#player-1-sponsor-text").val();
-    player1.score   = $("#player-1-score-spinner").val();
-    player1.country = $("#player-1-country-dropdown").val();
+    /*
+     * Called when the update button is clicked.
+     */
+    function updateClick() {
+        let s = scoreboardState.value;
+        let player1 = s.player1;
+        let player2 = s.player2;
 
-    if ($("#player-2-name-dropdown").val() != PLACEHOLDER_ID) {
-        player2.id      = $("#player-2-name-dropdown").val();
+        let player1Score = Number(player1ScoreSpinner.val());
+        let player2Score = Number(player2ScoreSpinner.val());
+
+        /* Don't you ever try to junkyard me. */
+        if (labelText.val().isNullOrWhiteSpace()) {
+            okDialog("Error", "Label cannot be empty.");
+        } else if (player1NameText.val().isNullOrWhiteSpace()) {
+            okDialog("Error", "Player 1 name cannot be empty.");
+        } else if (Number.isNaN(player1Score) || !Number.isInteger(player1Score)) {
+            okDialog("Error", "Player 1 score must be an integer.");
+        } else if (player1Score < 0) {
+            okDialog("Error", "Player 1 score must be above zero.");
+        } else if (player2NameText.val().isNullOrWhiteSpace()) {
+            okDialog("Error", "Player 2 name cannot be empty.");
+        } else if (Number.isNaN(player2Score) || !Number.isInteger(player2Score)) {
+            okDialog("Error", "Player 2 score must be an integer.");
+        } else if (player1Score < 0) {
+            okDialog("Error", "Player 2 score must be above zero.");
+        } else {
+            player1.id      = player1NameDropdown.val();
+            player1.name    = player1NameText.val();
+            player1.sponsor = player1SponsorText.val();
+            player1.country = player1CountryDropdown.val();
+            player1.score   = player1ScoreSpinner.val();
+
+            player2.id      = player2NameDropdown.val();
+            player2.name    = player2NameText.val();
+            player2.sponsor = player2SponsorText.val();
+            player2.country = player2CountryDropdown.val();
+            player2.score   = player2ScoreSpinner.val();
+
+            s.label = labelText.val();
+        }
     }
 
-    player2.name    = $("#player-2-name-text").val();
-    player2.sponsor = $("#player-2-sponsor-text").val();
-    player2.score   = $("#player-2-score-spinner").val();
-    player2.country = $("#player-2-country-dropdown").val();
+    /*
+     * Called when the swap button is clicked.
+     */
+    function swapClick() {
+        let s = scoreboardState.value;
+        let player1 = s.player1;
+        let player2 = s.player2;
 
-    s.label = $("#label-text").val();
-}
+        let player1Id      = player1NameDropdown.val();
+        let player1Name    = player1NameText.val();
+        let player1Sponsor = player1SponsorText.val();
+        let player1Country = player1CountryDropdown.val();
+        let player1Score   = player1ScoreSpinner.val();
 
-function swapPlayers() {
-    let s = scoreboardState.value;
-    let player1 = s.player1;
-    let player2 = s.player2;
+        let player2Id      = player2NameDropdown.val();
+        let player2Name    = player2NameText.val();
+        let player2Sponsor = player2SponsorText.val();
+        let player2Country = player2CountryDropdown.val();
+        let player2Score   = player2ScoreSpinner.val();
 
-    [player1.id,player2.id] = [player2.id,player1.id];
-    [player1.name,player2.name] = [player2.name,player1.name];
-    [player1.sponsor,player2.sponsor] = [player2.sponsor,player1.sponsor];
-    [player1.score,player2.score] = [player2.score,player1.score];
-    [player1.country,player2.country] = [player2.country,player1.country];
+        player1NameDropdown.val(player2Id);
+        player1NameDropdown.selectmenu("refresh");
+        player1NameText.val(player2Name);
+        player1SponsorText.val(player2Sponsor);
+        player1CountryDropdown.val(player2Country);
+        player1ScoreSpinner.val(player2Score);
 
-    loadScoreboardState();
-}
+        player2NameDropdown.val(player1Id);
+        player2NameDropdown.selectmenu("refresh");
+        player2NameText.val(player1Name);
+        player2SponsorText.val(player1Sponsor);
+        player2CountryDropdown.val(player1Country);
+        player2ScoreSpinner.val(player1Score);
 
-function clearSelectMenu(name) {
-    $(name).find("option").remove().end();
-    $(name).selectmenu("destroy").selectmenu({ style: "dropdown" });
-}
+        player1CountryDropdown.selectmenu("refresh");
+        player2CountryDropdown.selectmenu("refresh");
 
-function populatePlayerList() {
-    clearSelectMenu("#player-1-name-dropdown");
-    clearSelectMenu("#player-2-name-dropdown");
+        [player1.id,player2.id] = [player2.id,player1.id];
+        [player1.name,player2.name] = [player2.name,player1.name];
+        [player1.sponsor,player2.sponsor] = [player2.sponsor,player1.sponsor];
+        [player1.score,player2.score] = [player2.score,player1.score];
+        [player1.country,player2.country] = [player2.country,player1.country];
 
-    $("#player-1-name-dropdown").append(new Option("Select player...", PLACEHOLDER_ID));
-    $("#player-1-name-dropdown option:eq(0)").prop("selected", true);
-    $("#player-2-name-dropdown").append(new Option("Select player...", PLACEHOLDER_ID));
-    $("#player-2-name-dropdown option:eq(0)").prop("selected", true);
-
-    playerData.forEach((player) =>{
-        $("#player-1-name-dropdown").append(new Option(player.name, player.id));
-        $("#player-2-name-dropdown").append(new Option(player.name, player.id));
-    });
-
-    $("#player-1-name-dropdown option:eq(0)").prop("selected", true);
-    $("#player-1-name-dropdown").selectmenu("refresh");
-    $("#player-2-name-dropdown option:eq(0)").prop("selected", true);
-    $("#player-2-name-dropdown").selectmenu("refresh");
-}
-
-function updateFields(player, id, callback) {
-    let index = playerData.findIndex(function(e) {
-        return e.id == id;
-    });
-
-    if (index != -1) {
-        $("#player-" + player + "-name-text").val(playerData[index].name);
-        $("#player-" + player + "-sponsor-text").val(playerData[index].sponsor);
-        $("#player-" + player + "-country-dropdown").val(playerData[index].country);
-        $("#player-" + player + "-country-dropdown").selectmenu("refresh");
-
-        typeof callback === 'function' && callback(null);
-    } else {
-        typeof callback === 'function' && callback(new Error("Unable to find player"));
+        updateClick();
     }
+
+    /*
+     * Fetches all the players in the database.
+     */
+    function getPlayers(callback) {
+        nodecg.sendMessage("getPlayers", (err, result) => {
+            if (err) {
+                typeof callback === 'function' && callback(new Error(err));
+            } else {
+                /* Add the players to the local cache. */
+                result.forEach(function(player) {
+                    players[player.id] = player;
+                });
+
+                /* Refresh the sorted players cache. */
+                playersSorted = players.slice();
+                playersSorted.sort(sortByName);
+
+                typeof callback === 'function' && callback(null);
+            }
+        });
+    }
+
+    /*
+     * Populates the player dropdown with the current players.
+     */
+    function populatePlayerDropdown() {
+        /* Remove the old entries. */
+        player1NameDropdown.find("option").remove().end();
+        player1NameDropdown.selectmenu("destroy").selectmenu();
+        player2NameDropdown.find("option").remove().end();
+        player2NameDropdown.selectmenu("destroy").selectmenu();
+
+        player1NameDropdown.append(new Option("Select player...", PLACEHOLDER_INDEX));
+        player2NameDropdown.append(new Option("Select player...", PLACEHOLDER_INDEX));
+
+        playersSorted.forEach(function(player) {
+            if (player) {
+                player1NameDropdown.append(new Option(player.name, player.id));
+                player2NameDropdown.append(new Option(player.name, player.id));
+            }
+        });
+
+        player1NameDropdown.selectmenu("refresh");
+        player2NameDropdown.selectmenu("refresh");
+    }
+
+    /*
+     * Populates the country dropdown.
+     */
+    function populateCountryDropdown() {
+        country.data.forEach(function(entry) {
+            player1CountryDropdown.append(new Option(entry.name, entry.code));
+            player2CountryDropdown.append(new Option(entry.name, entry.code));
+        });
+
+        player1CountryDropdown.val("AU");
+        player2CountryDropdown.val("AU");
+        player1CountryDropdown.selectmenu("refresh");
+        player2CountryDropdown.selectmenu("refresh");
+    }
+
+    /*
+     * Sorts values by name.
+     */
+    function sortByName(lhs, rhs) {
+        lhs = lhs.name.toLowerCase();
+        rhs = rhs.name.toLowerCase();
+
+        if (lhs < rhs) {
+            return -1;
+        }
+
+        if (lhs > rhs) {
+            return 1;
+        }
+
+        return 0;
+    }
+});
+
+/*
+ * Returns true if a string is null or is only whitespace.
+ */
+String.prototype.isNullOrWhiteSpace = function() {
+    return (!this || this.length === 0 || /^\s*$/.test(this))
 }
