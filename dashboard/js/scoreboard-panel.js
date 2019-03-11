@@ -182,30 +182,33 @@ $(document).ready(function() {
         let player2Country = player2CountryDropdown.val();
         let player2Score   = player2ScoreSpinner.val();
 
-        player1NameDropdown.val(player2Id);
-        player1NameDropdown.selectmenu("refresh");
-        player1NameText.val(player2Name);
-        player1SponsorText.val(player2Sponsor);
-        player1CountryDropdown.val(player2Country);
-        player1ScoreSpinner.val(player2Score);
-
-        player2NameDropdown.val(player1Id);
-        player2NameDropdown.selectmenu("refresh");
-        player2NameText.val(player1Name);
-        player2SponsorText.val(player1Sponsor);
-        player2CountryDropdown.val(player1Country);
-        player2ScoreSpinner.val(player1Score);
-
-        player1CountryDropdown.selectmenu("refresh");
-        player2CountryDropdown.selectmenu("refresh");
-
         [player1.id,player2.id] = [player2.id,player1.id];
         [player1.name,player2.name] = [player2.name,player1.name];
         [player1.sponsor,player2.sponsor] = [player2.sponsor,player1.sponsor];
         [player1.score,player2.score] = [player2.score,player1.score];
         [player1.country,player2.country] = [player2.country,player1.country];
 
-        updateClick();
+        setTimeout(function() {
+            player1NameDropdown.val(player2Id);
+            player1NameDropdown.selectmenu("refresh");
+            player1NameText.val(player2Name);
+            player1SponsorText.val(player2Sponsor);
+            player1CountryDropdown.val(player2Country);
+            player1ScoreSpinner.val(player2Score);
+
+            player2NameDropdown.val(player1Id);
+            player2NameDropdown.selectmenu("refresh");
+            player2NameText.val(player1Name);
+            player2SponsorText.val(player1Sponsor);
+            player2CountryDropdown.val(player1Country);
+            player2ScoreSpinner.val(player1Score);
+
+            setTimeout(function() {
+                player1CountryDropdown.selectmenu("refresh");
+                player2CountryDropdown.selectmenu("refresh");
+                updateClick();
+            });
+        });
     }
 
     /*
