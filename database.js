@@ -12,17 +12,17 @@ exports.dbOpen = false;
 /* Connect to the players database. */
 const db = new sqlite3.Database(DB_PATH, function(err){
     if (err) {
-        console.log(err)
-        return
+        console.log(new Error(err));
+        return;
     } else {
         db.exec(DB_SCHEMA, function(err) {
             if (err) {
-                console.log(err);
+                console.log(new Error(err));
             }
         });
     }
 
-    console.log("Connected to " + DB_PATH + " database")
+    console.log("Connected to " + DB_PATH + " database");
     exports.dbOpen = true;
 });
 
