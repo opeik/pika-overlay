@@ -1,6 +1,6 @@
 const sqlite3 = require("sqlite3").verbose();
+const pika = require("./index.js");
 
-const DB_PATH = "players.db"
 const DB_SCHEMA = ` CREATE TABLE IF NOT EXISTS Players (
                         id INTEGER NOT NULL PRIMARY KEY,
                         name TEXT NOT NULL,
@@ -9,32 +9,35 @@ const DB_SCHEMA = ` CREATE TABLE IF NOT EXISTS Players (
 
 exports.dbOpen = false;
 
-/* Connect to the players database. */
-const db = new sqlite3.Database(DB_PATH, function(err){
-    if (err) {
-        console.log(new Error(err));
-        return;
-    } else {
-        db.exec(DB_SCHEMA, function(err) {
-            if (err) {
-                console.log(new Error(err));
-            }
-        });
-    }
+/*
+ * Opens the database.
+ */
+exports.openDatabase = function openDatabase(path, callback) {
+    exports.db = new sqlite3.Database(path, function(err){
+        if (err) {
+            callback(new Error(err));
+        } else {
+            exports.db.exec(DB_SCHEMA, function(err) {
+                if (err) {
+                    callback(new Error(err));
+                }
+            });
+        }
 
-    console.log("Connected to " + DB_PATH + " database");
-    exports.dbOpen = true;
-});
+        exports.dbOpen = true;
+        typeof callback === 'function' && callback(null);
+    });
+}
 
 /*
- * Returns all players in the players database.
+ * Returns all players in the database.
  */
 exports.getPlayers = function getPlayers(callback) {
-    let sql = "SELECT * "
-       sql += "FROM Players "
-       sql += "ORDER BY name "
+    let query = "SELECT * "
+       query += "FROM Players "
+       query += "ORDER BY name "
 
-    db.all(sql, [], function(err, result) {
+    exports.db.all(query, [], function(err, result) {
         if (err) {
             callback(new Error(err));
         }
@@ -48,14 +51,14 @@ exports.getPlayers = function getPlayers(callback) {
 }
 
 /*
- * Gets a player from the players database.
+ * Gets a player from the database.
  */
 exports.getPlayerById = function getPlayerById(id, callback) {
-    let sql = "SELECT * "
-       sql += "FROM Players "
-       sql += "WHERE id = ? "
+    let query = "SELECT * "
+       query += "FROM Players "
+       query += "WHERE id = ? "
 
-    db.get(sql, id, function(err, result) {
+    exports.db.get(query, id, function(err, result) {
         if (err) {
             callback(new Error(err));
         }
@@ -69,13 +72,13 @@ exports.getPlayerById = function getPlayerById(id, callback) {
 }
 
 /*
- * Creates a player in the players database.
+ * Creates a player in the database.
  */
 exports.createPlayer = function createPlayer(name, sponsor, country, callback) {
-    let sql = "INSERT INTO Players (name, sponsor, country)"
-       sql += "VALUES (? ,?, ?) "
+    let query = "INSERT INTO Players (name, sponsor, country)"
+       query += "VALUES (? ,?, ?) "
 
-    db.run(sql, [name, sponsor, country], function(err, result) {
+    exports.db.run(query, [name, sponsor, country], function(err, result) {
         if (err) {
             callback(new Error(err));
         } else {
@@ -85,31 +88,34 @@ exports.createPlayer = function createPlayer(name, sponsor, country, callback) {
 }
 
 /*
- * Modifies an existing player in the players database.
+ * Modifies a player in the database.
  */
 exports.modifyPlayer = function modifyPlayer(id, name, sponsor, country, callback) {
-    let sql = "UPDATE Players "
-       sql += "SET name = ?, sponsor = ?, country = ? "
-       sql += "WHERE id = ? "
+    let query = "UPDATE Players "
+       query += "SET name = ?, sponsor = ?, country = ? "
+       query += "WHERE id = ? "
 
-    db.run(sql, [name, sponsor, country, id], function(err) {
+    exports.db.run(query, [name, sponsor, country, id], function(err) {
         if (err) {
             callback(new Error(err));
         } else {
-            callback(null);
+            callback(null, this);
         }
     });
 }
 
+/*
+ * Removes a player from the database.
+ */
 exports.removePlayer = function removePlayer(id, callback) {
-    let sql = "DELETE FROM Players "
-       sql += "WHERE id = ? "
+    let query = "DELETE FROM Players "
+       query += "WHERE id = ? "
 
-    db.run(sql, [id], function(err) {
+    exports.db.run(query, [id], function(err) {
         if (err) {
             callback(new Error(err));
         } else {
-            callback(null);
+            callback(null, id);
         }
     });
 }
@@ -118,21 +124,19 @@ exports.removePlayer = function removePlayer(id, callback) {
  * Closes the database if it's open.
  */
 exports.closeDatabase = function closeDatabase() {
-    if (exports.dbOpen) {
+    if (exports.sqlOpen) {
+        pika.nodecg.log.info("Database closed");
         db.close();
     }
 }
 
-/*
- * Close the database on exit.
- */
-process.on('SIGINT', () => {
+/* Close the database on exit. */
+process.on('SIGINT', function() {
     exports.closeDatabase();
     process.exit()
 });
 
-process.on('SIGTERM', () => {
+process.on('SIGTERM', function() {
     exports.closeDatabase();
     process.exit()
 });
-
