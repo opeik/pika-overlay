@@ -1,7 +1,7 @@
 'use strict';
 
 const sql = require("./sql.js");
-const DB_PATH = "pika.db"
+const DB_PATH = "bundles/pika/pika.db"
 
 module.exports = function (nodecg) {
     exports.nodecg = nodecg;
