@@ -1,3 +1,5 @@
+'use strict';
+
 const sqlite3 = require("sqlite3").verbose();
 const pika = require("./index.js");
 
@@ -35,7 +37,6 @@ exports.openDatabase = function openDatabase(path, callback) {
 exports.getPlayers = function getPlayers(callback) {
     let query = "SELECT * "
        query += "FROM Players "
-       query += "ORDER BY name "
 
     exports.db.all(query, [], function(err, result) {
         if (err) {

@@ -45,3 +45,8 @@ ul.ui-menu {
 #button-container {
     padding-top: 25px;
 }
+
+.text-field {
+    width: 230px;
+    height: 25px;
+}

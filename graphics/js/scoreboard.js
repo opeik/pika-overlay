@@ -3,15 +3,18 @@
 $(document).ready(function() {
     let scoreboardState = nodecg.Replicant("scoreboard-state");
 
+    /* Update the scoreboard when the scoreboard state changes. */
     scoreboardState.on("change", (newValue, oldValue) => {
         updateScoreboard(newValue, oldValue);
     });
 
+    /*
+     * Updates the scoreboard.
+     */
     function updateScoreboard(newValue, oldValue) {
         let player1 = newValue.player1;
         let player2 = newValue.player2;
         let label = newValue.label;
-        console.log(label);
 
         $("#player-1-name").text(player1.name);
         $("#player-1-sponsor").text(player1.sponsor);

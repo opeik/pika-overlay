@@ -1,301 +1,284 @@
 'use strict';
 
-let playerData;
-let lastId = 0;
-
-const NEW_PLAYER_ID = 0;
-
 $(document).ready(function() {
-    $("#player-dropdown").selectmenu({ style: "dropdown" });
-    $("#player-country-dropdown").selectmenu({ style: "dropdown" });
+    const PLACEHOLDER_INDEX = 0;
 
-    $("#submit-button").button();
-    $("#remove-button").button();
+    let players = [];
+    let playersSorted = [];
 
-    $("#player-name-text").addClass("ui-widget ui-widget-content ui-corner-all");
-    $("#player-sponsor-text").addClass("ui-widget ui-widget-content ui-corner-all");
+    let playerDropdown = $("#player-dropdown");
+    let playerCountryDropdown = $("#player-country-dropdown");
+    let playerNameText = $("#player-name-text");
+    let playerSponsorText = $("#player-sponsor-text");
+    let submitButton = $("#submit-button");
+    let removeButton = $("#remove-button");
 
-    $("#player-name-text").css({
-        "width" : "230px",
-        "height" : "20px",
+    /* Set up the initial panel state. */
+    setupElements();
+
+    getPlayers(function() {
+        populatePlayerDropdown();
     });
 
-    $("#player-sponsor-text").css({
-        "width" : "230px",
-        "height" : "20px",
-    });
-
-    $("#player-modified-dialog").dialog({
-        modal: true,
-        buttons: {
-            Ok: function() {
-                $(this).dialog("close");
-            }
-        }
-    });
-
-    /* Populate the country dropdown. */
     populateCountryDropdown();
 
-    /* Get all players. */
-    updatePlayerList();
+    function setupElements() {
+        const TEXT_CLASSES = "ui-widget ui-widget-content ui-corner-all";
 
-    /* Update the fields once a player is selected. */
-    $("#player-dropdown").on("selectmenuselect", function(event, ui) {
-        let id = $("#player-dropdown").find(":selected").val()
+        playerDropdown.selectmenu();
+        playerCountryDropdown.selectmenu();
+        submitButton.button();
+        removeButton.button();
+        playerNameText.addClass(TEXT_CLASSES);
+        playerSponsorText.addClass(TEXT_CLASSES);
 
-        if (lastId != id) {
-            updateFields(id);
-            lastId = id;
-        }
-    });
+        submitButton.click(submitClick);
+        removeButton.click(removeClick);
+        playerDropdown.on("selectmenuselect", selectPlayer);
+    }
 
-    /* Register click events. */
-    $("#submit-button").click(submitPlayer);
-    $("#remove-button").click(removePlayer);
-});
+    /*
+     * Fetches all the players in the database.
+     */
+    function getPlayers(callback) {
+        nodecg.sendMessage("getPlayers", (err, result) => {
+            if (err) {
+                typeof callback === 'function' && callback(new Error(err));
+            } else {
+                /* Add the players to the local cache. */
+                result.forEach(function(player) {
+                    players[player.id] = player;
+                });
 
-function clearFields() {
-    $("#player-name-text").val("");
-    $("#player-sponsor-text").val("");
-    $("#player-country-dropdown option:eq(0)").prop("selected", true);
-    $("#player-country-dropdown").selectmenu("refresh");
-}
+                /* Refresh the sorted players cache. */
+                playersSorted = players.slice();
+                playersSorted.sort(sortByName);
 
-function clearSelectMenu(name) {
-    $(name).find("option").remove().end();
-    $(name).selectmenu("destroy").selectmenu({ style: "dropdown" });
-}
+                typeof callback === 'function' && callback(null);
+            }
+        });
+    }
 
-function updatePlayerList(callback) {
-    clearSelectMenu("#player-dropdown");
+    /*
+     * Updates the name, sponsor, and country fields from a player ID.
+     */
+    function updateFields(id) {
+        playerNameText.val(players[id].name);
+        playerSponsorText.val(players[id].sponsor);
+        playerCountryDropdown.val(players[id].country);
+        playerCountryDropdown.selectmenu("refresh");
+    }
 
-    clearFields();
-    $("#player-dropdown").append(new Option("Create new player...", NEW_PLAYER_ID));
-    $("#player-dropdown option:eq(0)").prop("selected", true);
-    $("#player-dropdown").selectmenu("refresh");
+    /*
+     * Creates a new player.
+     */
+    function createPlayer(name, sponsor, country) {
+        nodecg.sendMessage("createPlayer", {name, sponsor, country},
+            function(err, result) {
+                let newId = result.lastID;
 
-    nodecg.sendMessage("getPlayers", (err, result) => {
-        if (err) {
-            typeof callback === 'function' && callback(new Error(err));
+                if (err) {
+                    openOkDialog("Error", err);
+                } else {
+                    /* Add the player to the local cache. */
+                    players[newId] = {
+                        "id" : newId,
+                        "name" : name,
+                        "sponsor" : sponsor,
+                        "country" : country
+                    };
+
+                    /* Refresh the sorted players cache. */
+                    playersSorted = players.slice();
+                    playersSorted.sort(sortByName);
+
+                    /* Repopulate the players dropdown. */
+                    populatePlayerDropdown();
+
+                    /* Select the new player. */
+                    playerDropdown.val(newId);
+                    playerDropdown.selectmenu("refresh");
+                }
+            }
+        );
+    }
+
+    /*
+     * Modifies a player.
+     */
+    function modifyPlayer(id, name, sponsor, country) {
+        nodecg.sendMessage("modifyPlayer", {id, name, sponsor, country},
+            function(err, result) {
+                if (err) {
+                    okDialog("Error", err);
+                } else {
+                    /* Update the player in the cache. */
+                    players[id] = {
+                        "id" : id,
+                        "name" : name,
+                        "sponsor" : sponsor,
+                        "country" : country
+                    };
+
+                    /* Refresh the sorted players cache. */
+                    playersSorted = players.slice();
+                    playersSorted.sort(sortByName);
+
+                    /* Repopulate the players dropdown. */
+                    populatePlayerDropdown();
+
+                    /* Select the modified player. */
+                    playerDropdown.val(id);
+                    playerDropdown.selectmenu("refresh");
+
+                }
+            }
+        );
+    }
+
+    /*
+     * Removes a player.
+     */
+    function removePlayer(id, name) {
+        nodecg.sendMessage("removePlayer", {id}, function(err, result) {
+            if (err) {
+                okDialog("Error", err);
+            } else {
+                /* Remove the player from the cache. */
+                players[id] = undefined;
+
+                /* Refresh the sorted players cache. */
+                playersSorted = players.slice();
+                playersSorted.sort(sortByName);
+
+                /* Repopulate the players dropdown. */
+                populatePlayerDropdown();
+                playerDropdown.selectmenu("refresh");
+
+                /* Clear the player fields. */
+                playerCountryDropdown.val("AU");
+                playerNameText.val("");
+                playerSponsorText.val("");
+                playerCountryDropdown.selectmenu("refresh");
+            }
+        });
+    }
+
+    /*
+     * Called when the submit button is clicked.
+     */
+    function submitClick() {
+        let id = playerDropdown.val();
+        let name = playerNameText.val().trim();
+        let sponsor = playerSponsorText.val().trim();
+        let country = playerCountryDropdown.val();
+
+        if (name.isNullOrWhiteSpace()) {
+            okDialog("Error", "Name cannot be empty.");
         } else {
-            playerData = result;
-
-            playerData.forEach((player) =>{
-                $("#player-dropdown").append(new Option(player.name, player.id));
-            });
-
-            $("#player-dropdown").selectmenu("refresh");
-            typeof callback === 'function' && callback(new Error(err));
+            if (id == PLACEHOLDER_INDEX) {
+                confirmDialog("Confirm player creation",
+                              "Are you sure you want to create player '" + name + "'?",
+                                function() {
+                                    createPlayer(name, sponsor, country);
+                                    okDialog("Success", "Player '" + name + "' created successfully!");
+                                }
+                );
+            } else {
+                confirmDialog("Confirm player modification",
+                              "Are you sure you want to modify player '" + name + "'?",
+                                function() {
+                                    modifyPlayer(id, name, sponsor, country);
+                                    okDialog("Success", "Player '" + name + "' modified successfully!");
+                                }
+                );
+            }
         }
-    });
+    }
 
-    nodecg.sendMessage("playerDataUpdated");
-}
+    /*
+     * Called when the remove button is clicked.
+     */
+    function removeClick() {
+        let id = playerDropdown.val();
+        let name = players[id].name;
 
-function updateFields(id, callback) {
-    if (id == NEW_PLAYER_ID) {
-        clearFields();
-    } else {
-        let index = playerData.findIndex(function(e) {
-            return e.id == id;
+        if (id == PLACEHOLDER_INDEX) {
+            okDialog("Error", "Please select a player to remove.");
+        } else {
+            confirmDialog("Confirm player removal",
+                          "Are you sure you want to remove player '" + name + "'?",
+                            function() {
+                                removePlayer(id, name);
+                                okDialog("Success", "Player '" + name + "' successfully removed!");
+                            }
+            );
+        }
+    }
+
+    /*
+     * Called when a player is selected.
+     */
+    function selectPlayer() {
+        console.log("Player field selected");
+        if (playerDropdown.val() != PLACEHOLDER_INDEX) {
+            updateFields(playerDropdown.val());
+        }
+    }
+
+    /*
+     * Populates the player dropdown with the current players.
+     */
+    function populatePlayerDropdown() {
+        /* Remove the old entries. */
+        playerDropdown.find("option").remove().end();
+        playerDropdown.selectmenu("destroy").selectmenu();
+
+        playerDropdown.append(new Option("Create new player...", PLACEHOLDER_INDEX));
+
+        playersSorted.forEach(function(player) {
+            if (player) {
+                playerDropdown.append(new Option(player.name, player.id));
+            }
         });
 
-        if (index != -1) {
-            $("#player-name-text").val(playerData[index].name);
-            $("#player-sponsor-text").val(playerData[index].sponsor);
-            $("#player-country-dropdown").val(playerData[index].country);
-            $("#player-country-dropdown").selectmenu("refresh");
+        playerDropdown.selectmenu("refresh");
+    }
 
-            typeof callback === 'function' && callback(null);
-        } else {
-            typeof callback === 'function' && callback(new Error("Unable to find player"));
+    /*
+     * Populates the country dropdown.
+     */
+    function populateCountryDropdown() {
+        country.data.forEach(function(entry) {
+            playerCountryDropdown.append(new Option(entry.name, entry.code));
+        });
+
+        playerCountryDropdown.val("AU");
+        playerCountryDropdown.selectmenu("refresh");
+    }
+
+    /*
+     * Sorts values by name.
+     */
+    function sortByName(lhs, rhs) {
+        lhs = lhs.name.toLowerCase();
+        rhs = rhs.name.toLowerCase();
+
+        if (lhs < rhs) {
+            return -1;
         }
-    }
-}
 
-function populateCountryDropdown() {
-    country.data.forEach((entry) =>{
-        $("#player-country-dropdown").append(new Option(entry.name, entry.code));
-    });
-
-    $("#player-country-dropdown option:eq(0)").prop("selected", true);
-    $("#player-country-dropdown").selectmenu("refresh");
-}
-
-function createPlayer() {
-    let name = $("#player-name-text").val();
-    let sponsor = $("#player-sponsor-text").val();
-    let country = $("#player-country-dropdown").val();
-
-    nodecg.sendMessage("createPlayer", {name, sponsor, country}, (err, result) => {
-        let newId = result.lastID;
-
-        if (err) {
-            openOkDialog("Error", err);
-        } else {
-            openOkDialog("Success", "Player '" + name + "' created successfully!");
-
-            updatePlayerList(function(err, result) {
-                $("#player-dropdown").val(newId);
-                $("#player-dropdown").selectmenu("refresh");
-
-                updateFields(newId);
-            });
+        if (lhs > rhs) {
+            return 1;
         }
-    });
-}
 
-function modifyPlayer() {
-    let id = $("#player-dropdown").val();
-    let name = $("#player-name-text").val();
-    let sponsor = $("#player-sponsor-text").val();
-    let country = $("#player-country-dropdown").val();
-
-    nodecg.sendMessage("modifyPlayer", {id, name, sponsor, country}, (err, result) => {
-        if (err) {
-            openOkDialog("Error", err);
-        } else {
-            nodecg.sendMessage("playerDataUpdated");
-            openOkDialog("Success", "Player '" + name + "' modified successfully!");
-
-            updatePlayerList(function(err, result) {
-                $("#player-dropdown").val(id);
-                $("#player-dropdown").selectmenu("refresh");
-
-                updateFields(id);
-            });
-        }
-    });
-}
-
-function removePlayer() {
-    let id = $("#player-dropdown").val();
-    let name = $("#player-name-text").val();
-
-    if (id != NEW_PLAYER_ID) {
-        openConfirmDialog("Confirmation", "Are you sure you want to remove player '" + name + "'?",
-            function() {
-                nodecg.sendMessage("removePlayer", {id}, (err, result) => {
-                    if (err) {
-                        openOkDialog("Error", err);
-                    } else {
-                        openOkDialog("Success", "Player '" + name + "' removed successfully!");
-                        updatePlayerList();
-                    }
-                });
-            });
+        return 0;
     }
-}
+});
 
-function submitPlayer() {
-    let id = $("#player-dropdown").val();
-    let name = $("#player-name-text").val();
-
-    if (id == NEW_PLAYER_ID) {
-        openConfirmDialog("Confirm player creation",
-            "Are you sure you want to create player '" + name + "'?",
-            function() {
-                createPlayer();
-            });
-
-    } else{
-        openConfirmDialog("Confirm player modification",
-            "Are you sure you want to modify player '" + name + "'?",
-            function() {
-                modifyPlayer();
-            });
-    }
-}
-
-let dialogCount = 0;
-function openDialog(title, msg, onClose) {
-    let rawName = "dialog-" + dialogCount;
-    let name = "#" + rawName;
-
-    if ($(name).length == 0) {
-        $(document.body).append(
-            '<div id="' + rawName + '" title="' + title + '">' +
-                "<p>" + msg + "</p>" +
-            '</div>');
-    } else {
-        $(name).html(msg);
-    }
-
-    $(name).dialog({
-        autoOpen: false,
-    });
-    $(name).dialog("open");
-
-    $(name).on('dialogclose', function(event) {
-        typeof onClose === 'function' && onClose();
-    });
-
-    ++dialogCount;
-}
-
-function openOkDialog(title, msg, onOk, onClose) {
-    let rawName = "dialog-" + dialogCount;
-    let name = "#" + rawName;
-
-    if ($(name).length == 0) {
-        $(document.body).append(
-            '<div id="' + rawName + '" title="' + title + '">' +
-                "<p>" + msg + "</p>" +
-            '</div>');
-    } else {
-        $(name).html(msg);
-    }
-
-    $(name).dialog({
-        autoOpen: false,
-        buttons: {
-            "Okay" : function() {
-                typeof onYes === 'function' && onOk();
-                $(name).dialog("close");
-            }
-        }
-    });
-    $(name).dialog("open");
-
-    $(name).on('dialogclose', function(event) {
-        typeof onClose === 'function' && onClose();
-    });
-
-    ++dialogCount;
-}
-
-function openConfirmDialog(title, msg, onYes, onNo, onClose) {
-    let rawName = "dialog-" + dialogCount;
-    let name = "#" + rawName;
-
-    if ($(name).length == 0) {
-        $(document.body).append(
-            '<div id="' + rawName + '" title="' + title + '">' +
-                "<p>" + msg + "</p>" +
-            '</div>');
-    } else {
-        $(name).html(msg);
-    }
-
-    $(name).dialog({
-        autoOpen: false,
-        buttons: {
-            "Confirm" : function() {
-                typeof onYes === 'function' && onYes();
-                $(name).dialog("close");
-            },
-            "Cancel" : function() {
-                typeof onNo === 'function' && onNo();
-                $(name).dialog("close");
-            }
-        }
-    });
-    $(name).dialog("open");
-
-    $(name).on('dialogclose', function(event) {
-        typeof onClose === 'function' && onClose();
-    });
-
-    ++dialogCount;
+/*
+ * Returns true if a string is null or is only whitespace.
+ */
+String.prototype.isNullOrWhiteSpace = function() {
+    return (!this || this.length === 0 || /^\s*$/.test(this))
 }

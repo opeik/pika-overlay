@@ -11,12 +11,10 @@ module.exports = function (nodecg) {
     let scoreboardState = replicants.scoreboardState;
     nodecg.log.info("Replicants created");
 
-    /* Open the database. */
     sql.openDatabase(DB_PATH, function() {
         nodecg.log.info("Connected to database");
     });
 
-    /* Set up hooks. */
     setupHooks();
 
     /*
