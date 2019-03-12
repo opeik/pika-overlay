@@ -32,9 +32,8 @@ $(document).ready(function() {
 
         getPlayers(function() {
             populatePlayerDropdown();
-
-            /* Set the players from the scoreboard state. */
             updateFieldsFromScoreboard();
+            setupHooks();
         });
 
         populateCountryDropdown();
@@ -63,6 +62,11 @@ $(document).ready(function() {
         player2NameDropdown.on("selectmenuselect", selectPlayer);
     }
 
+    function setupHooks() {
+        nodecg.listenFor("playerCreated", function(value) {
+        });
+    }
+
     /*
      * Updates the name, sponsor, and country fields from the scoreboard state.
      */
@@ -72,12 +76,16 @@ $(document).ready(function() {
         let player2 = s.player2;
 
         player1NameDropdown.val(player1.id);
+        player1NameDropdown.selectmenu("refresh");
+
         player1NameText.val(player1.name);
         player1SponsorText.val(player1.sponsor);
         player1CountryDropdown.val(player1.country);
         player1ScoreSpinner.val(player1.score);
 
         player2NameDropdown.val(player2.id);
+        player2NameDropdown.selectmenu("refresh");
+
         player2NameText.val(player2.name);
         player2SponsorText.val(player2.sponsor);
         player2CountryDropdown.val(player2.country);
@@ -85,9 +93,7 @@ $(document).ready(function() {
 
         labelText.val(s.label);
 
-        player1NameDropdown.selectmenu("refresh");
         player1CountryDropdown.selectmenu("refresh");
-        player2NameDropdown.selectmenu("refresh");
         player2CountryDropdown.selectmenu("refresh");
     }
 
@@ -191,6 +197,7 @@ $(document).ready(function() {
         setTimeout(function() {
             player1NameDropdown.val(player2Id);
             player1NameDropdown.selectmenu("refresh");
+
             player1NameText.val(player2Name);
             player1SponsorText.val(player2Sponsor);
             player1CountryDropdown.val(player2Country);
@@ -198,6 +205,7 @@ $(document).ready(function() {
 
             player2NameDropdown.val(player1Id);
             player2NameDropdown.selectmenu("refresh");
+
             player2NameText.val(player1Name);
             player2SponsorText.val(player1Sponsor);
             player2CountryDropdown.val(player1Country);
@@ -215,7 +223,7 @@ $(document).ready(function() {
      * Fetches all the players in the database.
      */
     function getPlayers(callback) {
-        nodecg.sendMessage("getPlayers", (err, result) => {
+        nodecg.sendMessage("getPlayers", function(err, result) {
             if (err) {
                 typeof callback === 'function' && callback(new Error(err));
             } else {

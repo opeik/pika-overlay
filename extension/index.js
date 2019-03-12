@@ -52,7 +52,7 @@ module.exports = function (nodecg) {
      * Set up nodecg hooks.
      */
     function setupHooks() {
-        nodecg.listenFor("getPlayers", (value, ack) => {
+        nodecg.listenFor("getPlayers", function(value, ack) {
             if (ack && !ack.handled) {
                 sql.getPlayers(function(err, result) {
                     if (err) {
@@ -64,7 +64,7 @@ module.exports = function (nodecg) {
             }
         });
 
-        nodecg.listenFor("getPlayer", (value, ack) => {
+        nodecg.listenFor("getPlayer", function(value, ack) {
             if (ack && !ack.handled) {
                 sql.getPlayerById(value.id,
                     function(err, result) {
@@ -77,37 +77,67 @@ module.exports = function (nodecg) {
             }
         });
 
-        nodecg.listenFor("createPlayer", (value, ack) => {
+        nodecg.listenFor("createPlayer", function(value, ack) {
             if (ack && !ack.handled) {
                 sql.createPlayer(value.name, value.sponsor, value.country,
                     function(err, result) {
                         if (err) {
                             ack(new Error(err));
                         } else {
-                            nodecg.sendMessage("playerCreated", value.id);
-                            ack(null, result);
-                            nodecg.log.info("Player '" + value.name + "' created");
+                            let newId = result.lastID;
+
+                            sql.getPlayerById(newId, function(err, newPlayer) {
+                                if (err) {
+                                    nodecg.log.error(err);
+                                } else {
+                                    nodecg.sendMessage("playerCreated", newPlayer);
+                                }
+                            });
+
+                            nodecg.log.info("Player '" + value.name + "' with ID " +
+                                newId + " created");
+                            ack(null, newId);
                         }
                 });
             }
         });
 
-        nodecg.listenFor("modifyPlayer", (value, ack) => {
+        nodecg.listenFor("modifyPlayer", function(value, ack) {
             if (ack && !ack.handled) {
+                let oldName = "";
+
+                sql.getPlayerById(value.id, function(err, result) {
+                    if (err) {
+                        nodecg.log.error(err);
+                    } else {
+                        oldName = result.name;
+                    }
+                });
+
                 sql.modifyPlayer(value.id, value.name, value.sponsor, value.country,
                     function(err, result) {
                         if (err) {
                             ack(new Error(err));
                         } else {
+                            if (oldName != value.name) {
+                                nodecg.log.info("Player '" + oldName +
+                                                "' with ID " + value.id +
+                                                " modified, name is now '" +
+                                                value.name + "'");
+                            } else {
+                                nodecg.log.info("Player '" + oldName +
+                                                "' with ID " +
+                                                value.id + " modified");
+                            }
+
                             nodecg.sendMessage("playerModified", value.id);
                             ack(null);
-                            nodecg.log.info("Player '" + value.name + "' modified");
                         }
                 });
             }
         });
 
-        nodecg.listenFor("removePlayer", (value, ack) => {
+        nodecg.listenFor("removePlayer", function(value, ack) {
             if (ack && !ack.handled) {
                 let name = "";
 
@@ -123,9 +153,10 @@ module.exports = function (nodecg) {
                     if (err) {
                         ack(new Error(err));
                     } else {
+                        nodecg.log.info("Player '" + name + "' with ID " +
+                            value.id + " removed");
                         nodecg.sendMessage("playerRemoved", value.id);
                         ack(null);
-                        nodecg.log.info("Player '" + name + "' removed");
                     }
                 });
             }

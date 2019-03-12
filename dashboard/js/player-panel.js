@@ -75,7 +75,9 @@ $(document).ready(function() {
     function createPlayer(name, sponsor, country) {
         nodecg.sendMessage("createPlayer", {name, sponsor, country},
             function(err, result) {
-                let newId = result.lastID;
+                let newId = result;
+                console.log(newId);
+                console.log(players);
 
                 if (err) {
                     openOkDialog("Error", err);
@@ -95,6 +97,8 @@ $(document).ready(function() {
                     /* Repopulate the players dropdown. */
                     populatePlayerDropdown();
 
+                    console.log(players);
+
                     /* Select the new player. */
                     playerDropdown.val(newId);
                     playerDropdown.selectmenu("refresh");
@@ -112,6 +116,8 @@ $(document).ready(function() {
                 if (err) {
                     okDialog("Error", err);
                 } else {
+                    console.log(players);
+
                     /* Update the player in the cache. */
                     players[id] = {
                         "id" : id,
@@ -127,10 +133,11 @@ $(document).ready(function() {
                     /* Repopulate the players dropdown. */
                     populatePlayerDropdown();
 
+                    console.log(players);
+
                     /* Select the modified player. */
                     playerDropdown.val(id);
                     playerDropdown.selectmenu("refresh");
-
                 }
             }
         );
@@ -164,11 +171,20 @@ $(document).ready(function() {
         });
     }
 
+    function hasPlayerChanged(id) {
+        let name = playerNameText.val().trim();
+        let sponsor = playerSponsorText.val().trim();
+        let country = playerCountryDropdown.val();
+
+        return players[id].name != name || players[id].sponsor != sponsor ||
+               players[id].country != country;
+    }
+
     /*
      * Called when the submit button is clicked.
      */
     function submitClick() {
-        let id = playerDropdown.val();
+        let id = Number(playerDropdown.val());
         let name = playerNameText.val().trim();
         let sponsor = playerSponsorText.val().trim();
         let country = playerCountryDropdown.val();
@@ -185,13 +201,17 @@ $(document).ready(function() {
                                 }
                 );
             } else {
-                confirmDialog("Confirm player modification",
-                              "Are you sure you want to modify player '" + name + "'?",
-                                function() {
-                                    modifyPlayer(id, name, sponsor, country);
-                                    okDialog("Success", "Player '" + name + "' modified successfully!");
-                                }
-                );
+                if (!hasPlayerChanged(id)) {
+                    okDialog("Error", "There are no changes to be submitted.")
+                } else {
+                    confirmDialog("Confirm player modification",
+                                  "Are you sure you want to modify player '" + name + "'?",
+                                    function() {
+                                        modifyPlayer(id, name, sponsor, country);
+                                        okDialog("Success", "Player '" + name + "' modified successfully!");
+                                    }
+                    );
+                }
             }
         }
     }
@@ -200,7 +220,7 @@ $(document).ready(function() {
      * Called when the remove button is clicked.
      */
     function removeClick() {
-        let id = playerDropdown.val();
+        let id = Number(playerDropdown.val());
         let name = players[id].name;
 
         if (id == PLACEHOLDER_INDEX) {
@@ -220,7 +240,7 @@ $(document).ready(function() {
      * Called when a player is selected.
      */
     function selectPlayer() {
-        let id = playerDropdown.val();
+        let id = Number(playerDropdown.val());
 
         if (id != PLACEHOLDER_INDEX) {
             updateFields(id);

@@ -1003,7 +1003,7 @@ country.data = [
 ];
 
 country.mapData = function mapData() {
-    country.data.forEach((entry) => {
+    country.data.forEach(function(entry) {
         country.codeMap[entry.code] = entry.name;
         country.nameMap[entry.name] = entry.code;
     });
