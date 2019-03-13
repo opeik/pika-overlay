@@ -37,7 +37,7 @@
       {
         "name": "commentary-panel",
         "title": "Commentary controls",
-        "width": 5,
+        "width": 4,
         "file": "commentary-panel.html",
         "headerColor": "#525F78"
       },

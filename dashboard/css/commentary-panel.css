@@ -7,13 +7,13 @@
 }
 
 #commentator-1-name-dropdown-menu {
-    max-height: 230px;
+    max-height: 165px;
     max-width: 250px;
     overflow-y: scroll;
 }
 
 #commentator-2-name-dropdown-menu {
-    max-height: 230px;
+    max-height: 165px;
     max-width: 250px;
     overflow-y: scroll;
 }
@@ -44,10 +44,6 @@
     text-align: center;
 
     padding-bottom: 15px;
-}
-
-.commentator-score {
-    width: 75px;
 }
 
 .ui-widget {
@@ -96,14 +92,6 @@
     padding-right: 6px;
 }
 
-#commentator-1-name-dropdown-button {
-    width: 208px !important;
-}
-
-#commentator-2-name-dropdown-button {
-    width: 208px !important;
-}
-
 #commentator-2-name-override {
     float: right;
     padding-right: 6px;
@@ -140,7 +128,7 @@
 }
 
 .commentator-social-override {
-    width: 233px;
+    width: 212px;
     height: 30px;
     display: inline-block;
 
@@ -148,7 +136,7 @@
 }
 
 .commentator-name-override {
-    width: 233px;
+    width: 212px;
     height: 30px;
     display: inline-block;
 
@@ -156,11 +144,11 @@
 }
 
 #commentator-1-label {
-    padding-right: 90px;
+    padding-right: 50px;
 }
 
 #commentator-2-label {
-    padding-left: 90px;
+    padding-left: 50px;
 }
 
 #commentator-1-social-text {
