@@ -20,6 +20,7 @@ function dialog(title, msg, onClose) {
 
     $(name).dialog({
         autoOpen: false,
+        width: 250,
     });
     $(name).dialog("open");
 
@@ -48,6 +49,7 @@ function okDialog(title, msg, onOk, onClose) {
 
     $(name).dialog({
         autoOpen: false,
+        width: 250,
         buttons: {
             "Okay" : function() {
                 typeof onYes === 'function' && onOk();
@@ -82,6 +84,7 @@ function confirmDialog(title, msg, onYes, onNo, onClose) {
 
     $(name).dialog({
         autoOpen: false,
+        width: 250,
         buttons: {
             "Confirm" : function() {
                 typeof onYes === 'function' && onYes();

@@ -197,7 +197,7 @@ $(document).ready(function() {
                     okDialog("Error", "There are no changes to be submitted.")
                 } else {
                     confirmDialog("Confirm player modification",
-                                  "Are you sure you want to modify player '" + name + "'?",
+                                  "Are you sure you want to modify player '" + players[id].name + "'?",
                                     function() {
                                         modifyPlayer(id, name, sponsor, country);
                                         okDialog("Success", "Player '" + name + "' modified successfully!");

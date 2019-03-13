@@ -1,18 +1,26 @@
 #root {
     width: 240px;
-    height: 400px;
+    height: 350px;
 
     font-family: Arial,Helvetica,sans-serif !important;
-    font-size: 11pt !important;
+    font-size: 10pt !important;
     overflow: visible !important;
 }
 
 .ui-widget {
-    font-size: 11pt !important;
+    font-size: 10pt !important;
 }
 
-ul.ui-menu {
-    max-height: 180px !important;
+#player-dropdown-menu {
+    max-height: 300px;
+    max-width: 250px;
+    overflow-y: scroll;
+}
+
+#player-country-dropdown-menu {
+    max-height: 220px;
+    max-width: 250px;
+    overflow-y: scroll;
 }
 
 .input-label {
@@ -49,4 +57,12 @@ ul.ui-menu {
 .text-field {
     width: 230px;
     height: 25px;
+}
+
+#player-dropdown-button {
+    width: 205px !important;
+}
+
+#player-country-dropdown-button {
+    width: 205px !important;
 }

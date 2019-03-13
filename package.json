@@ -29,9 +29,23 @@
       },
       {
         "name": "player-panel",
-        "title": "Player management",
-        "width": 3,
+        "title": "Players",
+        "width": 2,
         "file": "player-panel.html",
+        "headerColor": "#525F78"
+      },
+      {
+        "name": "commentary-panel",
+        "title": "Commentary controls",
+        "width": 3,
+        "file": "commentary-panel.html",
+        "headerColor": "#525F78"
+      },
+      {
+        "name": "commentator-panel",
+        "title": "Commentators",
+        "width": 2,
+        "file": "commentator-panel.html",
         "headerColor": "#525F78"
       }
     ],
