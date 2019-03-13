@@ -233,11 +233,11 @@ $(document).ready(function() {
                 pendingChanges = false;
             }
         } else {
-            if ((player1Name != player1.name) || (player1Sponsor != player1.sponsor) ||
-                (player1Country != player1.country) || (player1Score != player1.score) ||
-                (player2Name != player2.name) || (player2Sponsor != player2.sponsor) ||
-                (player2Country != player2.country) || (player2Score != player2.score) ||
-                (label != s.label)) {
+            if (player1Name != player1.name || player1Sponsor != player1.sponsor ||
+                player1Country != player1.country || player1Score != player1.score ||
+                player2Name != player2.name || player2Sponsor != player2.sponsor ||
+                player2Country != player2.country || player2Score != player2.score ||
+                label != s.label) {
 
                 pendingChanges = true;
             } else {
