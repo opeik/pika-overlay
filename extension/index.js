@@ -21,9 +21,6 @@ module.exports = function (nodecg) {
      * Sets up nodecg replicants.
      */
     function setupReplicants() {
-        let playerState = nodecg.Replicant("player-state",
-            { $persistent: false, defaultValue : {} } );
-
         let scoreboardState = nodecg.Replicant("scoreboard-state",
             { defaultValue : {
                 player1 : {
@@ -45,7 +42,22 @@ module.exports = function (nodecg) {
                 label : "Pools"
         }});
 
-        return { playerState, scoreboardState };
+        let commentatorState = nodecg.Replicant("commentator-state",
+            { defaultValue : {
+                commentator1 : {
+                    id : 0,
+                    name : "Commentator 1",
+                    social : "@commentator_1"
+                },
+
+                commentator2 : {
+                    id : 0,
+                    name : "Commentator 2",
+                    social : "@commentator_2"
+                }
+        }});
+
+        return { scoreboardState, commentatorState };
     }
 
     /*

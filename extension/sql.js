@@ -3,11 +3,17 @@
 const sqlite3 = require("sqlite3").verbose();
 const pika = require("./index.js");
 
-const DB_SCHEMA = ` CREATE TABLE IF NOT EXISTS Players (
-                        id INTEGER NOT NULL PRIMARY KEY,
-                        name TEXT NOT NULL,
-                        sponsor TEXT NOT NULL,
-                        country TEXT NOT NULL);`
+const DB_SCHEMA = `
+CREATE TABLE IF NOT EXISTS Players (
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    sponsor TEXT NOT NULL,
+    country TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS Commentators(
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    social TEXT NOT NULL);
+`
 
 exports.dbOpen = false;
 
@@ -110,6 +116,96 @@ exports.modifyPlayer = function modifyPlayer(id, name, sponsor, country, callbac
  */
 exports.removePlayer = function removePlayer(id, callback) {
     let query = "DELETE FROM Players "
+       query += "WHERE id = ? "
+
+    exports.db.run(query, [id], function(err) {
+        if (err) {
+            callback(new Error(err));
+        } else {
+            callback(null, id);
+        }
+    });
+}
+
+/*
+ * Returns all commentators in the database.
+ */
+exports.getCommentators = function getCommentators(callback) {
+    let query = "SELECT * "
+       query += "FROM Commentators "
+
+    exports.db.all(query, [], function(err, result) {
+        if (err) {
+            callback(new Error(err));
+        }
+
+        if (typeof result !== "undefined") {
+            callback(null, result);
+        } else {
+            callback(new Error("Unable to find any commentators"));
+        }
+    });
+}
+
+/*
+ * Gets a commentator from the database.
+ */
+exports.getCommentatorById = function getCommentatorById(id, callback) {
+    let query = "SELECT * "
+       query += "FROM Commentator "
+       query += "WHERE id = ? "
+
+    exports.db.get(query, id, function(err, result) {
+        if (err) {
+            callback(new Error(err));
+        }
+
+        if (typeof result !== "undefined") {
+            callback(null, result);
+        } else {
+            callback(new Error("Unable to find commentator with id = " + id));
+        }
+    });
+}
+
+/*
+ * Creates a commentator in the database.
+ */
+exports.createCommentator = function createCommentator(name, social, callback) {
+    let query = "INSERT INTO Commentators (name, social)"
+       query += "VALUES (? ,?, ?) "
+
+    exports.db.run(query, [name, social], function(err, result) {
+        if (err) {
+            callback(new Error(err));
+        } else {
+            callback(null, this);
+        }
+    });
+}
+
+/*
+ * Modifies a commentator in the database.
+ */
+exports.modifyCommentator = function modifyCommentator(id, name, social, callback) {
+    let query = "UPDATE Commentators "
+       query += "SET name = ?, social = ? "
+       query += "WHERE id = ? "
+
+    exports.db.run(query, [name, social, id], function(err) {
+        if (err) {
+            callback(new Error(err));
+        } else {
+            callback(null, this);
+        }
+    });
+}
+
+/*
+ * Removes a commentator from the database.
+ */
+exports.removeCommentator = function removeCommentator(id, callback) {
+    let query = "DELETE FROM Commentators "
        query += "WHERE id = ? "
 
     exports.db.run(query, [id], function(err) {

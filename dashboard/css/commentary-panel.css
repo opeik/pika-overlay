@@ -1,6 +1,6 @@
 #root {
     width: 100%;
-    height: 230px;
+    height: 224px;
 
     font-family: Arial,Helvetica,sans-serif !important;
     font-size: 10pt !important;
@@ -97,11 +97,11 @@
 }
 
 #commentator-1-name-dropdown-button {
-    width: 235px !important;
+    width: 208px !important;
 }
 
 #commentator-2-name-dropdown-button {
-    width: 235px !important;
+    width: 208px !important;
 }
 
 #commentator-2-name-override {
@@ -140,7 +140,7 @@
 }
 
 .commentator-social-override {
-    width: 260px;
+    width: 233px;
     height: 30px;
     display: inline-block;
 
@@ -148,7 +148,7 @@
 }
 
 .commentator-name-override {
-    width: 260px;
+    width: 233px;
     height: 30px;
     display: inline-block;
 
@@ -156,11 +156,11 @@
 }
 
 #commentator-1-label {
-    padding-right: 70px;
+    padding-right: 90px;
 }
 
 #commentator-2-label {
-    padding-left: 70px;
+    padding-left: 90px;
 }
 
 #commentator-1-social-text {
@@ -194,7 +194,8 @@
 }
 
 #pending-changes-label {
+    padding-top: 4px;
     font-weight: 800;
     color: rgb(255, 73, 73);
-    font-size: 17pt !important;
+    font-size: 13pt !important;
 }

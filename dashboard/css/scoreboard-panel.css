@@ -240,8 +240,8 @@
 }
 
 #pending-changes-label {
-    padding-top: 5px;
+    padding-top: 8px;
     font-weight: 800;
     color: rgb(255, 73, 73);
-    font-size: 17pt !important;
+    font-size: 13pt !important;
 }
