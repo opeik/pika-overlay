@@ -180,8 +180,10 @@
 }
 
 #pending-changes-label {
-    padding-top: 4px;
     font-weight: 800;
     color: rgb(255, 73, 73);
     font-size: 13pt !important;
+    height: 30px;
+    padding-bottom: 0px !important;
+    line-height: 30px;
 }
