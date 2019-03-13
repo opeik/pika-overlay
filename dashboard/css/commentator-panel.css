@@ -1,8 +1,68 @@
 #root {
-    width: 100%;
+    width: 240px;
     height: 350px;
 
     font-family: Arial,Helvetica,sans-serif !important;
-    font-size: 11pt !important;
+    font-size: 10pt !important;
     overflow: visible !important;
+}
+
+.ui-widget {
+    font-size: 10pt !important;
+}
+
+#commentator-dropdown-menu {
+    max-height: 300px;
+    max-width: 250px;
+    overflow-y: scroll;
+}
+
+#commentator-country-dropdown-menu {
+    max-height: 220px;
+    max-width: 250px;
+    overflow-y: scroll;
+}
+
+.input-label {
+    color: white;
+    text-align: left;
+
+    padding-bottom: 5px;
+}
+
+.input-container {
+    width: 100%;
+    height: 55px;
+}
+
+.gap {
+    flex-grow: 1;
+}
+
+#button-container {
+    display: flex;
+    flex-direction: row;
+    height: 30px;
+    padding-top: 15px;
+}
+
+#commentator-container {
+    padding-bottom: 25px;
+}
+
+#button-container {
+    padding-top: 95px;
+}
+
+.text-field {
+    width: 230px;
+    height: 25px;
+}
+
+#commentator-dropdown-button {
+    width: 205px !important;
+}
+
+#commentator-country-dropdown-button {
+    width: 205px !important;
 }

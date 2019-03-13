@@ -2,12 +2,41 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
+    <script src="lib/js/jquery.js"></script>
+    <script src="lib/js/jquery-ui.js"></script>
+    <script src="js/countries.js"></script>
+    <script src="js/dialog.js"></script>
+    <script src="js/commentator-panel.js"></script>
+    <link rel="stylesheet" href="lib/css/jquery-ui.css"/>
     <link rel="stylesheet" href="css/commentator-panel.css"/>
+
   </head>
 
   <body>
     <div id="root">
-      test
+
+      <div id="commentator-container" class="input-container">
+        <div class="input-label"> Select commentator: </div>
+          <select id="commentator-dropdown"></select>
+      </div>
+
+      <div class="input-container">
+        <div class="input-label"> Name </div>
+        <input class="text-field" id="commentator-name-text" value="">
+      </div>
+
+      <div class="input-container">
+        <div class="input-label"> Social media handle </div>
+        <input class="text-field" id="commentator-social-text" value="">
+      </div>
+
+      <div id="button-container" class="input-container">
+        <div class="gap"></div>
+        <button type="button" id="submit-button"> Submit </button>
+        <div class="gap"></div>
+        <button type="button" id="remove-button"> Remove </button>
+        <div class="gap"></div>
+      </div>
     </div>
   </body>
 </html>
