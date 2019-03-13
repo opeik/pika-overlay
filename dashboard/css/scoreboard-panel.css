@@ -13,25 +13,25 @@
 }
 
 #player-1-name-dropdown-menu {
-    max-height: 230px;
+    max-height: 170px;
     max-width: 250px;
     overflow-y: scroll;
 }
 
 #player-2-name-dropdown-menu {
-    max-height: 230px;
+    max-height: 170px;
     max-width: 250px;
     overflow-y: scroll;
 }
 
 #player-1-country-dropdown-menu {
-    max-height: 140px; !important;
+    max-height: 90px; !important;
     max-width: 250px;
     overflow-y: scroll;
 }
 
 #player-2-country-dropdown-menu {
-    max-height: 140px; !important;
+    max-height: 90px; !important;
     max-width: 250px;
     overflow-y: scroll;
 }
@@ -198,11 +198,11 @@
 }
 
 #player-1-label {
-    padding-right: 100px;
+    padding-right: 90px;
 }
 
 #player-2-label {
-    padding-left: 100px;
+    padding-left: 90px;
 }
 
 #player-1-sponsor-text {

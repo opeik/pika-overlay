@@ -12,13 +12,13 @@
 }
 
 #player-dropdown-menu {
-    max-height: 300px;
+    max-height: 245px;
     max-width: 250px;
     overflow-y: scroll;
 }
 
 #player-country-dropdown-menu {
-    max-height: 220px;
+    max-height: 165px;
     max-width: 250px;
     overflow-y: scroll;
 }
