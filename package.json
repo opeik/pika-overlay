@@ -6,7 +6,7 @@
   "author": {
     "name": "Sandro Stikić",
     "email": "sandro@stikic.me",
-    "url": ""
+    "url": "https://github.com/opeik/pika-overlay"
   },
   "files": [
     "dashboard",
@@ -49,10 +49,6 @@
         "headerColor": "#525F78"
       }
     ],
-    "dependencies": {
-      "jquery": "^3.0.0",
-      "jquery-ui": "^1.0.0"
-    },
     "graphics": [
       {
         "file": "scoreboard.html",
@@ -60,14 +56,5 @@
         "height": 1080
       }
     ]
-  },
-  "repository": "https://github.com/nodecg/nodecg.git",
-  "license": "ISC",
-  "dependencies": {
-    "flag-icon-css": "^3.3.0",
-    "jquery": "^3.3.1",
-    "jquery-ui-built-themes": "^1.12.1",
-    "jquery-ui-dist": "^1.12.1",
-    "sqlite3": "^4.0.6"
   }
 }
