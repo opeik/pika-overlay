@@ -1,7 +1,7 @@
 'use strict';
 
 const sql = require("./sql.js");
-const DB_PATH = "bundles/pika/pika.db"
+const DB_PATH = "bundles/pika-overlay/pika.db"
 
 module.exports = function (nodecg) {
     exports.nodecg = nodecg;
@@ -11,8 +11,12 @@ module.exports = function (nodecg) {
     let scoreboardState = replicants.scoreboardState;
     nodecg.log.info("Replicants created");
 
-    sql.openDatabase(DB_PATH, function() {
-        nodecg.log.info("Connected to database");
+    sql.openDatabase(DB_PATH, function(err) {
+        if (err) {
+            nodecg.log.error(err);
+        } else {
+            nodecg.log.info("Connected to database");
+        }
     });
 
     setupHooks();

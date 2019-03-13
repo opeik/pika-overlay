@@ -33,7 +33,10 @@ exports.openDatabase = function openDatabase(path, callback) {
         }
 
         exports.dbOpen = true;
-        typeof callback === 'function' && callback(null);
+
+        if (!err) {
+            typeof callback === 'function' && callback(null);
+        }
     });
 }
 
