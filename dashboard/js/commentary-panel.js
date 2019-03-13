@@ -300,6 +300,8 @@ $(document).ready(function() {
 
             commentator2NameText.val(commentator1Name);
             commentator2SocialText.val(commentator1Social);
+
+            updateClick();
         });
     }
 
