@@ -9,13 +9,11 @@
 #commentator-1-name-dropdown-menu {
     max-height: 165px;
     max-width: 250px;
-    overflow-y: scroll;
 }
 
 #commentator-2-name-dropdown-menu {
     max-height: 165px;
     max-width: 250px;
-    overflow-y: scroll;
 }
 
 .commentator {
@@ -128,7 +126,7 @@
 }
 
 .commentator-social-override {
-    width: 212px;
+    width: 211px;
     height: 30px;
     display: inline-block;
 
@@ -136,7 +134,7 @@
 }
 
 .commentator-name-override {
-    width: 212px;
+    width: 211px;
     height: 30px;
     display: inline-block;
 
