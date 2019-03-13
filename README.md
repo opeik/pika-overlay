@@ -1,4 +1,4 @@
-# PIKA scoreboard overlay
+# Perth Iron King Arena overlay
 A NodeCG overlay designed for the Perth Iron King Arena tournament streams.
 Designed to primarily work with OBS, but should work with any streaming software
 which supports Chromium-based browser sources.
@@ -33,6 +33,7 @@ node index.js
 ```
 
 ## Built with
+* [nodecg](https://github.com/nodecg/nodecg)
 * [country-list](https://github.com/fannarsh/country-list)
 * [flag-icon-css](https://github.com/lipis/flag-icon-css)
 * [jquery](https://jquery.com/)
