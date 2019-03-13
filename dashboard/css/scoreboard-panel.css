@@ -200,3 +200,10 @@ ul.ui-menu {
     height: 25px;
     text-align: center;
 }
+
+#pending-changes-label {
+    padding-top: 50px;
+    font-weight: 800;
+    color: rgb(255, 73, 73);
+    font-size: 17pt !important;
+}

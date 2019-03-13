@@ -76,8 +76,6 @@ $(document).ready(function() {
         nodecg.sendMessage("createPlayer", {name, sponsor, country},
             function(err, result) {
                 let newId = result;
-                console.log(newId);
-                console.log(players);
 
                 if (err) {
                     openOkDialog("Error", err);
@@ -97,8 +95,6 @@ $(document).ready(function() {
                     /* Repopulate the players dropdown. */
                     populatePlayerDropdown();
 
-                    console.log(players);
-
                     /* Select the new player. */
                     playerDropdown.val(newId);
                     playerDropdown.selectmenu("refresh");
@@ -116,8 +112,6 @@ $(document).ready(function() {
                 if (err) {
                     okDialog("Error", err);
                 } else {
-                    console.log(players);
-
                     /* Update the player in the cache. */
                     players[id] = {
                         "id" : id,
@@ -132,8 +126,6 @@ $(document).ready(function() {
 
                     /* Repopulate the players dropdown. */
                     populatePlayerDropdown();
-
-                    console.log(players);
 
                     /* Select the modified player. */
                     playerDropdown.val(id);

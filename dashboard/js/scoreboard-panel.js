@@ -2,6 +2,7 @@
 
 $(document).ready(function() {
     const PLACEHOLDER_INDEX = 0;
+    const PENDING_CHANGES_TEXT = "Pending changes";
 
     let scoreboardState = nodecg.Replicant("scoreboard-state");
 
@@ -21,6 +22,9 @@ $(document).ready(function() {
     let player2CountryDropdown = $("#player-2-country-dropdown");
     let updateButton           = $("#update-button");
     let swapButton             = $("#swap-button");
+    let pendingChangesLabel    = $("#pending-changes-label");
+
+    let pendingChanges = false;
 
     /* Set up the initial panel state. */
     NodeCG.waitForReplicants(scoreboardState).then(function() {
@@ -58,12 +62,95 @@ $(document).ready(function() {
 
         updateButton.click(updateClick);
         swapButton.click(swapClick);
+
         player1NameDropdown.on("selectmenuselect", selectPlayer);
+        player1NameText.on("input propertychange paste", updatePendingChangesWarning);
+        player1SponsorText.on("input propertychange paste", updatePendingChangesWarning);
+
         player2NameDropdown.on("selectmenuselect", selectPlayer);
+        player2NameText.on("input propertychange paste", updatePendingChangesWarning);
+        player2SponsorText.on("input propertychange paste", updatePendingChangesWarning);
+
+        labelText.on("input propertychange paste", updatePendingChangesWarning);
+
+        $(".ui-spinner-button").click(function(event, ui) {
+           $(this).siblings("input").change();
+            updatePendingChangesWarning(event, ui);
+        });
+
+        player1ScoreSpinner.bind("keydown", function (event) {
+            event.preventDefault();
+        });
+
+        player2ScoreSpinner.bind("keydown", function (event) {
+            event.preventDefault();
+        });
     }
 
     function setupHooks() {
+        function updatePlayers(value) {
+            let s = scoreboardState.value;
+            let player1 = s.player1;
+            let player2 = s.player2;
+
+            players[value.id] = {
+                "id" : value.id,
+                "name" : value.name,
+                "sponsor" : value.sponsor,
+                "country" : value.country
+            };
+
+            /* Refresh the sorted players cache. */
+            playersSorted = players.slice();
+            playersSorted.sort(sortByName);
+
+            /* Repopulate the players dropdown. */
+            populatePlayerDropdown();
+
+            player1NameDropdown.val(player1.id);
+            player2NameDropdown.val(player2.id);
+            player1NameDropdown.selectmenu("refresh");
+            player2NameDropdown.selectmenu("refresh");
+        }
+
         nodecg.listenFor("playerCreated", function(value) {
+            updatePlayers(value);
+        });
+
+        nodecg.listenFor("playerModified", function(value) {
+            updatePlayers(value);
+        });
+
+        nodecg.listenFor("playerRemoved", function(value) {
+            let s = scoreboardState.value;
+            let player1 = s.player1;
+            let player2 = s.player2;
+
+            players[value] = undefined;
+
+            /* Refresh the sorted players cache. */
+            playersSorted = players.slice();
+            playersSorted.sort(sortByName);
+
+            /* Repopulate the players dropdown. */
+            populatePlayerDropdown();
+
+            if (player1.id == value) {
+                player1.id = PLACEHOLDER_INDEX;
+                player1NameDropdown.val(PLACEHOLDER_INDEX);
+            } else {
+                player1NameDropdown.val(player1.id);
+            }
+
+            if (player2.id == value) {
+                player2.id = PLACEHOLDER_INDEX;
+                player2NameDropdown.val(PLACEHOLDER_INDEX);
+            } else {
+                player2NameDropdown.val(player2.id);
+            }
+
+            player1NameDropdown.selectmenu("refresh");
+            player2NameDropdown.selectmenu("refresh");
         });
     }
 
@@ -75,26 +162,85 @@ $(document).ready(function() {
         let player1 = s.player1;
         let player2 = s.player2;
 
+        player1ScoreSpinner.val(player1.score);
         player1NameDropdown.val(player1.id);
         player1NameDropdown.selectmenu("refresh");
 
         player1NameText.val(player1.name);
         player1SponsorText.val(player1.sponsor);
         player1CountryDropdown.val(player1.country);
-        player1ScoreSpinner.val(player1.score);
 
+        player2ScoreSpinner.val(player2.score);
         player2NameDropdown.val(player2.id);
         player2NameDropdown.selectmenu("refresh");
 
         player2NameText.val(player2.name);
         player2SponsorText.val(player2.sponsor);
         player2CountryDropdown.val(player2.country);
-        player2ScoreSpinner.val(player2.score);
 
         labelText.val(s.label);
 
         player1CountryDropdown.selectmenu("refresh");
         player2CountryDropdown.selectmenu("refresh");
+    }
+
+    /*
+     * Checks if there are any pending changes, and displays the warning if so.
+     */
+    function updatePendingChangesWarning(event, ui) {
+        let s = scoreboardState.value;
+        let player1 = s.player1;
+        let player2 = s.player2;
+
+        let player1Name    = player1NameText.val();
+        let player1Sponsor = player1SponsorText.val();
+        let player1Country = player1CountryDropdown.val();
+        let player1Score   = player1ScoreSpinner.val();
+
+        let player2Name    = player2NameText.val();
+        let player2Sponsor = player2SponsorText.val();
+        let player2Country = player2CountryDropdown.val();
+        let player2Score   = player2ScoreSpinner.val();
+
+        let label          = labelText.val();
+
+        let elementName = event.target.id;
+
+        /* Check if the update was called from a player selectmenu. */
+        if (elementName == "player-1-name-dropdown") {
+            if (player1Name != player1.name || player1Sponsor != player1.sponsor ||
+                player1Country != player1.country || player1Score != player1.score) {
+
+                pendingChanges = true;
+            } else {
+                pendingChanges = false;
+            }
+        } else if (elementName == "player-2-name-dropdown") {
+            if (player2Name != player2.name || player2Sponsor != player2.sponsor ||
+                player2Country != player2.country || player2Score != player2.score) {
+
+                pendingChanges = true;
+            } else {
+                pendingChanges = false;
+            }
+        } else {
+            if ((player1Name != player1.name) || (player1Sponsor != player1.sponsor) ||
+                (player1Country != player1.country) || (player1Score != player1.score) ||
+                (player2Name != player2.name) || (player2Sponsor != player2.sponsor) ||
+                (player2Country != player2.country) || (player2Score != player2.score) ||
+                (label != s.label)) {
+
+                pendingChanges = true;
+            } else {
+                pendingChanges = false;
+            }
+        }
+
+        if (pendingChanges) {
+            pendingChangesLabel.text(PENDING_CHANGES_TEXT);
+        } else {
+            pendingChangesLabel.text("");
+        }
     }
 
     /*
@@ -122,6 +268,8 @@ $(document).ready(function() {
             } else {
                 updateFields(id, 2);
             }
+
+            updatePendingChangesWarning(event, ui);
         }
     }
 
@@ -156,15 +304,20 @@ $(document).ready(function() {
             player1.name    = player1NameText.val();
             player1.sponsor = player1SponsorText.val();
             player1.country = player1CountryDropdown.val();
-            player1.score   = player1ScoreSpinner.val();
+            player1.score   = player1Score;
 
             player2.id      = player2NameDropdown.val();
             player2.name    = player2NameText.val();
             player2.sponsor = player2SponsorText.val();
             player2.country = player2CountryDropdown.val();
-            player2.score   = player2ScoreSpinner.val();
+            player2.score   = player2Score;
 
             s.label = labelText.val();
+
+            if (pendingChanges) {
+                pendingChanges = false;
+                pendingChangesLabel.text("");
+            }
         }
     }
 

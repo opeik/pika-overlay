@@ -94,9 +94,9 @@ module.exports = function (nodecg) {
                                 }
                             });
 
+                            ack(null, newId);
                             nodecg.log.info("Player '" + value.name + "' with ID " +
                                 newId + " created");
-                            ack(null, newId);
                         }
                 });
             }
@@ -119,6 +119,16 @@ module.exports = function (nodecg) {
                         if (err) {
                             ack(new Error(err));
                         } else {
+                            sql.getPlayerById(value.id, function(err, newPlayer) {
+                                if (err) {
+                                    nodecg.log.error(err);
+                                } else {
+                                    nodecg.sendMessage("playerModified", newPlayer);
+                                }
+                            });
+
+                            ack(null);
+
                             if (oldName != value.name) {
                                 nodecg.log.info("Player '" + oldName +
                                                 "' with ID " + value.id +
@@ -130,8 +140,6 @@ module.exports = function (nodecg) {
                                                 value.id + " modified");
                             }
 
-                            nodecg.sendMessage("playerModified", value.id);
-                            ack(null);
                         }
                 });
             }
@@ -153,10 +161,12 @@ module.exports = function (nodecg) {
                     if (err) {
                         ack(new Error(err));
                     } else {
-                        nodecg.log.info("Player '" + name + "' with ID " +
-                            value.id + " removed");
                         nodecg.sendMessage("playerRemoved", value.id);
                         ack(null);
+
+                        nodecg.log.info("Player '" + name + "' with ID " +
+                            value.id + " removed");
+
                     }
                 });
             }
