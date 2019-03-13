@@ -2,12 +2,68 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
+    <script src="lib/js/jquery.js"></script>
+    <script src="lib/js/jquery-ui.js"></script>
+    <script src="js/countries.js"></script>
+    <script src="js/dialog.js"></script>
+    <script src="js/commentary-panel.js"></script>
+    <link rel="stylesheet" href="lib/css/jquery-ui.css"/>
     <link rel="stylesheet" href="css/commentary-panel.css"/>
   </head>
 
   <body>
     <div id="root">
-      test
+
+      <div id="commentator-container">
+        <div id="commentator-1" class="commentator">
+          <div id="commentator-1-label" class="input-label"> Commentator 1 </div>
+
+          <div id="commentator-1-name" class="commentator-name">
+            <select id="commentator-1-name-dropdown"></select>
+          </div>
+
+          <div id="commentator-1-name-override" class="commentator-name-override">
+            <input id="commentator-1-name-text" value="">
+          </div>
+
+          <div id="commentator-1-social-override" class="commentator-social-override">
+            <input id="commentator-1-social-text" value="">
+          </div>
+
+        </div>
+
+        <div class="gap"></div>
+
+        <div id="commentator-2" class="commentator">
+          <div id="commentator-2-label" class="input-label"> Commentator 2 </div>
+
+          <div id="commentator-2-name" class="commentator-name">
+            <select id="commentator-2-name-dropdown"></select>
+          </div>
+
+          <div id="commentator-2-name-override" class="commentator-name-override">
+            <input id="commentator-2-name-text" value="">
+          </div>
+
+          <div id="commentator-2-social-override" class="commentator-social-override">
+            <input id="commentator-2-social-text" value="">
+          </div>
+
+        </div>
+
+      </div>
+
+      <div id="button-container">
+        <div id="button-left-gap"></div>
+        <button type="button" id="update-button"> Update </button>
+        <div id="gap-fixed"></div>
+        <button type="button" id="swap-button"> Swap </button>
+        <div id="button-right-gap"></div>
+      </div>
+
+      <div id="pending-changes-label" class="input-label"> </div>
+
     </div>
+
   </body>
 </html>

@@ -17,9 +17,5 @@ $(document).ready(function() {
         commentatorSocialText.addClass(TEXT_CLASSES);
         submitButton.button();
         removeButton.button();
-
-        submitButton.click(submitClick);
-        removeButton.click(removeClick);
-        playerDropdown.on("selectmenuselect", selectPlayer);
     }
 });
