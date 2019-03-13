@@ -38,6 +38,7 @@ node index.js
 * [flag-icon-css](https://github.com/lipis/flag-icon-css)
 * [jquery](https://jquery.com/)
 * [jquery-ui](https://jqueryui.com)
+* [Montserrat](https://fonts.google.com/specimen/Montserrat)
 
 ## Versioning
 We use [Semantic Versioning](http://semver.org/) for versioning. For the
