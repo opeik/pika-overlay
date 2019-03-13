@@ -41,8 +41,8 @@ exports.openDatabase = function openDatabase(path, callback) {
  * Returns all players in the database.
  */
 exports.getPlayers = function getPlayers(callback) {
-    let query = "SELECT * "
-       query += "FROM Players "
+    let query = "SELECT * " +
+                "FROM Players ";
 
     exports.db.all(query, [], function(err, result) {
         if (err) {
@@ -61,9 +61,9 @@ exports.getPlayers = function getPlayers(callback) {
  * Gets a player from the database.
  */
 exports.getPlayerById = function getPlayerById(id, callback) {
-    let query = "SELECT * "
-       query += "FROM Players "
-       query += "WHERE id = ? "
+    let query = "SELECT * " +
+                "FROM Players " +
+                "WHERE id = ? ";
 
     exports.db.get(query, id, function(err, result) {
         if (err) {
@@ -82,8 +82,8 @@ exports.getPlayerById = function getPlayerById(id, callback) {
  * Creates a player in the database.
  */
 exports.createPlayer = function createPlayer(name, sponsor, country, callback) {
-    let query = "INSERT INTO Players (name, sponsor, country)"
-       query += "VALUES (? ,?, ?) "
+    let query = "INSERT INTO Players (name, sponsor, country) " +
+                "VALUES (?, ?, ?) ";
 
     exports.db.run(query, [name, sponsor, country], function(err, result) {
         if (err) {
@@ -98,9 +98,9 @@ exports.createPlayer = function createPlayer(name, sponsor, country, callback) {
  * Modifies a player in the database.
  */
 exports.modifyPlayer = function modifyPlayer(id, name, sponsor, country, callback) {
-    let query = "UPDATE Players "
-       query += "SET name = ?, sponsor = ?, country = ? "
-       query += "WHERE id = ? "
+    let query = "UPDATE Players " +
+                "SET name = ?, sponsor = ?, country = ? " +
+                "WHERE id = ? ";
 
     exports.db.run(query, [name, sponsor, country, id], function(err) {
         if (err) {
@@ -115,8 +115,8 @@ exports.modifyPlayer = function modifyPlayer(id, name, sponsor, country, callbac
  * Removes a player from the database.
  */
 exports.removePlayer = function removePlayer(id, callback) {
-    let query = "DELETE FROM Players "
-       query += "WHERE id = ? "
+    let query = "DELETE FROM Players " +
+                "WHERE id = ? ";
 
     exports.db.run(query, [id], function(err) {
         if (err) {
@@ -131,8 +131,8 @@ exports.removePlayer = function removePlayer(id, callback) {
  * Returns all commentators in the database.
  */
 exports.getCommentators = function getCommentators(callback) {
-    let query = "SELECT * "
-       query += "FROM Commentators "
+    let query = "SELECT * " +
+                "FROM Commentators ";
 
     exports.db.all(query, [], function(err, result) {
         if (err) {
@@ -151,9 +151,9 @@ exports.getCommentators = function getCommentators(callback) {
  * Gets a commentator from the database.
  */
 exports.getCommentatorById = function getCommentatorById(id, callback) {
-    let query = "SELECT * "
-       query += "FROM Commentator "
-       query += "WHERE id = ? "
+    let query = "SELECT * " +
+                "FROM Commentators " +
+                "WHERE id = ? ";
 
     exports.db.get(query, id, function(err, result) {
         if (err) {
@@ -172,8 +172,8 @@ exports.getCommentatorById = function getCommentatorById(id, callback) {
  * Creates a commentator in the database.
  */
 exports.createCommentator = function createCommentator(name, social, callback) {
-    let query = "INSERT INTO Commentators (name, social)"
-       query += "VALUES (? ,?, ?) "
+    let query = "INSERT INTO Commentators (name, social) " +
+                "VALUES (?, ?) ";
 
     exports.db.run(query, [name, social], function(err, result) {
         if (err) {
@@ -188,9 +188,9 @@ exports.createCommentator = function createCommentator(name, social, callback) {
  * Modifies a commentator in the database.
  */
 exports.modifyCommentator = function modifyCommentator(id, name, social, callback) {
-    let query = "UPDATE Commentators "
-       query += "SET name = ?, social = ? "
-       query += "WHERE id = ? "
+    let query = "UPDATE Commentators " +
+                "SET name = ?, social = ? " +
+                "WHERE id = ? ";
 
     exports.db.run(query, [name, social, id], function(err) {
         if (err) {
@@ -205,8 +205,8 @@ exports.modifyCommentator = function modifyCommentator(id, name, social, callbac
  * Removes a commentator from the database.
  */
 exports.removeCommentator = function removeCommentator(id, callback) {
-    let query = "DELETE FROM Commentators "
-       query += "WHERE id = ? "
+    let query = "DELETE FROM Commentators " +
+                "WHERE id = ? ";
 
     exports.db.run(query, [id], function(err) {
         if (err) {

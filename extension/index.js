@@ -68,6 +68,7 @@ module.exports = function (nodecg) {
             if (ack && !ack.handled) {
                 sql.getPlayers(function(err, result) {
                     if (err) {
+                        nodecg.log.error(err);
                         ack(new Error(err));
                     } else {
                         ack(null, result);
@@ -81,6 +82,7 @@ module.exports = function (nodecg) {
                 sql.getPlayerById(value.id,
                     function(err, result) {
                         if (err) {
+                            nodecg.log.error(err);
                             ack(new Error(err));
                         } else {
                             ack(null, result);
@@ -94,6 +96,7 @@ module.exports = function (nodecg) {
                 sql.createPlayer(value.name, value.sponsor, value.country,
                     function(err, result) {
                         if (err) {
+                            nodecg.log.error(err);
                             ack(new Error(err));
                         } else {
                             let newId = result.lastID;
@@ -129,6 +132,7 @@ module.exports = function (nodecg) {
                 sql.modifyPlayer(value.id, value.name, value.sponsor, value.country,
                     function(err, result) {
                         if (err) {
+                            nodecg.log.error(err);
                             ack(new Error(err));
                         } else {
                             sql.getPlayerById(value.id, function(err, newPlayer) {
@@ -171,12 +175,137 @@ module.exports = function (nodecg) {
 
                 sql.removePlayer(value.id, function(err, result) {
                     if (err) {
+                        nodecg.log.error(err);
                         ack(new Error(err));
                     } else {
                         nodecg.sendMessage("playerRemoved", value.id);
                         ack(null);
 
                         nodecg.log.info("Player '" + name + "' with ID " +
+                            value.id + " removed");
+
+                    }
+                });
+            }
+        });
+
+        nodecg.listenFor("getCommentators", function(value, ack) {
+            if (ack && !ack.handled) {
+                sql.getCommentators(function(err, result) {
+                    if (err) {
+                        nodecg.log.error(err);
+                        ack(new Error(err));
+                    } else {
+                        ack(null, result);
+                    }
+                });
+            }
+        });
+
+        nodecg.listenFor("getCommentator", function(value, ack) {
+            if (ack && !ack.handled) {
+                sql.getCommentatorById(value.id,
+                    function(err, result) {
+                        if (err) {
+                            nodecg.log.error(err);
+                            ack(new Error(err));
+                        } else {
+                            ack(null, result);
+                        }
+                });
+            }
+        });
+
+        nodecg.listenFor("createCommentator", function(value, ack) {
+            if (ack && !ack.handled) {
+                sql.createCommentator(value.name, value.social,
+                    function(err, result) {
+                        if (err) {
+                            nodecg.log.error(err);
+                            ack(new Error(err));
+                        } else {
+                            let newId = result.lastID;
+
+                            sql.getCommentatorById(newId, function(err, newCommentator) {
+                                if (err) {
+                                    nodecg.log.error(err);
+                                } else {
+                                    nodecg.sendMessage("commentatorCreated", newCommentator);
+                                }
+                            });
+
+                            ack(null, newId);
+                            nodecg.log.info("Commentator '" + value.name + "' with ID " +
+                                newId + " created");
+                        }
+                });
+            }
+        });
+
+        nodecg.listenFor("modifyCommentator", function(value, ack) {
+            if (ack && !ack.handled) {
+                let oldName = "";
+
+                sql.getCommentatorById(value.id, function(err, result) {
+                    if (err) {
+                        nodecg.log.error(err);
+                    } else {
+                        oldName = result.name;
+                    }
+                });
+
+                sql.modifyCommentator(value.id, value.name, value.social,
+                    function(err, result) {
+                        if (err) {
+                            ack(new Error(err));
+                        } else {
+                            sql.getCommentatorById(value.id, function(err, newCommentator) {
+                                if (err) {
+                                    nodecg.log.error(err);
+                                } else {
+                                    nodecg.sendMessage("commentatorModified", newCommentator);
+                                }
+                            });
+
+                            ack(null);
+
+                            if (oldName != value.name) {
+                                nodecg.log.info("Commentator '" + oldName +
+                                                "' with ID " + value.id +
+                                                " modified, name is now '" +
+                                                value.name + "'");
+                            } else {
+                                nodecg.log.info("Commentator '" + oldName +
+                                                "' with ID " +
+                                                value.id + " modified");
+                            }
+
+                        }
+                });
+            }
+        });
+
+        nodecg.listenFor("removeCommentator", function(value, ack) {
+            if (ack && !ack.handled) {
+                let name = "";
+
+                sql.getCommentatorById(value.id, function(err, result) {
+                    if (err) {
+                        nodecg.log.error(err);
+                    } else {
+                        name = result.name;
+                    }
+                });
+
+                sql.removeCommentator(value.id, function(err, result) {
+                    if (err) {
+                        nodecg.log.error(err);
+                        ack(new Error(err));
+                    } else {
+                        nodecg.sendMessage("commentatorRemoved", value.id);
+                        ack(null);
+
+                        nodecg.log.info("Commentator '" + name + "' with ID " +
                             value.id + " removed");
 
                     }
