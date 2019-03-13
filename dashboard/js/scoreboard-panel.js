@@ -24,6 +24,7 @@ $(document).ready(function() {
     let swapButton             = $("#swap-button");
     let pendingChangesLabel    = $("#pending-changes-label");
 
+    let initialStateSetup = false;
     let pendingChanges = false;
 
     /* Set up the initial panel state. */
@@ -38,6 +39,8 @@ $(document).ready(function() {
             populatePlayerDropdown();
             updateFieldsFromScoreboard();
             setupHooks();
+
+            initialStateSetup = true;
         });
 
         populateCountryDropdown();
@@ -64,10 +67,12 @@ $(document).ready(function() {
         swapButton.click(swapClick);
 
         player1NameDropdown.on("selectmenuselect", selectPlayer);
+        player1CountryDropdown.on("selectmenuselect", selectCountry);
         player1NameText.on("input propertychange paste", updatePendingChangesWarning);
         player1SponsorText.on("input propertychange paste", updatePendingChangesWarning);
 
         player2NameDropdown.on("selectmenuselect", selectPlayer);
+        player2CountryDropdown.on("selectmenuselect", selectCountry);
         player2NameText.on("input propertychange paste", updatePendingChangesWarning);
         player2SponsorText.on("input propertychange paste", updatePendingChangesWarning);
 
@@ -111,6 +116,8 @@ $(document).ready(function() {
             player2NameDropdown.val(player2.id);
             player1NameDropdown.selectmenu("refresh");
             player2NameDropdown.selectmenu("refresh");
+
+            updatePendingChangesWarning();
         }
 
         nodecg.listenFor("playerCreated", function(value) {
@@ -162,26 +169,25 @@ $(document).ready(function() {
         let player1 = s.player1;
         let player2 = s.player2;
 
-        player1ScoreSpinner.val(player1.score);
         player1NameDropdown.val(player1.id);
         player1NameDropdown.selectmenu("refresh");
-
+        player1CountryDropdown.val(player1.country);
+        player1CountryDropdown.selectmenu("refresh");
+        player1ScoreSpinner.val(player1.score);
         player1NameText.val(player1.name);
         player1SponsorText.val(player1.sponsor);
-        player1CountryDropdown.val(player1.country);
 
-        player2ScoreSpinner.val(player2.score);
         player2NameDropdown.val(player2.id);
         player2NameDropdown.selectmenu("refresh");
-
+        player2CountryDropdown.val(player2.country);
+        player2CountryDropdown.selectmenu("refresh");
+        player2ScoreSpinner.val(player2.score);
         player2NameText.val(player2.name);
         player2SponsorText.val(player2.sponsor);
-        player2CountryDropdown.val(player2.country);
 
         labelText.val(s.label);
 
-        player1CountryDropdown.selectmenu("refresh");
-        player2CountryDropdown.selectmenu("refresh");
+        updatePendingChangesWarning();
     }
 
     /*
@@ -202,9 +208,12 @@ $(document).ready(function() {
         let player2Country = player2CountryDropdown.val();
         let player2Score   = player2ScoreSpinner.val();
 
-        let label          = labelText.val();
+        let label       = labelText.val();
+        let elementName = "";
 
-        let elementName = event.target.id;
+        if (event != null) {
+            elementName = event.target.id;
+        }
 
         /* Check if the update was called from a player selectmenu. */
         if (elementName == "player-1-name-dropdown") {
@@ -256,6 +265,15 @@ $(document).ready(function() {
     }
 
     /*
+     * Called when a country is selected.
+     */
+    function selectCountry(event, ui) {
+        if (initialStateSetup) {
+            updatePendingChangesWarning(event, ui);
+        }
+    }
+
+    /*
      * Called when a player is selected.
      */
     function selectPlayer(event, ui) {
@@ -269,7 +287,9 @@ $(document).ready(function() {
                 updateFields(id, 2);
             }
 
-            updatePendingChangesWarning(event, ui);
+            if (initialStateSetup) {
+                updatePendingChangesWarning(event, ui);
+            }
         }
     }
 
