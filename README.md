@@ -10,7 +10,7 @@ which supports Chromium-based browser sources.
 
 ### Installation
 
-Begin by installing NodeCG.
+Begin by installing nodecg
 ```
 npm install -g bower
 git clone https://github.com/nodecg/nodecg.git
@@ -19,14 +19,14 @@ npm install --production
 bower install
 ```
 
-Install pika-overlay.
+Install pika-overlay
 ```
 cd bundles
 git clone https://github.com/opeik/pika-overlay.git
 npm install --production sqlite3
 ```
 
-Run the server.
+Run the server
 ```
 cd ..
 node index.js
@@ -39,8 +39,8 @@ node index.js
 * [jquery-ui](https://jqueryui.com)
 
 ## Versioning
-We use [SemVer](http://semver.org/) for versioning. For the versions available,
-see the [tags on this repository](https://github.com/opeik/pika-overlay/tags).
+We use [Semantic Versioning](http://semver.org/) for versioning. For the
+versions available, see the [tags on this repository](https://github.com/opeik/pika-overlay/tags).
 
 ## License
 This project is licensed under the ISC license. Please see the LICENSE.md file
