@@ -1,0 +1,55 @@
+@font-face {
+    font-family: "Montserrat";
+    src: url("font/montserrat/Montserrat-SemiBold.ttf");
+}
+
+#root {
+    width: 1920px;
+    height 1080px;
+
+    font-size: 20pt;
+    font-family: "Montserrat";
+    color: white;
+}
+
+#commentary {
+    width: 1250px;
+    height: 235px;
+    position: absolute;
+    float: left;
+    left: 335px;
+    bottom: 20px;
+    background-image: url("../img/commentary.png")
+}
+
+.commentator {
+    width: 400px;
+    height: 138px;
+    top: 15px;
+}
+
+#commentator-1 {
+    position: absolute;
+    left: 125px;
+}
+
+#commentator-2 {
+    position: absolute;
+    right: 125px;
+}
+
+.commentator-name {
+    height: 50px;
+    font-size: 28pt;
+    line-height: 50px;
+    text-align: center;
+    padding-top: 25px;
+}
+
+.commentator-social {
+    height: 40px;
+    line-height: 40px;
+    font-size: 17pt;
+    text-align: center;
+    color: rgb(160, 160, 160);
+}
