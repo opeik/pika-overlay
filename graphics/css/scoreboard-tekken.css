@@ -27,6 +27,7 @@
     font-size: 20pt;
     font-family: "Montserrat";
     color: white;
+    overflow: hidden;
 
     line-height: 47px;
 }
@@ -35,6 +36,7 @@
     font-size: 20pt;
     font-family: "Montserrat";
     color: rgb(160, 160, 160);
+    overflow: hidden;
 
     line-height: 47px;
 }
