@@ -78,7 +78,7 @@ $(document).ready(function() {
                 let newId = result;
 
                 if (err) {
-                    openOkDialog("Error", err);
+                    okDialog("Error", err);
                 } else {
                     /* Add the player to the local cache. */
                     players[newId] = {
@@ -98,6 +98,8 @@ $(document).ready(function() {
                     /* Select the new player. */
                     playerDropdown.val(newId);
                     playerDropdown.selectmenu("refresh");
+
+                    okDialog("Success", "Player '" + name + "' created successfully!");
                 }
             }
         );
@@ -130,6 +132,8 @@ $(document).ready(function() {
                     /* Select the modified player. */
                     playerDropdown.val(id);
                     playerDropdown.selectmenu("refresh");
+
+                    okDialog("Success", "Player '" + name + "' modified successfully!");
                 }
             }
         );
@@ -159,6 +163,8 @@ $(document).ready(function() {
                 playerNameText.val("");
                 playerSponsorText.val("");
                 playerCountryDropdown.selectmenu("refresh");
+
+                okDialog("Success", "Player '" + name + "' successfully removed!");
             }
         });
     }
@@ -189,7 +195,6 @@ $(document).ready(function() {
                               "Are you sure you want to create player '" + name + "'?",
                                 function() {
                                     createPlayer(name, sponsor, country);
-                                    okDialog("Success", "Player '" + name + "' created successfully!");
                                 }
                 );
             } else {
@@ -200,7 +205,6 @@ $(document).ready(function() {
                                   "Are you sure you want to modify player '" + players[id].name + "'?",
                                     function() {
                                         modifyPlayer(id, name, sponsor, country);
-                                        okDialog("Success", "Player '" + name + "' modified successfully!");
                                     }
                     );
                 }
@@ -222,7 +226,6 @@ $(document).ready(function() {
                           "Are you sure you want to remove player '" + name + "'?",
                             function() {
                                 removePlayer(id, name);
-                                okDialog("Success", "Player '" + name + "' successfully removed!");
                             }
             );
         }

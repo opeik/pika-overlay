@@ -72,7 +72,7 @@ $(document).ready(function() {
                 let newId = result;
 
                 if (err) {
-                    openOkDialog("Error", err);
+                    okDialog("Error", err);
                 } else {
                     /* Add the commentator to the local cache. */
                     commentators[newId] = {
@@ -91,6 +91,8 @@ $(document).ready(function() {
                     /* Select the new commentator. */
                     commentatorDropdown.val(newId);
                     commentatorDropdown.selectmenu("refresh");
+
+                    okDialog("Success", "Commentator '" + name + "' created successfully!");
                 }
             }
         );
@@ -122,6 +124,8 @@ $(document).ready(function() {
                     /* Select the modified commentator. */
                     commentatorDropdown.val(id);
                     commentatorDropdown.selectmenu("refresh");
+
+                    okDialog("Success", "Commentator '" + name + "' modified successfully!");
                 }
             }
         );
@@ -149,6 +153,8 @@ $(document).ready(function() {
                 /* Clear the commentator fields. */
                 commentatorNameText.val("");
                 commentatorSocialText.val("");
+
+                okDialog("Success", "Commentator '" + name + "' successfully removed!");
             }
         });
     }
@@ -176,7 +182,6 @@ $(document).ready(function() {
                               "Are you sure you want to create commentator '" + name + "'?",
                                 function() {
                                     createCommentator(name, social);
-                                    okDialog("Success", "Commentator '" + name + "' created successfully!");
                                 }
                 );
             } else {
@@ -187,7 +192,6 @@ $(document).ready(function() {
                                   "Are you sure you want to modify commentator '" + commentators[id].name + "'?",
                                     function() {
                                         modifyCommentator(id, name, social);
-                                        okDialog("Success", "Commentator '" + name + "' modified successfully!");
                                     }
                     );
                 }
@@ -209,7 +213,6 @@ $(document).ready(function() {
                           "Are you sure you want to remove commentator '" + name + "'?",
                             function() {
                                 removeCommentator(id, name);
-                                okDialog("Success", "Commentator '" + name + "' successfully removed!");
                             }
             );
         }
