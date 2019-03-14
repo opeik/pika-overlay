@@ -2,12 +2,12 @@
     width: 240px;
     height: 255px;
 
-    font-family: Arial,Helvetica,sans-serif !important;
-    font-size: 10pt !important;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;
     overflow: visible !important;
 }
 
 .ui-widget {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;
     font-size: 10pt !important;
 }
 
