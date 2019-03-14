@@ -1,7 +1,9 @@
+<img src="https://i.imgur.com/UBXV3nR.png" align="right" />
+
 # Perth Iron King Arena overlay
-A NodeCG overlay designed for the Perth Iron King Arena tournament streams.
-Designed to primarily work with OBS, but should work with any streaming software
-which supports Chromium-based browser sources.
+A NodeCG overlay designed for the [Perth Iron King Arena](https://www.facebook.com/PerthIronKingArena/)
+tournament streams. Designed to primarily work with OBS, but should work with
+any streaming software which supports Chromium-based browser sources.
 
 ## Getting started
 ### Prerequisites
@@ -47,3 +49,7 @@ versions available, see the [tags on this repository](https://github.com/opeik/p
 ## License
 This project is licensed under the ISC license. Please see the LICENSE.md file
 for details.
+
+## Acknowledgments
+* The [PIKA](https://www.facebook.com/PerthIronKingArena/) tournament organisers for hosting amazing events
+* [Escape Portal](https://www.escapeportal.com.au) for providing a great venue

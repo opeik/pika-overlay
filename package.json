@@ -61,5 +61,8 @@
         "height": 1080
       }
     ]
+  },
+  "dependencies": {
+    "sqlite3": "^4.0.0"
   }
 }
