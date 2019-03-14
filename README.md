@@ -52,7 +52,7 @@ Portable binaries for Windows are available in the
 Begin by installing nodecg
 ```
 npm install -g bower
-git clone https://github.com/nodecg/nodecg.git
+git clone --recurse-submodules https://github.com/nodecg/nodecg.git
 cd nodecg
 npm install --production
 bower install
