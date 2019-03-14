@@ -18,6 +18,8 @@
   <a href="#license">License</a>
 </p>
 
+![](https://i.imgur.com/B8IMVQh.gif)
+
 ## Key features
 * Scoreboard and commentator overlays
 * Intuitive user interface
