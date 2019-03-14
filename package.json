@@ -51,7 +51,12 @@
     ],
     "graphics": [
       {
-        "file": "scoreboard.html",
+        "file": "scoreboard-tekken.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "commentary.html",
         "width": 1920,
         "height": 1080
       }

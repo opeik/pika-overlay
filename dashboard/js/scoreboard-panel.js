@@ -26,6 +26,7 @@ $(document).ready(function() {
 
     let initialStateSetup = false;
     let pendingChanges = false;
+    let isSwapping = false;
 
     /* Set up the initial panel state. */
     NodeCG.waitForReplicants(scoreboardState).then(function() {
@@ -215,37 +216,39 @@ $(document).ready(function() {
             elementName = event.target.id;
         }
 
+        function hasPlayer1Changed() {
+            return player1Name != player1.name || player1Sponsor != player1.sponsor ||
+                   player1Country != player1.country || player1Score != player1.score;
+        }
+
+        function hasPlayer2Changed() {
+            return player2Name != player2.name || player2Sponsor != player2.sponsor ||
+                   player2Country != player2.country || player2Score != player2.score;
+        }
+
+
         /* Check if the update was called from a player selectmenu. */
         if (elementName == "player-1-name-dropdown") {
-            if (player1Name != player1.name || player1Sponsor != player1.sponsor ||
-                player1Country != player1.country || player1Score != player1.score) {
-
+            if (hasPlayer1Changed()) {
                 pendingChanges = true;
             } else {
                 pendingChanges = false;
             }
         } else if (elementName == "player-2-name-dropdown") {
-            if (player2Name != player2.name || player2Sponsor != player2.sponsor ||
-                player2Country != player2.country || player2Score != player2.score) {
-
+            if (hasPlayer2Changed()) {
                 pendingChanges = true;
             } else {
                 pendingChanges = false;
             }
         } else {
-            if (player1Name != player1.name || player1Sponsor != player1.sponsor ||
-                player1Country != player1.country || player1Score != player1.score ||
-                player2Name != player2.name || player2Sponsor != player2.sponsor ||
-                player2Country != player2.country || player2Score != player2.score ||
-                label != s.label) {
-
+            if (hasPlayer1Changed() || hasPlayer2Changed() || label != s.label) {
                 pendingChanges = true;
             } else {
                 pendingChanges = false;
             }
         }
 
-        if (pendingChanges) {
+        if (pendingChanges && !isSwapping) {
             pendingChangesLabel.text(PENDING_CHANGES_TEXT);
         } else {
             pendingChangesLabel.text("");
@@ -361,6 +364,8 @@ $(document).ready(function() {
         let player2Country = player2CountryDropdown.val();
         let player2Score   = player2ScoreSpinner.val();
 
+        isSwapping = true;
+
         [player1.id,player2.id] = [player2.id,player1.id];
         [player1.name,player2.name] = [player2.name,player1.name];
         [player1.sponsor,player2.sponsor] = [player2.sponsor,player1.sponsor];
@@ -387,6 +392,7 @@ $(document).ready(function() {
             setTimeout(function() {
                 player1CountryDropdown.selectmenu("refresh");
                 player2CountryDropdown.selectmenu("refresh");
+                isSwapping = false;
                 updateClick();
             });
         });

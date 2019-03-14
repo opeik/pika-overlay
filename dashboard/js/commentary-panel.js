@@ -177,25 +177,31 @@ $(document).ready(function() {
             elementName = event.target.id;
         }
 
+        function hasCommentator1Changed() {
+            return commentator1Name != commentator1.name ||
+                   commentator1Social != commentator1.social;
+        }
+
+        function hasCommentator2Changed() {
+            return commentator2Name != commentator2.name ||
+                   commentator2Social != commentator2.social;
+        }
+
         /* Check if the update was called from a commentator selectmenu. */
         if (elementName == "commentator-1-name-dropdown") {
-            if (commentator1Name != commentator1.name || commentator1Social != commentator1.social) {
-
+            if (hasCommentator1Changed()) {
                 pendingChanges = true;
             } else {
                 pendingChanges = false;
             }
         } else if (elementName == "commentator-2-name-dropdown") {
-            if (commentator2Name != commentator2.name || commentator2Social != commentator2.social) {
-
+            if (hasCommentator2Changed()) {
                 pendingChanges = true;
             } else {
                 pendingChanges = false;
             }
         } else {
-            if (commentator1Name != commentator1.name || commentator1Social != commentator1.social ||
-                commentator2Name != commentator2.name || commentator2Social != commentator2.social) {
-
+            if (hasCommentator1Changed() || hasCommentator2Changed()) {
                 pendingChanges = true;
             } else {
                 pendingChanges = false;
