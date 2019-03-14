@@ -6,9 +6,7 @@ const DB_PATH = "bundles/pika-overlay/pika.db"
 module.exports = function (nodecg) {
     exports.nodecg = nodecg;
 
-    let replicants = setupReplicants();
-    let playerState = replicants.playerState;
-    let scoreboardState = replicants.scoreboardState;
+    setupReplicants();
     nodecg.log.info("Replicants created");
 
     sql.openDatabase(DB_PATH, function(err) {
@@ -46,7 +44,7 @@ module.exports = function (nodecg) {
                 label : "Pools"
         }});
 
-        let commentatorState = nodecg.Replicant("commentator-state",
+        let commentaryState = nodecg.Replicant("commentary-state",
             { defaultValue : {
                 commentator1 : {
                     id : 0,
@@ -61,7 +59,7 @@ module.exports = function (nodecg) {
                 }
         }});
 
-        return { scoreboardState, commentatorState };
+        return { scoreboardState, commentaryState };
     }
 
     /*
@@ -261,6 +259,7 @@ module.exports = function (nodecg) {
                 sql.modifyCommentator(value.id, value.name, value.social,
                     function(err, result) {
                         if (err) {
+                            nodecg.log.error(err);
                             ack(new Error(err));
                         } else {
                             sql.getCommentatorById(value.id, function(err, newCommentator) {

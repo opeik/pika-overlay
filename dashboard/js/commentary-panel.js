@@ -4,7 +4,7 @@ $(document).ready(function() {
     const PLACEHOLDER_INDEX = 0;
     const PENDING_CHANGES_TEXT = "Pending changes";
 
-    let commentatorState = nodecg.Replicant("commentator-state");
+    let commentaryState = nodecg.Replicant("commentary-state");
 
     let commentators       = [];
     let commentatorsSorted = [];
@@ -23,8 +23,8 @@ $(document).ready(function() {
     let pendingChanges = false;
 
     /* Set up the initial panel state. */
-    NodeCG.waitForReplicants(commentatorState).then(function() {
-        let s = commentatorState.value;
+    NodeCG.waitForReplicants(commentaryState).then(function() {
+        let s = commentaryState.value;
         let commentator1 = s.commentator1;
         let commentator2 = s.commentator2;
 
@@ -70,7 +70,7 @@ $(document).ready(function() {
 
     function setupHooks() {
         function updateCommentators(value) {
-            let s = commentatorState.value;
+            let s = commentaryState.value;
             let commentator1 = s.commentator1;
             let commentator2 = s.commentator2;
 
@@ -104,7 +104,7 @@ $(document).ready(function() {
         });
 
         nodecg.listenFor("commentatorRemoved", function(value) {
-            let s = commentatorState.value;
+            let s = commentaryState.value;
             let commentator1 = s.commentator1;
             let commentator2 = s.commentator2;
 
@@ -140,7 +140,7 @@ $(document).ready(function() {
      * Updates the name and social fields from the commentator state.
      */
     function updateFieldsFromCommentator() {
-        let s = commentatorState.value;
+        let s = commentaryState.value;
         let commentator1 = s.commentator1;
         let commentator2 = s.commentator2;
 
@@ -161,7 +161,7 @@ $(document).ready(function() {
      * Checks if there are any pending changes, and displays the warning if so.
      */
     function updatePendingChangesWarning(event, ui) {
-        let s = commentatorState.value;
+        let s = commentaryState.value;
         let commentator1 = s.commentator1;
         let commentator2 = s.commentator2;
 
@@ -249,7 +249,7 @@ $(document).ready(function() {
      * Called when the update button is clicked.
      */
     function updateClick() {
-        let s = commentatorState.value;
+        let s = commentaryState.value;
         let commentator1 = s.commentator1;
         let commentator2 = s.commentator2;
 
@@ -278,7 +278,7 @@ $(document).ready(function() {
      * Called when the swap button is clicked.
      */
     function swapClick() {
-        let s = commentatorState.value;
+        let s = commentaryState.value;
         let commentator1 = s.commentator1;
         let commentator2 = s.commentator2;
 
