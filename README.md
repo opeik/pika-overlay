@@ -7,7 +7,15 @@
 </h1>
 
 <p align=center>
-  A NodeCG overlay designed for the <a href="https://www.facebook.com/PerthIronKingArena/">Perth Iron King Arena</a> tournament streams.
+  <b> A NodeCG overlay designed for the <a href="https://www.facebook.com/PerthIronKingArena/">Perth Iron King Arena</a> tournament streams. </b>
+</p>
+
+<p align="center">
+  <a href="#key-features">Key Features</a> •
+  <a href="#how-to-use">How To Use</a> •
+  <a href="#download">Download</a> •
+  <a href="#Acknowledgments">Acknowledgments</a> •
+  <a href="#license">License</a>
 </p>
 
 ## Key features
@@ -16,16 +24,29 @@
 * Easily customisable
 * Persistent players and commentators via SQLite database
 
-## Releases
+## How to use
+* [Download](#download) or [build](#building) pika-overlay
+* Start the pika-overlay server
+    * Windows users: run "Start PIKA Overlay server.bat"
+    * Everyone else: run node index.js
+* Nagivate to [http://localhost:9090](http://localhost:9090), preferably with Chromium
+* Click the graphics button at the top right corner
+* Copy the URL of the overlay you would like to use
+* Create a new browser source in OBS
+* Set the URL to the overlay URL you just copied
+* Set the width to 1920 and the height to 1080
+* Ensure "shutdown source when not visible" and "refresh browser when scene
+    becomes active" are disabled
+
+## Download
 Portable binaries for Windows are available in the
 [repository tags.](https://github.com/opeik/pika-overlay/tags)
 
-## Getting started
+## Building
 ### Prerequisites
 * nodejs >= 8.3
 * npm >= 2
 
-### Building
 Begin by installing nodecg
 ```
 npm install -g bower
