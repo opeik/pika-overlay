@@ -30,7 +30,7 @@
 
 .input-container {
     width: 100%;
-    height: 55px;
+    height: 30px;
 }
 
 .gap {
@@ -41,11 +41,11 @@
     display: flex;
     flex-direction: row;
     height: 30px;
-    padding-top: 12px;
+    padding-top: 15px;
 }
 
 #player-container {
-    padding-bottom: 25px;
+    padding-bottom: 15px;
 }
 
 .text-field {
@@ -59,4 +59,8 @@
 
 #player-country-dropdown-button {
     width: 205px !important;
+}
+
+input::placeholder {
+    color: gray;
 }

@@ -30,7 +30,7 @@
 
 .input-container {
     width: 100%;
-    height: 55px;
+    height: 30px;
 }
 
 .gap {
@@ -41,11 +41,11 @@
     display: flex;
     flex-direction: row;
     height: 30px;
-    padding-top: 67px;
+    padding-top: 45px;
 }
 
 #commentator-container {
-    padding-bottom: 25px;
+    padding-bottom: 15px;
 }
 
 .text-field {
@@ -59,4 +59,8 @@
 
 #commentator-country-dropdown-button {
     width: 205px !important;
+}
+
+input::placeholder {
+    color: gray;
 }

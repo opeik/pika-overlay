@@ -187,3 +187,7 @@
     padding-bottom: 0px !important;
     line-height: 30px;
 }
+
+input::placeholder {
+    color: gray;
+}
