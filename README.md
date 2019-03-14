@@ -52,7 +52,7 @@ Portable binaries for Windows are available in the
 Begin by installing nodecg
 ```
 npm install -g bower
-git clone --recurse-submodules https://github.com/nodecg/nodecg.git
+git clone https://github.com/nodecg/nodecg.git
 cd nodecg
 npm install --production
 bower install
@@ -61,7 +61,7 @@ bower install
 Install pika-overlay
 ```
 cd bundles
-git clone https://github.com/opeik/pika-overlay.git
+git clone --recurse-submodules https://github.com/opeik/pika-overlay.git
 npm install --production sqlite3
 ```
 
