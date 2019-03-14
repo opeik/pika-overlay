@@ -128,37 +128,36 @@ module.exports = function (nodecg) {
                         nodecg.log.error(err);
                     } else {
                         oldName = result.name;
+
                     }
-                });
 
-                sql.modifyPlayer(value.id, value.name, value.sponsor, value.country,
-                    function(err, result) {
-                        if (err) {
-                            nodecg.log.error(err);
-                            ack(new Error(err));
-                        } else {
-                            sql.getPlayerById(value.id, function(err, newPlayer) {
-                                if (err) {
-                                    nodecg.log.error(err);
-                                } else {
-                                    nodecg.sendMessage("playerModified", newPlayer);
-                                }
-                            });
-
-                            ack(null);
-
-                            if (oldName != value.name) {
-                                nodecg.log.info("Player '" + oldName +
-                                                "' with ID " + value.id +
-                                                " modified, name is now '" +
-                                                value.name + "'");
+                    sql.modifyPlayer(value.id, value.name, value.sponsor, value.country,
+                        function(err, result) {
+                            if (err) {
+                                nodecg.log.error(err);
+                                ack(new Error(err));
                             } else {
-                                nodecg.log.info("Player '" + oldName +
-                                                "' with ID " +
-                                                value.id + " modified");
-                            }
+                                sql.getPlayerById(value.id, function(err, newPlayer) {
+                                    if (err) {
+                                        nodecg.log.error(err);
+                                    } else {
+                                        nodecg.sendMessage("playerModified", newPlayer);
+                                    }
+                                });
 
-                        }
+                                ack(null);
+
+                                if (oldName != value.name) {
+                                    nodecg.log.info("Player '" + oldName +
+                                        "' with ID " + value.id +
+                                        " modified, name is now '" +
+                                        value.name + "'");
+                                } else {
+                                    nodecg.log.info("Player '" + oldName +
+                                        "' with ID " + value.id + " modified");
+                                }
+                            }
+                    });
                 });
             }
         });
@@ -173,20 +172,20 @@ module.exports = function (nodecg) {
                     } else {
                         name = result.name;
                     }
-                });
 
-                sql.removePlayer(value.id, function(err, result) {
-                    if (err) {
-                        nodecg.log.error(err);
-                        ack(new Error(err));
-                    } else {
-                        nodecg.sendMessage("playerRemoved", value.id);
-                        ack(null);
+                    sql.removePlayer(value.id, function(err, result) {
+                        if (err) {
+                            nodecg.log.error(err);
+                            ack(new Error(err));
+                        } else {
+                            nodecg.sendMessage("playerRemoved", value.id);
+                            ack(null);
 
-                        nodecg.log.info("Player '" + name + "' with ID " +
-                            value.id + " removed");
+                            nodecg.log.info("Player '" + name + "' with ID " +
+                                value.id + " removed");
 
-                    }
+                        }
+                    });
                 });
             }
         });
@@ -254,36 +253,35 @@ module.exports = function (nodecg) {
                     } else {
                         oldName = result.name;
                     }
-                });
 
-                sql.modifyCommentator(value.id, value.name, value.social,
-                    function(err, result) {
-                        if (err) {
-                            nodecg.log.error(err);
-                            ack(new Error(err));
-                        } else {
-                            sql.getCommentatorById(value.id, function(err, newCommentator) {
-                                if (err) {
-                                    nodecg.log.error(err);
-                                } else {
-                                    nodecg.sendMessage("commentatorModified", newCommentator);
-                                }
-                            });
-
-                            ack(null);
-
-                            if (oldName != value.name) {
-                                nodecg.log.info("Commentator '" + oldName +
-                                                "' with ID " + value.id +
-                                                " modified, name is now '" +
-                                                value.name + "'");
+                    sql.modifyCommentator(value.id, value.name, value.social,
+                        function(err, result) {
+                            if (err) {
+                                nodecg.log.error(err);
+                                ack(new Error(err));
                             } else {
-                                nodecg.log.info("Commentator '" + oldName +
-                                                "' with ID " +
-                                                value.id + " modified");
-                            }
+                                sql.getCommentatorById(value.id, function(err, newCommentator) {
+                                    if (err) {
+                                        nodecg.log.error(err);
+                                    } else {
+                                        nodecg.sendMessage("commentatorModified", newCommentator);
+                                    }
+                                });
 
-                        }
+                                ack(null);
+
+                                if (oldName != value.name) {
+                                    nodecg.log.info("Commentator '" + oldName +
+                                        "' with ID " + value.id +
+                                        " modified, name is now '" +
+                                        value.name + "'");
+                                } else {
+                                    nodecg.log.info("Commentator '" + oldName +
+                                        "' with ID " + value.id + " modified");
+                                }
+
+                            }
+                    });
                 });
             }
         });
@@ -298,20 +296,20 @@ module.exports = function (nodecg) {
                     } else {
                         name = result.name;
                     }
-                });
 
-                sql.removeCommentator(value.id, function(err, result) {
-                    if (err) {
-                        nodecg.log.error(err);
-                        ack(new Error(err));
-                    } else {
-                        nodecg.sendMessage("commentatorRemoved", value.id);
-                        ack(null);
+                    sql.removeCommentator(value.id, function(err, result) {
+                        if (err) {
+                            nodecg.log.error(err);
+                            ack(new Error(err));
+                        } else {
+                            nodecg.sendMessage("commentatorRemoved", value.id);
+                            ack(null);
 
-                        nodecg.log.info("Commentator '" + name + "' with ID " +
-                            value.id + " removed");
+                            nodecg.log.info("Commentator '" + name + "' with ID " +
+                                value.id + " removed");
 
-                    }
+                        }
+                    });
                 });
             }
         });
