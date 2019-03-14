@@ -1,0 +1,3 @@
+[submodule "graphics/lib/flag-icon-css"]
+	path = graphics/lib/flag-icon-css
+	url = https://github.com/lipis/flag-icon-css
