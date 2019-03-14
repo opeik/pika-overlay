@@ -1,17 +1,31 @@
-<img src="https://i.imgur.com/UBXV3nR.png" align="right" />
+<h1 align="center">
+  <br>
+  <a href="https://www.facebook.com/PerthIronKingArena/"><img src="https://i.imgur.com/fZBgAit.png" alt="pika-overlay" width="200"></a>
+  <br>
+    Perth Iron King Arena overlay
+  <br>
+</h1>
 
-# Perth Iron King Arena overlay
-A NodeCG overlay designed for the [Perth Iron King Arena](https://www.facebook.com/PerthIronKingArena/)
-tournament streams. Designed to primarily work with OBS, but should work with
-any streaming software which supports Chromium-based browser sources.
+<p align=center>
+  A NodeCG overlay designed for the <a href="https://www.facebook.com/PerthIronKingArena/">Perth Iron King Arena</a> tournament streams.
+</p>
+
+## Key features
+* Scoreboard and commentator overlays
+* Intuitive user interface
+* Easily customisable
+* Persistent players and commentators via SQLite database
+
+## Releases
+Portable binaries for Windows are available in the
+[repository tags.](https://github.com/opeik/pika-overlay/tags)
 
 ## Getting started
 ### Prerequisites
 * nodejs >= 8.3
 * npm >= 2
 
-### Installation
-
+### Building
 Begin by installing nodecg
 ```
 npm install -g bower
@@ -30,8 +44,7 @@ npm install --production sqlite3
 
 Run the server
 ```
-cd ..
-node index.js
+node ../../index.js
 ```
 
 ## Built with
@@ -43,8 +56,7 @@ node index.js
 * [Montserrat](https://fonts.google.com/specimen/Montserrat)
 
 ## Versioning
-We use [Semantic Versioning](http://semver.org/) for versioning. For the
-versions available, see the [tags on this repository](https://github.com/opeik/pika-overlay/tags).
+We use [Semantic Versioning](http://semver.org/) for versioning.
 
 ## License
 This project is licensed under the ISC license. Please see the LICENSE.md file
@@ -52,4 +64,4 @@ for details.
 
 ## Acknowledgments
 * The [PIKA](https://www.facebook.com/PerthIronKingArena/) tournament organisers for hosting amazing events
-* [Escape Portal](https://www.escapeportal.com.au) for providing a great venue
+* [Escape Portal](https://www.escapeportal.com.au) for providing an amazing venue
