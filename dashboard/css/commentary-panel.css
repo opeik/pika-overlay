@@ -32,7 +32,7 @@
     height: 130px;
     display: flex;
     flex-direction: row;
-    padding-bottom: 15px;
+    margin-bottom: 15px;
 
     color: white;
 }
@@ -41,7 +41,7 @@
     color: white;
     text-align: center;
 
-    padding-bottom: 15px;
+    margin-bottom: 15px;
 }
 
 .ui-widget {
@@ -69,7 +69,7 @@
 
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;
     color: white;
-    padding-top: 15px
+    margin-top: 30px;
 }
 
 #update-button {
@@ -83,17 +83,17 @@
 }
 
 #commentator-1-name-override {
-    padding-right: 5px;
+    margin-right: 5px;
 }
 
 #commentator-2-social-override {
     float: right;
-    padding-right: 6px;
+    margin-right: 6px;
 }
 
 #commentator-2-name-override {
     float: right;
-    padding-right: 6px;
+    margin-right: 6px;
 }
 
 
@@ -103,7 +103,7 @@
 
 #commentator-2-score {
     float: left;
-    padding-right: 8px;
+    margin-right: 8px;
 }
 
 #gap-fixed {
@@ -119,11 +119,7 @@
 }
 
 #commentator-1-name {
-    padding-top: 3px;
-}
-
-#commentator-2-name {
-    padding-top: 3px;
+    margin-top: 3px;
 }
 
 .commentator-social-override {
@@ -131,7 +127,7 @@
     height: 30px;
     display: inline-block;
 
-    padding-top: 5px;
+    margin-top: 5px;
 }
 
 .commentator-name-override {
@@ -139,15 +135,15 @@
     height: 30px;
     display: inline-block;
 
-    padding-top: 15px;
+    margin-top: 15px;
 }
 
 #commentator-1-label {
-    padding-right: 50px;
+    margin-right: 50px;
 }
 
 #commentator-2-label {
-    padding-left: 50px;
+    margin-left: 50px;
 }
 
 #commentator-1-social-text {
@@ -185,7 +181,7 @@
     color: rgb(255, 73, 73);
     font-size: 13pt !important;
     height: 30px;
-    padding-bottom: 0px !important;
+    margin-bottom: 0px !important;
     line-height: 30px;
 }
 

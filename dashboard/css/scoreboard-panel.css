@@ -13,12 +13,12 @@
 }
 
 #player-1-name-dropdown-menu {
-    max-height: 170px;
+    max-height: 170px !important;
     max-width: 250px;
 }
 
 #player-2-name-dropdown-menu {
-    max-height: 170px;
+    max-height: 170px !important;
     max-width: 250px;
 }
 
@@ -33,10 +33,10 @@
 }
 
 .player {
+    display: flex;
+    flex-direction: row;
     width: 300px;
     height: 100%;
-    display: inline-block;
-    flex-grow: 2;
 }
 
 .player-name {
@@ -51,16 +51,35 @@
     color: white;
 }
 
+.player-column-container {
+    display: flex;
+    flex-direction: row;
+    width: 233px;
+}
 
 .input-label {
     color: white;
     text-align: center;
 
-    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.input-container {
+    display: inline-block;
+    width: 240px;
+    height: 100%
+}
+
+.score-container {
+    width: 80px;
+    height: 50px;
+    margin-top: 28px;
 }
 
 .player-score {
-    width: 75px;
+    width: 60px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .ui-spinner-input {
@@ -73,15 +92,15 @@
 }
 
 .gap {
-    flex-grow: 1;
+    width: 50px;
 }
 
 #player-1-score-spinner {
-    width: 35px;
+    width: 25px;
 }
 
 #player-2-score-spinner {
-    width: 35px;
+    width: 25px;
 }
 
 #label-container {
@@ -113,9 +132,6 @@
     flex-grow: 1;
 }
 
-#player-1-name {
-    float: left;
-}
 
 #player-1-name-dropdown-button {
     width: 208px !important;
@@ -135,15 +151,15 @@
 
 #player-1-score {
     float: right;
+    margin-left: 5px;
 }
 
 #player-2-name {
-    float: right;
+    /* float: right; */
 }
 
 #player-2-score {
     float: left;
-    padding-right: 8px;
 }
 
 #gap-fixed {
@@ -159,48 +175,44 @@
 }
 
 #player-1-name {
-    padding-top: 3px;
+    margin-top: 3px;
 }
 
 #player-2-name {
-    padding-top: 3px;
+    margin-top: 3px;
 }
 
 .player-sponsor-override {
     width: 70px;
     height: 30px;
-    display: inline-block;
 
-    padding-right: 5px;
-    padding-top: 15px;
+    margin-top: 15px;
+    margin-right: 10px;
+    flex: 1 1 auto;
 }
 
 .player-name-override {
     width: 155px;
     height: 30px;
-    display: inline-block;
 
-    padding-top: 15px;
+    margin-top: 15px;
+    flex: 2 1 auto;
 }
 
-#player-2-sponsor-override {
-    padding-left: 7px;
+#player-2-column-container {
 }
 
 .player-country-override {
-    padding-top: 5px;
-}
-
-#player-2-country-override {
-    padding-left: 90px;
+    width: 100%;
+    margin-top: 5px;
 }
 
 #player-1-label {
-    padding-right: 90px;
+    margin-right: 90px;
 }
 
 #player-2-label {
-    padding-left: 90px;
+    margin-left: 90px;
 }
 
 #player-1-sponsor-text {
@@ -221,8 +233,12 @@
     text-align: center;
 }
 
+#player-1-name {
+    /* float: left; */
+}
+
 #player-2-name {
-    padding-right: 2px;
+    margin-right: 2px;
 }
 
 #player-2-name-text {
@@ -242,7 +258,7 @@
     color: rgb(255, 73, 73);
     font-size: 13pt !important;
     height: 30px;
-    padding-bottom: 0px !important;
+    margin-bottom: 0px !important;
     line-height: 30px;
 
 }

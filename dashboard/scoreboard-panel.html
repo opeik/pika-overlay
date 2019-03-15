@@ -22,26 +22,33 @@
 
       <div id="player-container">
         <div id="player-1" class="player">
-          <div id="player-1-label" class="input-label"> Player 1 </div>
+          <div class="input-container">
+            <div id="player-1-label" class="input-label"> Player 1 </div>
 
-          <div id="player-1-name" class="player-name">
-            <select id="player-1-name-dropdown"> </select>
+            <div id="player-1-name" class="player-name">
+              <select id="player-1-name-dropdown"> </select>
+            </div>
+
+            <div class="player-column-container">
+              <div id="player-1-sponsor-override" class="player-sponsor-override">
+                <input id="player-1-sponsor-text" placeholder="Sponsor" value="">
+              </div>
+
+
+              <div id="player-1-name-override" class="player-name-override">
+                <input id="player-1-name-text" placeholder="Name" value="">
+              </div>
+            </div>
+
+            <div id="player-1-country-override" class="player-country-override">
+              <select id="player-1-country-dropdown"></select>
+            </div>
           </div>
 
-          <div id="player-1-score" class="player-score">
-            <input id="player-1-score-spinner" value="0">
-          </div>
-
-          <div id="player-1-sponsor-override" class="player-sponsor-override">
-            <input id="player-1-sponsor-text" placeholder="Sponsor" value="">
-          </div>
-
-          <div id="player-1-name-override" class="player-name-override">
-            <input id="player-1-name-text" placeholder="Name" value="">
-          </div>
-
-          <div id="player-1-country-override" class="player-country-override">
-            <select id="player-1-country-dropdown"></select>
+          <div class="score-container">
+            <div id="player-1-score" class="player-score">
+              <input id="player-1-score-spinner" value="0">
+            </div>
           </div>
 
         </div>
@@ -49,29 +56,37 @@
         <div class="gap"></div>
 
         <div id="player-2" class="player">
-          <div id="player-2-label" class="input-label"> Player 2 </div>
-
-          <div id="player-2-name" class="player-name">
-            <select id="player-2-name-dropdown"></select>
+          <div class="score-container">
+            <div id="player-2-score" class="player-score">
+              <input id="player-2-score-spinner" value="0">
+            </div>
           </div>
 
-          <div id="player-2-score" class="player-score">
-            <input id="player-2-score-spinner" value="0">
-          </div>
+          <div class="input-container">
+            <div id="player-2-label" class="input-label"> Player 2 </div>
 
-          <div id="player-2-sponsor-override" class="player-sponsor-override">
-            <input id="player-2-sponsor-text" placeholder="Sponsor" value="">
-          </div>
+            <div id="player-2-name" class="player-name">
+              <select id="player-2-name-dropdown"> </select>
+            </div>
 
-          <div id="player-2-name-override" class="player-name-override">
-            <input id="player-2-name-text" placeholder="Name" value="">
-          </div>
+            <div class="player-column-container">
+              <div id="player-2-sponsor-override" class="player-sponsor-override">
+                <input id="player-2-sponsor-text" placeholder="Sponsor" value="">
+              </div>
 
-          <div id="player-2-country-override" class="player-country-override">
-            <select id="player-2-country-dropdown"></select>
+
+              <div id="player-2-name-override" class="player-name-override">
+                <input id="player-2-name-text" placeholder="Name" value="">
+              </div>
+            </div>
+
+            <div id="player-2-country-override" class="player-country-override">
+              <select id="player-2-country-dropdown"></select>
+            </div>
           </div>
 
         </div>
+
 
       </div>
 
