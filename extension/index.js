@@ -27,16 +27,16 @@ module.exports = function (nodecg) {
             { defaultValue : {
                 player1 : {
                     id : 0,
-                    name : "Player 1",
-                    sponsor : "Sponsor",
+                    name : "",
+                    sponsor : "",
                     country : "AU",
                     score : 0
                 },
 
                 player2 : {
                     id : 0,
-                    name : "Player 2",
-                    sponsor : "Sponsor",
+                    name : "",
+                    sponsor : "",
                     country : "AU",
                     score : 0
                 },
@@ -48,14 +48,14 @@ module.exports = function (nodecg) {
             { defaultValue : {
                 commentator1 : {
                     id : 0,
-                    name : "Commentator 1",
-                    social : "@commentator_1"
+                    name : "",
+                    social : ""
                 },
 
                 commentator2 : {
                     id : 0,
-                    name : "Commentator 2",
-                    social : "@commentator_2"
+                    name : "",
+                    social : ""
                 }
         }});
 
