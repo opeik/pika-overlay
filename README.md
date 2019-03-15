@@ -21,7 +21,8 @@
 ![](https://i.imgur.com/B8IMVQh.gif)
 
 ## Key features
-* Scoreboard and commentator overlays
+* Scoreboard overlays for Tekken 7 and Street Fighter V
+* Commentator overlays
 * Intuitive user interface
 * Easily customisable
 * Persistent players and commentators via SQLite database
@@ -29,13 +30,14 @@
 ## How to use
 * [Download](#download) or [build](#building) pika-overlay
 * Start the pika-overlay server
-    * Windows users: run "Start PIKA Overlay server.bat"
-    * Everyone else: run node index.js
-* Nagivate to [http://localhost:9090](http://localhost:9090), preferably with Chromium
+    * Windows users: run `Start server.bat`
+    * Everyone else: run `node index.js`
+* Navigate to [http://localhost:9090](http://localhost:9090), preferably with Chromium
+* This is the dashboard, you use this screen to modify the overlay state
 * Click the graphics button at the top right corner
 * Copy the URL of the overlay you would like to use
 * Create a new browser source in OBS
-* Set the URL to the overlay URL you just copied
+* Paste the overlay URL
 * Set the width to 1920 and the height to 1080
 * Ensure "shutdown source when not visible" and "refresh browser when scene
     becomes active" are disabled
@@ -49,7 +51,7 @@ Portable binaries for Windows are available in the
 * nodejs >= 8.3
 * npm >= 2
 
-Begin by installing nodecg
+Begin by installing nodecg:
 ```
 npm install -g bower
 git clone https://github.com/nodecg/nodecg.git
@@ -58,14 +60,14 @@ npm install --production
 bower install
 ```
 
-Install pika-overlay
+Install pika-overlay:
 ```
 cd bundles
 git clone --recurse-submodules https://github.com/opeik/pika-overlay.git
 npm install --production sqlite3
 ```
 
-Run the server
+Run the server:
 ```
 node ../../index.js
 ```
