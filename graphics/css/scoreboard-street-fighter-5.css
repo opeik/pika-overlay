@@ -13,12 +13,11 @@
 }
 
 .player {
-    width: 650px;
+    width: 643px;
     height: 47px;
-    max-width: 650px;
+    max-width: 643px;
     padding: 0px;
     margin: 0px;
-    top: 38px;
     position: absolute;
     float: left;
 }
@@ -42,7 +41,7 @@
 }
 
 .player-name-container {
-    width: 447px;
+    width: 457px;
     height: 47px;
     position: absolute;
     display:flex;
@@ -65,42 +64,44 @@
 }
 
 #player-1 {
-    left: 185px;
+    top: 34px;
+    left: 150px;
 
-    background-image: url("../img/player-1.png")
+    background-image: url("../img/street-fighter-5/player-1.png");
 }
 
 #player-2 {
-    right: 185px;
+    top: 34px;
+    right: 150px;
 
-    background-image: url("../img/player-2.png")
+    background-image: url("../img/street-fighter-5/player-2.png");
 }
 
 #player-1-score {
     text-align: center;
-    right: 36px;
+    right: 6px;
 }
 
 
 #player-2-score {
     text-align: center;
-    left: 36px;
+    left: 6px;
 }
 
 #label {
     width: 325px;
-    height: 47px;
+    height: 37px;
     top: 0px;
     left: 798px;
     position: absolute;
     float: left;
 
-    background-image: url("../img/label.png")
+    background-image: url("../img/street-fighter-5/label.png");
 }
 
 #label-text {
     width: 250px;
-    height: 47px;
+    height: 37px;
     left: 37px;
     position: absolute;
 
@@ -109,15 +110,15 @@
     color: inherit;
 
     text-align: center;
-    line-height: 47px;
+    line-height: 37px;
 }
 
 #player-1-name-container {
-    left: 52px;
+    left: 42px;
 }
 
 #player-2-name-container {
-    right: 52px;
+    right: 42px;
 }
 
 

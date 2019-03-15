@@ -51,7 +51,17 @@
     ],
     "graphics": [
       {
-        "file": "scoreboard-tekken.html",
+        "file": "scoreboard-tekken-7.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "scoreboard-street-fighter-5.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "scoreboard-generic.html",
         "width": 1920,
         "height": 1080
       },

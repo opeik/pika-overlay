@@ -1,0 +1,165 @@
+@font-face {
+    font-family: "Montserrat";
+    src: url("font/montserrat/Montserrat-SemiBold.ttf");
+}
+
+#root {
+    width: 1920px;
+    height 1080px;
+
+    font-size: 20pt;
+    font-family: "Montserrat";
+    color: white;
+}
+
+.player {
+    width: 650px;
+    height: 47px;
+    max-width: 650px;
+    padding: 0px;
+    margin: 0px;
+    top: 38px;
+    position: absolute;
+    float: left;
+}
+
+.player-name {
+    font-size: 20pt;
+    font-family: "Montserrat";
+    color: white;
+    overflow: hidden;
+
+    line-height: 47px;
+}
+
+.player-sponsor {
+    font-size: 20pt;
+    font-family: "Montserrat";
+    color: rgb(160, 160, 160);
+    overflow: hidden;
+
+    line-height: 47px;
+}
+
+.player-name-container {
+    width: 447px;
+    height: 47px;
+    position: absolute;
+    display:flex;
+
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+}
+
+.player-score {
+    width: 47px;
+    height: 47px;
+    position: absolute;
+
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+
+    line-height: 47px;
+}
+
+#player-1 {
+    left: 185px;
+
+    background-image: url("../img/tekken-7/player-1.png");
+}
+
+#player-2 {
+    right: 185px;
+
+    background-image: url("../img/tekken-7/player-2.png");
+}
+
+#player-1-score {
+    text-align: center;
+    right: 36px;
+}
+
+
+#player-2-score {
+    text-align: center;
+    left: 36px;
+}
+
+#label {
+    width: 325px;
+    height: 47px;
+    top: 0px;
+    left: 798px;
+    position: absolute;
+    float: left;
+
+    background-image: url("../img/tekken-7/label.png");
+}
+
+#label-text {
+    width: 250px;
+    height: 47px;
+    left: 37px;
+    position: absolute;
+
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+
+    text-align: center;
+    line-height: 47px;
+}
+
+#player-1-name-container {
+    left: 52px;
+}
+
+#player-2-name-container {
+    right: 52px;
+}
+
+
+#player-1-sponsor {
+    flex-grow: 100;
+    text-align: right;
+}
+
+#player-1-name {
+    flex-grow: 1;
+    text-align: right;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#player-2-sponsor {
+    flex-grow: 1;
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#player-2-name {
+    flex-grow: 100;
+    text-align: left;
+}
+
+.player-flag {
+    width: 58px;
+    height: 44px;
+    background-size: contain;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    padding-top: 3px;
+}
+
+#player-1-flag {
+    left: 499px;
+    position: absolute;
+}
+
+#player-2-flag {
+    right: 499px;
+    position: absolute;
+}
