@@ -54,7 +54,7 @@
 .player-column-container {
     display: flex;
     flex-direction: row;
-    width: 233px;
+    width: 237px;
 }
 
 .input-label {
@@ -154,10 +154,6 @@
     margin-left: 5px;
 }
 
-#player-2-name {
-    /* float: right; */
-}
-
 #player-2-score {
     float: left;
 }
@@ -228,13 +224,9 @@
 }
 
 #player-1-name-text {
-    width: 100%;
+    width: 152px;
     height: 25px;
     text-align: center;
-}
-
-#player-1-name {
-    /* float: left; */
 }
 
 #player-2-name {
@@ -242,7 +234,7 @@
 }
 
 #player-2-name-text {
-    width: 100%;
+    width: 152px;
     height: 25px;
     text-align: center;
 }
