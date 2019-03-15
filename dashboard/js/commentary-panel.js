@@ -245,6 +245,25 @@ $(document).ready(function() {
         }
     }
 
+    function validateFields() {
+        let s = commentaryState.value;
+        let commentator1 = s.commentator1;
+        let commentator2 = s.commentator2;
+
+        let isValid = true;
+
+        /* Don't you ever try to junkyard me. */
+        if (commentator1NameText.val().isNullOrWhiteSpace()) {
+            isValid = false;
+            okDialog("Error", "Commentator 1 name cannot be empty.");
+        } else if (commentator2NameText.val().isNullOrWhiteSpace()) {
+            isValid = false;
+            okDialog("Error", "Commentator 2 name cannot be empty.");
+        }
+
+        return isValid;
+    }
+
     /*
      * Called when the update button is clicked.
      */
@@ -253,12 +272,7 @@ $(document).ready(function() {
         let commentator1 = s.commentator1;
         let commentator2 = s.commentator2;
 
-        /* Don't you ever try to junkyard me. */
-        if (commentator1NameText.val().isNullOrWhiteSpace()) {
-            okDialog("Error", "Commentator 1 name cannot be empty.");
-        } else if (commentator2NameText.val().isNullOrWhiteSpace()) {
-            okDialog("Error", "Commentator 2 name cannot be empty.");
-        } else {
+        if (validateFields()) {
             commentator1.id     = commentator1NameDropdown.val();
             commentator1.name   = commentator1NameText.val();
             commentator1.social = commentator1SocialText.val();
@@ -290,25 +304,27 @@ $(document).ready(function() {
         let commentator2Name   = commentator2NameText.val();
         let commentator2Social = commentator2SocialText.val();
 
-        [commentator1.id,commentator2.id] = [commentator2.id,commentator1.id];
-        [commentator1.name,commentator2.name] = [commentator2.name,commentator1.name];
-        [commentator1.social,commentator2.social] = [commentator2.social,commentator1.social];
+        if (validateFields()) {
+            [commentator1.id,commentator2.id] = [commentator2.id,commentator1.id];
+            [commentator1.name,commentator2.name] = [commentator2.name,commentator1.name];
+            [commentator1.social,commentator2.social] = [commentator2.social,commentator1.social];
 
-        setTimeout(function() {
-            commentator1NameDropdown.val(commentator2Id);
-            commentator1NameDropdown.selectmenu("refresh");
+            setTimeout(function() {
+                commentator1NameDropdown.val(commentator2Id);
+                commentator1NameDropdown.selectmenu("refresh");
 
-            commentator1NameText.val(commentator2Name);
-            commentator1SocialText.val(commentator2Social);
+                commentator1NameText.val(commentator2Name);
+                commentator1SocialText.val(commentator2Social);
 
-            commentator2NameDropdown.val(commentator1Id);
-            commentator2NameDropdown.selectmenu("refresh");
+                commentator2NameDropdown.val(commentator1Id);
+                commentator2NameDropdown.selectmenu("refresh");
 
-            commentator2NameText.val(commentator1Name);
-            commentator2SocialText.val(commentator1Social);
+                commentator2NameText.val(commentator1Name);
+                commentator2SocialText.val(commentator1Social);
 
-            updateClick();
-        });
+                updateClick();
+            });
+        }
     }
 
     /*

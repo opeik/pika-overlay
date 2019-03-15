@@ -296,6 +296,42 @@ $(document).ready(function() {
         }
     }
 
+    function validateFields() {
+        let s = scoreboardState.value;
+        let player1 = s.player1;
+        let player2 = s.player2;
+
+        let player1Score = Number(player1ScoreSpinner.val());
+        let player2Score = Number(player2ScoreSpinner.val());
+        let isValid = true;
+
+        /* Don't you ever try to junkyard me. */
+        if (labelText.val().isNullOrWhiteSpace()) {
+            isValid = false;
+            okDialog("Error", "Label cannot be empty.");
+        } else if (player1NameText.val().isNullOrWhiteSpace()) {
+            isValid = false;
+            okDialog("Error", "Player 1 name cannot be empty.");
+        } else if (Number.isNaN(player1Score) || !Number.isInteger(player1Score)) {
+            isValid = false;
+            okDialog("Error", "Player 1 score must be an integer.");
+        } else if (player1Score < 0) {
+            isValid = false;
+            okDialog("Error", "Player 1 score must be above zero.");
+        } else if (player2NameText.val().isNullOrWhiteSpace()) {
+            isValid = false;
+            okDialog("Error", "Player 2 name cannot be empty.");
+        } else if (Number.isNaN(player2Score) || !Number.isInteger(player2Score)) {
+            isValid = false;
+            okDialog("Error", "Player 2 score must be an integer.");
+        } else if (player1Score < 0) {
+            isValid = false;
+            okDialog("Error", "Player 2 score must be above zero.");
+        }
+
+        return isValid;
+    }
+
     /*
      * Called when the update button is clicked.
      */
@@ -308,21 +344,7 @@ $(document).ready(function() {
         let player2Score = Number(player2ScoreSpinner.val());
 
         /* Don't you ever try to junkyard me. */
-        if (labelText.val().isNullOrWhiteSpace()) {
-            okDialog("Error", "Label cannot be empty.");
-        } else if (player1NameText.val().isNullOrWhiteSpace()) {
-            okDialog("Error", "Player 1 name cannot be empty.");
-        } else if (Number.isNaN(player1Score) || !Number.isInteger(player1Score)) {
-            okDialog("Error", "Player 1 score must be an integer.");
-        } else if (player1Score < 0) {
-            okDialog("Error", "Player 1 score must be above zero.");
-        } else if (player2NameText.val().isNullOrWhiteSpace()) {
-            okDialog("Error", "Player 2 name cannot be empty.");
-        } else if (Number.isNaN(player2Score) || !Number.isInteger(player2Score)) {
-            okDialog("Error", "Player 2 score must be an integer.");
-        } else if (player1Score < 0) {
-            okDialog("Error", "Player 2 score must be above zero.");
-        } else {
+        if (validateFields()) {
             player1.id      = player1NameDropdown.val();
             player1.name    = player1NameText.val();
             player1.sponsor = player1SponsorText.val();
@@ -364,38 +386,40 @@ $(document).ready(function() {
         let player2Country = player2CountryDropdown.val();
         let player2Score   = player2ScoreSpinner.val();
 
-        isSwapping = true;
+        if (validateFields()) {
+            isSwapping = true;
 
-        [player1.id,player2.id] = [player2.id,player1.id];
-        [player1.name,player2.name] = [player2.name,player1.name];
-        [player1.sponsor,player2.sponsor] = [player2.sponsor,player1.sponsor];
-        [player1.score,player2.score] = [player2.score,player1.score];
-        [player1.country,player2.country] = [player2.country,player1.country];
-
-        setTimeout(function() {
-            player1NameDropdown.val(player2Id);
-            player1NameDropdown.selectmenu("refresh");
-
-            player1NameText.val(player2Name);
-            player1SponsorText.val(player2Sponsor);
-            player1CountryDropdown.val(player2Country);
-            player1ScoreSpinner.val(player2Score);
-
-            player2NameDropdown.val(player1Id);
-            player2NameDropdown.selectmenu("refresh");
-
-            player2NameText.val(player1Name);
-            player2SponsorText.val(player1Sponsor);
-            player2CountryDropdown.val(player1Country);
-            player2ScoreSpinner.val(player1Score);
+            [player1.id,player2.id] = [player2.id,player1.id];
+            [player1.name,player2.name] = [player2.name,player1.name];
+            [player1.sponsor,player2.sponsor] = [player2.sponsor,player1.sponsor];
+            [player1.score,player2.score] = [player2.score,player1.score];
+            [player1.country,player2.country] = [player2.country,player1.country];
 
             setTimeout(function() {
-                player1CountryDropdown.selectmenu("refresh");
-                player2CountryDropdown.selectmenu("refresh");
-                isSwapping = false;
-                updateClick();
+                player1NameDropdown.val(player2Id);
+                player1NameDropdown.selectmenu("refresh");
+
+                player1NameText.val(player2Name);
+                player1SponsorText.val(player2Sponsor);
+                player1CountryDropdown.val(player2Country);
+                player1ScoreSpinner.val(player2Score);
+
+                player2NameDropdown.val(player1Id);
+                player2NameDropdown.selectmenu("refresh");
+
+                player2NameText.val(player1Name);
+                player2SponsorText.val(player1Sponsor);
+                player2CountryDropdown.val(player1Country);
+                player2ScoreSpinner.val(player1Score);
+
+                setTimeout(function() {
+                    player1CountryDropdown.selectmenu("refresh");
+                    player2CountryDropdown.selectmenu("refresh");
+                    isSwapping = false;
+                    updateClick();
+                });
             });
-        });
+        }
     }
 
     /*
