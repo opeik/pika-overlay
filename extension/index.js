@@ -1,10 +1,14 @@
 'use strict';
 
+const VERSION = "v0.2.0";
+
 const sql = require("./sql.js");
 const DB_PATH = "bundles/pika-overlay/pika.db"
 
 module.exports = function (nodecg) {
     exports.nodecg = nodecg;
+
+    nodecg.log.info("Starting pika-overlay " + VERSION);
 
     setupReplicants();
     nodecg.log.info("Replicants created");
