@@ -84,8 +84,8 @@ node ../../index.js
 We use [Semantic Versioning](http://semver.org/) for versioning.
 
 ## License
-This project is licensed under the ISC license. Please see the LICENSE.md file
-for details.
+This project is licensed under the ISC license. Please see the [`LICENSE.md`](LICENSE.md)
+file for details.
 
 ## Acknowledgments
 * The [PIKA](https://www.facebook.com/PerthIronKingArena/) tournament organisers for hosting amazing events
